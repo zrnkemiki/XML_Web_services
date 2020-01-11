@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="User" type="TUser"> </xs:element>
+    <xs:complexType name="TUser">
+        <xs:sequence>
+            <xs:element default="PUBLIC_USER" name="role">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="AUTHOR"/>
+                        <xs:enumeration value="REVIEWER"/>
+                        <xs:enumeration value="EDITOR"/>
+                        <xs:enumeration value="PUBLIC_USER"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="email">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="password">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="6"/>
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="first_name">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="2"/>
+                        <xs:maxLength value="30"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="middle-name">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="30"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="last-name">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="2"/>
+                        <xs:maxLength value="40"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element minOccurs="0" name="publications">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="publicationID"
+                            type="xs:ID"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="publications_for_review">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="for_reviewID"
+                            type="xs:ID"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

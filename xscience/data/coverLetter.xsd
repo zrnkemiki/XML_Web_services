@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="https://www.xscience.com/data/coverLetter.xsd"
+    xmlns:cl="https://www.xscience.com/data/coverLetter.xsd"
+    xmlns:pbl="https://www.xscience.com/data/publication.xsd">
+    <xs:import namespace="https://www.xscience.com/data/publication.xsd"
+        schemaLocation="publication.xsd"/>
+    <xs:element name="CoverLetter">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Publication_title" type="xs:string"/>
+                <xs:element name="Editor" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="1"/>
+                            <xs:maxLength value="50"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Journal">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="0"/>
+                            <xs:maxLength value="50"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Author" type="pbl:TAuthor"/>
+                <xs:element name="Corresponding_author" type="pbl:TAuthor"/>
+                <xs:element name="Content">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="CLSection" type="cl:TCLSection"
+                            />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:ID"/>
+            <xs:attribute name="submission_date" type="xs:date"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType mixed="true" name="TCLSection">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="Style" type="pbl:TStyle"/>
+            <xs:element name="List" type="pbl:TList"/>
+        </xs:choice>
+    </xs:complexType>
+</xs:schema>

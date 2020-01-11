@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="https://www.xscience.com/data/review.xsd"
+    xmlns:rv="https://www.xscience.com/data/review.xsd"
+    xmlns:pbl="https://www.xscience.com/data/publication.xsd">
+    <xs:import namespace="https://www.xscience.com/data/publication.xsd"
+        schemaLocation="publication.xsd"/>
+    <xs:element name="Review">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Content">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="evaluation">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="originality" type="rv:TRevisionEvaluation"/>
+                                        <xs:element name="adequate_literature"
+                                            type="rv:TRevisionEvaluation"/>
+                                        <xs:element name="methodology" type="rv:TRevisionEvaluation"/>
+                                        <xs:element name="inference" type="rv:TRevisionEvaluation"/>
+                                        <xs:element name="readability" type="rv:TRevisionEvaluation"
+                                        />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="recommendations_for_editor">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="ACCEPT"/>
+                                        <xs:enumeration value="MINOR REVISION"/>
+                                        <xs:enumeration value="MAJOR REVISION"/>
+                                        <xs:enumeration value="REJECT"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="comment_for_editor" minOccurs="0"
+                                type="rv:TCommentForEditor"/>
+                            <xs:element name="comment_for_author" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element maxOccurs="unbounded" minOccurs="0"
+                                            name="edit_suggestion" type="rv:TEditSuggestion">
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="TRevisionEvaluation">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="STRONGLY AGREE"/>
+            <xs:enumeration value="AGREE"/>
+            <xs:enumeration value="NEUTRAL"/>
+            <xs:enumeration value="DISAGREE"/>
+            <xs:enumeration value="STRONGLY DISAGREE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType mixed="true" name="TEditSuggestion">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="list" type="pbl:TList"/>
+            <xs:element name="style" type="pbl:TStyle"/>
+        </xs:choice>
+        <xs:attribute name="partID" type="xs:ID"/>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="TCommentForEditor">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="list" type="pbl:TList"/>
+            <xs:element name="style" type="pbl:TStyle"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
