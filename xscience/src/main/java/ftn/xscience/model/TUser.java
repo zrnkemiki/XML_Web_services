@@ -10,12 +10,15 @@ package ftn.xscience.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
+
+import ftn.xscience.security.JwtRole;
 
 
 /**
@@ -328,9 +331,10 @@ public class TUser {
         this.publicationsForReview = value;
     }
     
-    public List<String> getRoles() {
-    	List<String> roles = new ArrayList<String>();
-    	roles.add(this.role);
+    public List<JwtRole> getRoles() {
+    	List<JwtRole> roles = new ArrayList<JwtRole>();
+    	roles.add(JwtRole.valueOf(this.role));
+    	System.out.println(roles.get(0));
     	return roles;
     }
 

@@ -32,5 +32,18 @@ public class RepoProba {
 	}
 	
 
+	public void createCol() {
+		XMLConnectionProperties conn = connectionPool.getConnection();
+		try {
+			DocumentHandler.getOrCreateCollection("/db/sample/library/proba2", 0, conn);
+		} catch (XMLDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		
+		
+	}
 	
 }

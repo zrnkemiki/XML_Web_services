@@ -27,7 +27,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
-
+    	System.out.println("usao u retrieve");
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;
         String token = jwtAuthenticationToken.getToken();
 
@@ -37,7 +37,11 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
             throw new RuntimeException("JWT Token is incorrect");
         }
 
-        List<GrantedAuthority> grantedAuthorities = user.getRoles().stream().map(s -> new SimpleGrantedAuthority(JwtRole.valueOf(s).getAuthority())).collect(Collectors.toList());
+        List<GrantedAuthority> grantedAuthorities = user.getRoles().stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList());
+        for (GrantedAuthority g : grantedAuthorities) {
+			System.out.println("----------");
+			System.out.println(g.getAuthority());
+		}
         return new JwtUserDetails(user.getEmail(), user.getPassword(),
                 token,
                 grantedAuthorities);

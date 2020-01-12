@@ -25,16 +25,19 @@ public class UserRepository {
 	@Autowired
 	BasicXMLConnectionPool connectionPool;
 	
-	private static String collectionId = "/db/xscience/users";
+	private static String collectionId = "/db/sample/library";
 	
 	
 	public TUser getUserByEmail(String email) throws JAXBException {
-		String documentId = "user-" + email + ".xml";
+		String documentId = "user-" + email.toLowerCase() + ".xml";
+		documentId.replace("@", "%40");
+		System.out.println("=====================");
+		System.out.println(documentId);
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		TUser user = null;
 		
 		try {
-			XMLResource res = DocumentHandler.getDocument(collectionId, documentId, conn);
+			XMLResource res = DocumentHandler.getDocument(collectionId, "user-editor%40gmail.com.xml", conn);
 			user = unmarshal(res);
 		} catch (Exception e) {
 			e.printStackTrace();
