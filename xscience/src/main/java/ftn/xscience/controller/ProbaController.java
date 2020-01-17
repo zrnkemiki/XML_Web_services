@@ -1,5 +1,9 @@
 package ftn.xscience.controller;
 
+import java.io.IOException;
+
+import javax.xml.transform.TransformerException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.repository.RepoProba;
@@ -43,6 +48,30 @@ public class ProbaController {
 		repo.createCol();
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/extract")
+	public ResponseEntity<String> extractMetadata() {
+		System.out.println("BBBBBBBBBBBBBBBBB");
+		try {
+			repo.extractMetadata();
+		} catch (SAXException | IOException | TransformerException e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/sparql")
+	public ResponseEntity<String> sparqlProba() {
+			
+			try {
+				repo.sparqlProba();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 }

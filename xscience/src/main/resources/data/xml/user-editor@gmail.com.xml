@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User>
+    <role>ROLE_EDITOR</role>
+    <email>EDITOR@GMAIL.COM</email>
+    <password>editor123</password>
+    <first_name>Editor</first_name>
+    <middle-name>Ediko</middle-name>
+    <last-name>Editic</last-name>
+</User>

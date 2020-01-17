@@ -1,0 +1,6 @@
+# Retrieves persons and their hobbies, professions and locations.
+
+SELECT * FROM <%s>
+WHERE { 
+	?publication <https://www.xscience.com/data/publication/predicate/authoredBy> ?authoredBy .
+}
