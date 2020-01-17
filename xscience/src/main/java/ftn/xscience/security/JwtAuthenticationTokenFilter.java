@@ -13,6 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.util.AntPathMatcher;
 
+import ftn.xscience.exception.TokenMissingException;
+
 
 
 public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
@@ -24,7 +26,7 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
                     if(httpServletRequest.getMethod().equals(HttpMethod.OPTIONS.toString())){
                         return false;
                     }
-                    else if(new AntPathMatcher().match("/rest/**", httpServletRequest.getRequestURI())){
+                    else if(new AntPathMatcher().match("/**/rest/**", httpServletRequest.getRequestURI())){
                         return true;
                     }
                     return false;
@@ -38,7 +40,7 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
         String header = httpServletRequest.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
-            throw new RuntimeException("JWT Token is missing");
+            throw new TokenMissingException("JWT Token is missing");
         }
 
         String authenticationToken = header.substring(7);

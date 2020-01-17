@@ -14,12 +14,13 @@ import org.xmldb.api.base.XMLDBException;
 import ftn.xscience.repository.RepoProba;
 
 @RestController
-@RequestMapping("/rest/get")
+@RequestMapping("/proba")
 public class ProbaController {
 	
 	@Autowired
 	RepoProba repo;
 	
+	// MORA DA BUDE /REST ZA AUTORIZACIJU
 	@PreAuthorize("hasRole('EDITOR')")
 	@GetMapping(value="/doc")
 	public ResponseEntity<String> getDoc(@RequestHeader("Authorization") String token) {

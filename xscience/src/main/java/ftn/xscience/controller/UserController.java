@@ -36,6 +36,7 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody UserCredentials credentials) {
 		try {
 			TUser user = userService.login(credentials);
+			
 			String token = jwtGenerator.generate(user);
 			
 			HttpHeaders responseHeaders = new HttpHeaders();

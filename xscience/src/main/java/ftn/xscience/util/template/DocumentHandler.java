@@ -11,32 +11,22 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 
+import ftn.xscience.exception.DocumentNotFoundException;
 import ftn.xscience.util.xmldb.XMLConnectionProperties;
 
 public class DocumentHandler {
 	
 	
-	public static void saveDocument(String collectionId, String documentId, String filePath, XMLConnectionProperties conn) throws XMLDBException {
+	public static void saveDocument(String collectionId, String documentName, String documentXml, XMLConnectionProperties conn) throws XMLDBException {
 		Collection col = null;
 		XMLResource res = null;
 
 		try {
 
 			col = getOrCreateCollection(collectionId, 0, conn);
-			res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
-
-			File f = new File(filePath);
-
-			if (!f.canRead()) {
-				System.out.println("[ERROR] Cannot read the file: " + filePath);
-				return;
-			}
-
-			res.setContent(f);
-			System.out.println("[INFO] Storing the document: " + res.getId());
-
+			res = (XMLResource) col.createResource(documentName, XMLResource.RESOURCE_TYPE);
+			res.setContent(documentXml);
 			col.storeResource(res);
-			System.out.println("[INFO] Done.");
 
 		} finally {
 
@@ -76,11 +66,8 @@ public class DocumentHandler {
             
             if(res == null) {
                 System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
-                throw new RuntimeException("...............................");
+                throw new DocumentNotFoundException("Document [" + documentId + "] cannot be found!");
             } 
-            
-		} catch(Exception e) {
-            //handle ovde
             
 		} finally {
 	           if(res != null) {
@@ -101,6 +88,44 @@ public class DocumentHandler {
 		}
 		
 		return res;
+	}
+	
+	
+	public static boolean documentExists(String collectionId, String documentId, XMLConnectionProperties conn) throws XMLDBException {
+		Collection col = null;
+		XMLResource res = null;
+
+		try {
+            col = DatabaseManager.getCollection(conn.uri + collectionId);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            
+            res = (XMLResource)col.getResource(documentId);
+            
+            if(res == null) {
+                System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
+                return false;
+            } 
+            
+		} finally {
+	           if(res != null) {
+	                try { 
+	                	((EXistResource)res).freeResources(); 
+	                } catch (XMLDBException xe) {
+	                	xe.printStackTrace();
+	                }
+	            }
+	            
+	            if(col != null) {
+	                try { 
+	                	col.close(); 
+	                } catch (XMLDBException xe) {
+	                	xe.printStackTrace();
+	                }
+	            }
+		}
+
+		return true;
+		
 	}
 	
 	

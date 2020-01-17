@@ -204,7 +204,7 @@
     <xs:complexType name="TQuote">
         <xs:sequence>
             <xs:element name="Source" type="xs:string"/>
-            <xs:element name="Qoute_content" type="xs:string"/>
+            <xs:element name="Quote_content" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>

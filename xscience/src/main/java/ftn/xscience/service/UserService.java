@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ftn.xscience.dto.UserCredentials;
+import ftn.xscience.exception.UserNotFoundException;
 import ftn.xscience.model.TUser;
 import ftn.xscience.repository.UserRepository;
 
@@ -24,7 +25,7 @@ public class UserService {
 		}
 		
 		if (user == null || user.getPassword().contentEquals(credentials.getPassword())) {
-			//throw new CustomException("Login failed!");
+			throw new UserNotFoundException("Login failed - user not found.");
 		}
 		return user;
 	}
