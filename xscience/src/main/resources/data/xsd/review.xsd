@@ -68,9 +68,9 @@
         <xs:attribute name="partID" type="xs:ID"/>
     </xs:complexType>
     <xs:complexType mixed="true" name="TCommentForEditor">
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
             <xs:element name="list" type="pbl:TList"/>
             <xs:element name="style" type="pbl:TStyle"/>
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 </xs:schema>
