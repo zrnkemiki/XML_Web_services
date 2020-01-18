@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Publication xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="https://www.xscience.com/data/publication.xsd"
+    >
+    <MetaData>
+        <paper_type>RESEARCH_PAPER</paper_type>
+        <received>2010-09-24</received>
+        <revisied>2010-10-24</revisied>
+        <accepted>2010-11-24</accepted>
+        <status>ACCEPTED</status>
+        <keywords>
+            <keyword>oop</keyword>
+            <keyword>web developement</keyword>
+        </keywords>
+    </MetaData>
+    <Title>Web Architecture</Title>
+    <Author>
+        <Name>
+            <First_name>Milos</First_name>
+            <Middle_name>M</Middle_name>
+            <Last_name>Zrnic</Last_name>
+        </Name>
+        <Affiliation>
+            <University>University of Novi Sad</University>
+            <City>Novi Sad</City>
+            <Country>Serbia</Country>
+        </Affiliation>
+        <Academic_degree>PhD</Academic_degree>
+        <Email>MZ@GMAIL.COM</Email>
+        <PhoneNumber>+38157889651123456789</PhoneNumber>
+        <Signature>    QQ==   </Signature>
+    </Author>
+    <Abstract>
+        <content>
+            asdasdadas<Bold>ovo je boldovano</Bold>asdadas<Italic>ovo je italic</Italic>
+        </content>
+        <quote>
+            <Source>KRIK</Source>
+            <Quote_content>asdasdadas</Quote_content>
+        </quote>
+    </Abstract>
+    <Content>
+        <Paragraph>
+            <Paragraph_title>Prvi naslov</Paragraph_title>
+            <Paragraph_content>
+                asfqwfqwfqwdqwdqwd
+                <Quote>
+                    <Source>Source za Qoute</Source> 
+                    <Quote_content>Qoute content u contentu paragrafa</Quote_content>
+                </Quote>
+                <Figure>
+                    <Description>Description za Figures</Description>
+                    <Image>    QQ==   </Image>
+                    <Image>    QQ==   </Image>
+                </Figure>
+                <List>
+                    <List_item><Bold>ASDASD BOLD</Bold> prvi item liste</List_item>
+                    <List_item>drugi item liste <Italic>aaaaa italic</Italic></List_item>
+                </List>
+                <Table>
+                    <Description>Description za table</Description>
+                    <Row>
+                        <Cell>prva celija red1</Cell>
+                        <Cell>druga celija red1</Cell>
+                    </Row>
+                    <Row>
+                        <Cell>prva celija red2</Cell>
+                        <Cell>druga celija red2</Cell>
+                    </Row>
+                </Table>
+            </Paragraph_content>
+        </Paragraph>
+    </Content>
+    <References>
+        <Reference>
+            <Author>Prvi Autor</Author>
+            <Year>2018</Year>
+            <Title>Naslov knjige</Title>
+            <Place>Novi Sad</Place>
+            <Book_editor>Editor knjige</Book_editor>
+            <Reference_type>BOOK_REFERENCE</Reference_type>
+            <Chapter_title>Neki titl iz knjige</Chapter_title>
+            <Pages>15-27</Pages>
+        </Reference>
+        <Reference>
+            <Author>Drugi autor</Author>
+            <Year>2011</Year>
+            <Title>Titl iz knjige2</Title>
+            <Place>Beograd</Place>
+            <Reference_type>JOURNAL_REFERENCE</Reference_type>
+            <Pages>11-81</Pages>
+            <Journal_name>Naziv casopisa</Journal_name>
+        </Reference>
+    </References>
+    <Corresponding_author>
+        <Name>
+            <First_name>Marko</First_name>
+            <Middle_name>K</Middle_name>
+            <Last_name>Kopanja</Last_name>
+        </Name>
+        <Affiliation>
+            <University>University of Belgrade</University>
+            <City>Belgrade</City>
+            <Country>Serbia</Country>
+        </Affiliation>
+        <Academic_degree>PhD</Academic_degree>
+        <Email>KP@GMAIL.COM</Email>
+        <PhoneNumber>+38157889651123456789</PhoneNumber>
+        <Signature>    QQ==   </Signature>
+    </Corresponding_author>
+</Publication>
