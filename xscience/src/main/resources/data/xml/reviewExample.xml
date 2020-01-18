@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Review xmlns="https://www.xscience.com/data/review.xsd"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:pbl="https://www.xscience.com/data/publication.xsd">
+  <Content>
+    <evaluation>
+      <originality>STRONGLY AGREE</originality>
+      <adequate_literature>STRONGLY AGREE</adequate_literature>
+      <methodology>STRONGLY AGREE</methodology>
+      <inference>STRONGLY AGREE</inference>
+      <readability>STRONGLY AGREE</readability>
+    </evaluation>
+    <recommendations_for_editor>ACCEPT</recommendations_for_editor>
+    <comment_for_editor>
+      <list>
+        <pbl:List_item>list ajtem</pbl:List_item>
+      </list>
+    </comment_for_editor>
+    <comment_for_author>
+      <edit_suggestion>
+        <list>
+          <pbl:List_item><pbl:Bold>list ajtem 2</pbl:Bold>ovo nije bold</pbl:List_item>
+        </list>
+      </edit_suggestion>
+    </comment_for_author>
+  </Content>
+</Review>

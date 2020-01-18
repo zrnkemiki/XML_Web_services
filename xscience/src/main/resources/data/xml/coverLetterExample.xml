@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CoverLetter xmlns="https://www.xscience.com/data/coverLetter.xsd"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:pbl="https://www.xscience.com/data/publication.xsd">
+    <Publication_title>asd</Publication_title>
+    <Editor>asdgsd</Editor>
+    <Journal>jdfhedfh</Journal>
+    <Author>
+        <pbl:Name>
+            <pbl:First_name>dfhdfh</pbl:First_name>
+            <pbl:Middle_name>dfhdfh</pbl:Middle_name>
+            <pbl:Last_name>efhe</pbl:Last_name>
+        </pbl:Name>
+        <pbl:Affiliation>
+            <pbl:Organization>feheh</pbl:Organization>
+            <pbl:City>efhefh</pbl:City>
+            <pbl:Country>efhefhe</pbl:Country>
+        </pbl:Affiliation>
+        <pbl:Academic_degree>dddddd</pbl:Academic_degree>
+        <pbl:Email>ASD@GMAIL.COM</pbl:Email>
+        <pbl:PhoneNumber>+38157889651123456789</pbl:PhoneNumber>
+        <pbl:Signature>    QQ==   </pbl:Signature>
+    </Author>
+    <Corresponding_author>
+        <pbl:Name>
+            <pbl:First_name>adhad</pbl:First_name>
+            <pbl:Middle_name>sdhs</pbl:Middle_name>
+            <pbl:Last_name>dfhdfh</pbl:Last_name>
+        </pbl:Name>
+        <pbl:Affiliation>
+            <pbl:Organization>dfjdfjh</pbl:Organization>
+            <pbl:City>sdfsdfsdf</pbl:City>
+            <pbl:Country>dfjdfj</pbl:Country>
+        </pbl:Affiliation>
+        <pbl:Academic_degree>dfjdfjdfj</pbl:Academic_degree>
+        <pbl:Email>TDG@GMAIL.COM</pbl:Email>
+        <pbl:PhoneNumber>+38157889651123456789</pbl:PhoneNumber>
+        <pbl:Signature>    QQ==   </pbl:Signature>        
+    </Corresponding_author>
+    <Content>
+        <CLSection>
+            <List>
+                <pbl:List_item>
+                    prvi
+                </pbl:List_item>
+            </List>
+        </CLSection>
+    </Content>
+</CoverLetter>
