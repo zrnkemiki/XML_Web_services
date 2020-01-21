@@ -323,6 +323,7 @@
                                         <xs:enumeration value="REVISED"/>
                                         <xs:enumeration value="ACCEPTED"/>
                                         <xs:enumeration value="RECEIVED"/>
+                                        <xs:enumeration value="WITHDRAWN"/>
                                     </xs:restriction>
                                 </xs:simpleContent>
 

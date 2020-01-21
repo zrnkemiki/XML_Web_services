@@ -30,14 +30,14 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.TUser;
-import ftn.xscience.util.template.AuthenticationUtilities;
-import ftn.xscience.util.template.AuthenticationUtilities.ConnectionProperties;
-import ftn.xscience.util.template.DocumentHandler;
-import ftn.xscience.util.template.FileUtil;
-import ftn.xscience.util.template.MetadataExtractor;
-import ftn.xscience.util.template.SparqlUtil;
-import ftn.xscience.util.xmldb.BasicXMLConnectionPool;
-import ftn.xscience.util.xmldb.XMLConnectionProperties;
+import ftn.xscience.utils.template.AuthenticationUtilities;
+import ftn.xscience.utils.template.FileUtil;
+import ftn.xscience.utils.template.MetadataExtractor;
+import ftn.xscience.utils.template.SparqlUtil;
+import ftn.xscience.utils.template.AuthenticationUtilities.ConnectionProperties;
+import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
+import ftn.xscience.utils.xmldb.DBHandler;
+import ftn.xscience.utils.xmldb.XMLConnectionProperties;
 
 @Repository
 public class RepoProba {
@@ -48,7 +48,7 @@ public class RepoProba {
 	public void retrieveDocument() throws XMLDBException {
 		
 		XMLConnectionProperties conn = connectionPool.getConnection();
-		XMLResource res = DocumentHandler.getDocument("/db/sample/library", "user.xml", conn);
+		XMLResource res = DBHandler.getDocument("/db/sample/library", "user.xml", conn);
 		System.out.println(res.getContent());
 		connectionPool.releaseConnection(conn);
 		
@@ -63,10 +63,10 @@ public class RepoProba {
 	public void createCol() {
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		try {
-			DocumentHandler.getOrCreateCollection("/db/data/users", 0, conn);
-			DocumentHandler.getOrCreateCollection("/db/data/publications", 0, conn);
-			DocumentHandler.getOrCreateCollection("/db/data/cover-letters", 0, conn);
-			DocumentHandler.getOrCreateCollection("/db/data/reviews", 0, conn);
+			DBHandler.getOrCreateCollection("/db/data/users", 0, conn);
+			DBHandler.getOrCreateCollection("/db/data/publications", 0, conn);
+			DBHandler.getOrCreateCollection("/db/data/cover-letters", 0, conn);
+			DBHandler.getOrCreateCollection("/db/data/reviews", 0, conn);
 		} catch (XMLDBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

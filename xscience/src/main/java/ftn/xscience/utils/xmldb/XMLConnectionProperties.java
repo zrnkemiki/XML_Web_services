@@ -1,4 +1,4 @@
-package ftn.xscience.util.xmldb;
+package ftn.xscience.utils.xmldb;
 
 import java.util.Properties;
 

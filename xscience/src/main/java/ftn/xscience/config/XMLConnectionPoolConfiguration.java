@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ftn.xscience.util.xmldb.BasicXMLConnectionPool;
-import ftn.xscience.util.xmldb.XMLConnectionProperties;
+import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
+import ftn.xscience.utils.xmldb.XMLConnectionProperties;
 
 @Configuration
 public class XMLConnectionPoolConfiguration {

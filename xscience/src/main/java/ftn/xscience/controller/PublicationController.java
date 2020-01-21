@@ -67,11 +67,18 @@ public class PublicationController {
 	
 	// ======================================== EDITOR ===============================================================
 	
+	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")
-	public ResponseEntity<?> acceptPublication(@PathVariable("id") String id) {
-		return null;
+	public ResponseEntity<?> acceptPublication(@PathVariable("id") String documentId) throws XMLDBException {
+		publicationService.acceptPublication(documentId);
+		
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
+	
+	// ovo moze biti i u sklopu assign-review
+	// dodeli se review-er i promeni se status u in process ili sta vec
 	@PostMapping(value = "/{id}/for-review")
 	public ResponseEntity<?> sendPublicationForReview(@PathVariable("id") String id) {
 		return null;
@@ -79,7 +86,8 @@ public class PublicationController {
 	
 	// post ?
 	@PostMapping(value = "/{id}/reject")
-	public ResponseEntity<?> rejectPublication(@PathVariable("id") String id) {
+	public ResponseEntity<?> rejectPublication(@PathVariable("id") String documentId) throws XMLDBException {
+		publicationService.rejectPublication(documentId);
 		return null;
 	}
 	

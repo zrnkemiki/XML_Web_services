@@ -46,4 +46,21 @@ public class PublicationService {
 		publicationRepository.save(publicationXml, publicationName);
 		return "";
 	}
+	
+	public void acceptPublication(String documentId) throws XMLDBException {
+		long mods = publicationRepository.updatePublicationStatus(documentId, "ACCEPTED");
+		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
+	}
+	
+	public void withdrawPublication(String documentId) throws XMLDBException {
+		long mods = publicationRepository.updatePublicationStatus(documentId, "WITHDRAWN");
+		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
+	}
+	
+	public void rejectPublication(String documentId) throws XMLDBException {
+		long mods = publicationRepository.updatePublicationStatus(documentId, "REJECTED");
+		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
+	}
+	
+	
 }

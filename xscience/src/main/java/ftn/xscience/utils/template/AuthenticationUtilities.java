@@ -1,4 +1,4 @@
-package ftn.xscience.util.template;
+package ftn.xscience.utils.template;
 
 import java.io.IOException;
 import java.io.InputStream;

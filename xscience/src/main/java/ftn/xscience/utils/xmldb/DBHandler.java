@@ -1,4 +1,4 @@
-package ftn.xscience.util.template;
+package ftn.xscience.utils.xmldb;
 
 import java.io.File;
 
@@ -10,11 +10,11 @@ import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import org.xmldb.api.modules.XUpdateQueryService;
 
 import ftn.xscience.exception.DocumentNotFoundException;
-import ftn.xscience.util.xmldb.XMLConnectionProperties;
 
-public class DocumentHandler {
+public class DBHandler {
 	
 	
 	public static void saveDocument(String collectionId, String documentName, String documentXml, XMLConnectionProperties conn) throws XMLDBException {
@@ -48,6 +48,37 @@ public class DocumentHandler {
 			}
 		}
 	 
+	}
+	
+	public static void deleteDocument(String collectionId, String documentName, XMLConnectionProperties conn) throws XMLDBException {
+		Collection col = null;
+		XMLResource res = null;
+		
+		try {
+			col = DatabaseManager.getCollection(conn.uri + collectionId);
+			res = (XMLResource)col.getResource(documentName);
+			if (res == null) {
+				throw new DocumentNotFoundException("Document [" + documentName + "] not found in collection [" + collectionId + "]!");
+			}
+			col.removeResource(res);
+		} finally {
+			   if(res != null) {
+			        try { 
+			        	((EXistResource)res).freeResources(); 
+			        } catch (XMLDBException xe) {
+			        	xe.printStackTrace();
+			        }
+			    }
+			    
+			    if(col != null) {
+			        try { 
+			        	col.close(); 
+			        } catch (XMLDBException xe) {
+			        	xe.printStackTrace();
+			        }
+			    }
+			
+		}
 	}
 	
 	public static XMLResource getDocument(String collectionId, String documentId, XMLConnectionProperties conn) throws XMLDBException {
@@ -128,7 +159,10 @@ public class DocumentHandler {
 		
 	}
 	
-	
+	public static Collection getCollection(String collectionUri, XMLConnectionProperties conn) throws XMLDBException {
+		Collection col = DatabaseManager.getCollection(conn.uri + collectionUri, conn.user, conn.password);
+		return col;
+	}
 	
 	public static Collection getOrCreateCollection(String collectionUri, int pathSegmentOffset, XMLConnectionProperties conn) throws XMLDBException {
         Collection col = DatabaseManager.getCollection(conn.uri + collectionUri, conn.user, conn.password);
@@ -175,6 +209,36 @@ public class DocumentHandler {
             return col;
         }
 
+	}
+	
+	
+	public static long updateXMLResource(XMLConnectionProperties conn, String collectionId, String documentId, String targetNamespace, String updateCommand, String contextXPath, String patch) throws XMLDBException {
+		
+		// ovo moze baciti XMLDBException pa ga mozda i hvatati odmah
+		Collection col = null;
+		long mods = 0;
+		try {
+			col = getCollection(collectionId, conn);
+			
+			col.setProperty("indent", "yes");
+			XUpdateQueryService xupdateService = (XUpdateQueryService) col.getService("XUpdateQueryService", "1.0");
+	        xupdateService.setProperty("indent", "yes");
+	        
+	        String xupdateCommand = String.format(updateCommand, targetNamespace, contextXPath, patch);
+	        System.out.println("[INFO: ]  " + xupdateCommand);
+	        
+	        mods = xupdateService.updateResource(documentId, xupdateCommand);	
+
+		} finally {
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return mods;
 	}
 
 }

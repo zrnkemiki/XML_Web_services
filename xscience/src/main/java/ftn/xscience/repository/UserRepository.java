@@ -15,9 +15,9 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.TUser;
-import ftn.xscience.util.template.DocumentHandler;
-import ftn.xscience.util.xmldb.BasicXMLConnectionPool;
-import ftn.xscience.util.xmldb.XMLConnectionProperties;
+import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
+import ftn.xscience.utils.xmldb.DBHandler;
+import ftn.xscience.utils.xmldb.XMLConnectionProperties;
 
 @Repository
 public class UserRepository {
@@ -35,7 +35,7 @@ public class UserRepository {
 		TUser user = null;
 		
 		try {
-			XMLResource res = DocumentHandler.getDocument(collectionId, documentId, conn);
+			XMLResource res = DBHandler.getDocument(collectionId, documentId, conn);
 			user = unmarshal(res);
 		} catch (Exception e) {
 			e.printStackTrace();

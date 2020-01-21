@@ -1,4 +1,4 @@
-package ftn.xscience.util.template;
+package ftn.xscience.utils.template;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ftn.xscience.util.template;
+package ftn.xscience.utils.template;
 
 import org.exist.xupdate.XUpdateProcessor;
 
@@ -8,7 +8,13 @@ import org.exist.xupdate.XUpdateProcessor;
  */
 public class XUpdateTemplate {
 
-	public static final String TARGET_NAMESPACE = "http://www.ftn.uns.ac.rs/examples/xmldb/bookstore";
+	// OVDE SAM IZMENIO, NEMA VISE TARGET_NAMESPACE VEC PRVI PARAM JER TARGET_NAMESPACE!!!!!
+	// $1s
+	
+	public static final String TARGET_NS_PUBLICATION = "https://www.xscience.com/data/publication.xsd";
+	public static final String TARGET_NS_COVERLETTER = "https://www.xscience.com/data/coverLetter.xsd";
+	public static final String TARGET_NS_REVIEW = "https://www.xscience.com/data/review.xsd";
+	public static final String TARGET_NS_USER = "https://www.xscience.com/data/user.xsd";
 	
 	/*
 	 * There are two instructions in XUpdate that support insertion of nodes:
@@ -21,8 +27,8 @@ public class XUpdateTemplate {
 	 * 
 	 */
 	public static final String INSERT_AFTER = "<xu:modifications version=\"1.0\" xmlns:xu=\""
-			+ XUpdateProcessor.XUPDATE_NS + "\" xmlns=\"" + TARGET_NAMESPACE + "\">"
-			+ "<xu:insert-after select=\"%1$s\">%2$s</xu:insert-after>" + "</xu:modifications>";
+			+ XUpdateProcessor.XUPDATE_NS + "\" xmlns=\"%1$s\">"
+			+ "<xu:insert-after select=\"%2$s\">%3$s</xu:insert-after>" + "</xu:modifications>";
 
 	/*
 	 * The xupdate:insert-before inserts the given node as the preceding sibling of
@@ -30,8 +36,8 @@ public class XUpdateTemplate {
 	 * as the following sibling of the selected context node.
 	 */
 	public static final String INSERT_BEFORE = "<xu:modifications version=\"1.0\" xmlns:xu=\""
-			+ XUpdateProcessor.XUPDATE_NS + "\" xmlns=\"" + TARGET_NAMESPACE + "\">"
-			+ "<xu:insert-before select=\"%1$s\">%2$s</xu:insert-before>" + "</xu:modifications>";
+			+ XUpdateProcessor.XUPDATE_NS + "\" xmlns=\"%1$s\">"
+			+ "<xu:insert-before select=\"%2$s\">%3$s</xu:insert-before>" + "</xu:modifications>";
 
 	/*
 	 * The xupdate:append element allows a node to be created and appended as a
@@ -44,7 +50,7 @@ public class XUpdateTemplate {
 	 * selected context node.
 	 */
 	public static final String APPEND = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
-			+ "\" xmlns=\"" + TARGET_NAMESPACE + "\">" + "<xu:append select=\"%1$s\" child=\"last()\">%2$s</xu:append>"
+			+ "\" xmlns=\"%1$s\">" + "<xu:append select=\"%2$s\" child=\"last()\">%3$s</xu:append>"
 			+ "</xu:modifications>";
 	/*
 	 * The xupdate:update element can be used to update the content of existing
@@ -53,7 +59,7 @@ public class XUpdateTemplate {
 	 * node-set.
 	 */
 	public static final String UPDATE = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
-			+ "\" xmlns=\"" + TARGET_NAMESPACE + "\">" + "<xu:update select=\"%1$s\">%2$s</xu:update>"
+			+ "\" xmlns=\"%1$s\">" + "<xu:update select=\"%2$s\">%3$s</xu:update>"
 			+ "</xu:modifications>";
 
 	/*
@@ -63,5 +69,5 @@ public class XUpdateTemplate {
 	 * to a node-set.
 	 */
 	public static final String REMOVE = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
-			+ "\" xmlns=\"" + TARGET_NAMESPACE + "\">" + "<xu:remove select=\"%1$s\"/>" + "</xu:modifications>";
+			+ "\" xmlns=\"%1$s\">" + "<xu:remove select=\"%2$s\"/>" + "</xu:modifications>";
 }
