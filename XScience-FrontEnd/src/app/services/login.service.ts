@@ -34,20 +34,9 @@ export class LoginService {
     return this.currentUserSubject.value;
   }
 
-  public get currentUserStatus(): String {
-    if (this.currentUserValue) {
-      return this.currentUserValue.status;
-    }
-    return "ADMIN";
-  }
-
-  login(){
-    return this.http.get<any>("localhost:9000/xscience/testt");
-  }
-/*
   login(credentials: UserCredentials) {
     debugger;
-    return this.http.post<any>("localhost:9000/xscience/user/login", credentials)
+    return this.http.post<any>("http://localhost:9000/xscience/login", credentials)
     .pipe(map(userDTO => {
         if (userDTO && userDTO.jwttoken) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -61,7 +50,7 @@ export class LoginService {
         error => { alert("Pogrešno ime i/ili lozinka, pokušajte ponovo") }
       );
 
-  }*/
+  }
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');

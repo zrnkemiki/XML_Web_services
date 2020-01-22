@@ -21,13 +21,11 @@ export class LoginComponent implements OnInit {
   }
 
   onClick() {
-    debugger;
-    this.loginService.login();
+    this.loginService.login(this.credentials);
     this.loginService.currentUser.subscribe(
 
       (result) => {
         if (result) {
-          alert("Pogodio login")
           this.router.navigate(['/homepage'])
         }
         else {

@@ -4,15 +4,12 @@ export class User implements Deserializable {
     
     firstName: string;
     lastName: string;
-    username: string;
+    middleName: string;
     email: string;
     password: string;
-    phoneNumber: string;
-    city: string;
     jwttoken : string;
     idUser : number;
-    status : string;
-    userType: string;
+    role: string;
 
     deserialize(input: any): this {
         Object.assign(this, input);
