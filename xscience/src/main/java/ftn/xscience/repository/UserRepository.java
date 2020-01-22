@@ -30,7 +30,7 @@ public class UserRepository {
 	
 	public TUser getUserByEmail(String email) throws JAXBException {
 		String newStr = "user-" + email.toLowerCase() + ".xml";
-		String documentId = newStr.replaceAll("\\@", "%40");
+		String documentId = newStr.replaceAll("\\@", "-");
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		TUser user = null;
 		
@@ -62,7 +62,7 @@ public class UserRepository {
 		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model");
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		TUser user = (TUser) JAXBIntrospector.getValue(unmarshaller.unmarshal(resource.getContentAsDOM()));
-		
+		System.out.println(user.getFirstName());
 		return user;
 	}
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="https://www.xscience.com/data/user.xsd"
+    xmlns="https://www.xscience.com/data/user.xsd">
     <xs:element name="User" type="TUser"> </xs:element>
     <xs:complexType name="TUser">
         <xs:sequence>

@@ -1,6 +1,5 @@
 package ftn.xscience.utils.xmldb;
 
-import java.io.File;
 
 import javax.xml.transform.OutputKeys;
 
@@ -211,7 +210,16 @@ public class DBHandler {
 
 	}
 	
-	
+	/*
+	 * @conn - konekcija ka bazi
+	 * @colleciontId - ime kolekcije
+	 * @documentId - ime dokumenta
+	 * @targetNamespace - namespace dokumenta koji se updateuje (iz XUpdateTemplate)
+	 * @updateCommand - komanda iz XUpdateTamplate - ovde ce biti UPDATE
+	 * @contextXPath - path ka elementu koji se updateuje
+	 * @patch - zakrpa
+	 * 
+	 */
 	public static long updateXMLResource(XMLConnectionProperties conn, String collectionId, String documentId, String targetNamespace, String updateCommand, String contextXPath, String patch) throws XMLDBException {
 		
 		// ovo moze baciti XMLDBException pa ga mozda i hvatati odmah
