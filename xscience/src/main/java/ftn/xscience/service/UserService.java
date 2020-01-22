@@ -24,7 +24,7 @@ public class UserService {
 			e.printStackTrace();
 		}
 		
-		if (user == null || user.getPassword().contentEquals(credentials.getPassword())) {
+		if (user == null || !user.getPassword().equals(credentials.getPassword())) {
 			throw new UserNotFoundException("Login failed - user not found.");
 		}
 		return user;

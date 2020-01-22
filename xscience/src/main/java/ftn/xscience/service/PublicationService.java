@@ -62,5 +62,12 @@ public class PublicationService {
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
 	}
 	
-	
+	// prepare for review
+	// znaci uklanja se sve o autorima
+	// moze se podeliti u 2 dokuemnta gde ce jedan biti samo naslov rada i autori/koautori
+	// a drugi dokument samo content rada
+	public String publicationAnonymization(String publicationXml) {
+		
+		return "";
+	}
 }

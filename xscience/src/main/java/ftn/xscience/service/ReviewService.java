@@ -45,4 +45,9 @@ public class ReviewService {
 		reviewRepository.save(reviewXml, "KONI");
 		return "";
 	}
+	
+	// autor dobija nazad review bez navodjenja osobe koja je recenzirala
+	public String reviewAnonymization(String reviewXml) {
+		return "";
+	}
 }
