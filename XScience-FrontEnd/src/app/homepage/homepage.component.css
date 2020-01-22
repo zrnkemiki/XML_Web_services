@@ -1,0 +1,26 @@
+/* Remove the navbar's default rounded borders and increase the bottom margin */
+
+body {
+    background-color: #7c9494;
+    height: 100vh;
+}
+.navbar {
+    margin-bottom: 50px;
+    border-radius: 0;
+}
+
+/* Add a gray background color and some padding to the footer */
+
+footer {
+    background-color: #203535;
+    padding: 25px;
+}
+
+button {
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+
+.textarea {
+    margin-left: 10%;
+}
