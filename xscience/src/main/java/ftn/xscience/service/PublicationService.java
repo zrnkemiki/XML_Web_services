@@ -3,6 +3,7 @@ package ftn.xscience.service;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,10 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
+import ftn.xscience.model.ObjectFactory;
+import ftn.xscience.model.TUser;
 import ftn.xscience.repository.PublicationRepository;
+import ftn.xscience.repository.UserRepository;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
 
@@ -23,6 +27,9 @@ public class PublicationService {
 
 	@Autowired
 	PublicationRepository publicationRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Autowired
 	DOMParser domParser;
@@ -69,5 +76,12 @@ public class PublicationService {
 	public String publicationAnonymization(String publicationXml) {
 		
 		return "";
+	}
+	
+	public void assignReviewer(String publicationId, String reviewerId) throws JAXBException {
+		TUser reviewer = userRepository.getUserByEmail(reviewerId);
+		ObjectFactory fac = new ObjectFactory();
+		reviewer.getPublicationsForReview().getForReviewID().add(fac.createTUserPublicationsForReviewForReviewID(publicationId));
+		System.out.println(userRepository.marshal(reviewer));
 	}
 }

@@ -2,6 +2,7 @@ package ftn.xscience.controller;
 
 import java.io.IOException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,8 +93,14 @@ public class PublicationController {
 	}
 	
 	// dodeljivanje recenzenta publikaciji
-	@PostMapping(value = "/{id}/assign-reviewer")
-	public ResponseEntity<?> assignReviewer(@PathVariable("id") String publicationId, @RequestBody String reviewerId) {
+	@PostMapping(value = "/{id}/assign-reviewer/{reviewerId}")
+	public ResponseEntity<?> assignReviewer(@PathVariable("id") String publicationId, @PathVariable("reviewerId") String reviewerId) {
+		try {
+			publicationService.assignReviewer(publicationId, reviewerId);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
