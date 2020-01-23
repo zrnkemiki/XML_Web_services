@@ -7,8 +7,8 @@ export class User implements Deserializable {
     middleName: string;
     email: string;
     password: string;
-    jwttoken : string;
-    idUser : number;
+    jwtToken? : string;
+    
     role: string;
 
     deserialize(input: any): this {

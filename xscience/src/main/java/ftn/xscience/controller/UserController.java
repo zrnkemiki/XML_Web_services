@@ -1,23 +1,21 @@
 package ftn.xscience.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.dto.UserCredentials;
+import ftn.xscience.dto.UserDTO;
 import ftn.xscience.model.TUser;
 import ftn.xscience.security.JwtGenerator;
 import ftn.xscience.service.UserService;
@@ -47,9 +45,14 @@ public class UserController {
 			
 			String token = jwtGenerator.generate(user);
 			
-			HttpHeaders responseHeaders = new HttpHeaders();
-			responseHeaders.setBearerAuth(token);
-			return ResponseEntity.ok().headers(responseHeaders).body(user);
+			//HttpHeaders responseHeaders = new HttpHeaders();
+			
+			UserDTO userDto = new UserDTO(user);
+			userDto.setJwtToken(token);
+			
+			//responseHeaders.setBearerAuth(token);
+			//return ResponseEntity.ok().headers(responseHeaders).body(user);
+			return new ResponseEntity<UserDTO>(userDto, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			// hvataj ako je return user == null
@@ -58,5 +61,11 @@ public class UserController {
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	}
-	
+	//ZA TESTIRANJE AUTORIZACIJE!
+	@PreAuthorize("hasRole('EDITOR')")
+	@GetMapping(value = "/rest/testiranje", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getVehicle() {
+		System.out.println("Ovo je rec");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

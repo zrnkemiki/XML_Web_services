@@ -1,9 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { JwtInterceptor } from './interceptors/jwt-interceptor';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { GenericService } from './service/generic.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,6 +10,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SearchDocumentsTextComponent } from './search-documents-text/search-documents-text.component';
+import { JwtInterceptor } from './interceptors/jwt-interceptor';
 
 @NgModule({
   declarations: [
@@ -22,14 +21,15 @@ import { SearchDocumentsTextComponent } from './search-documents-text/search-doc
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
-    HttpClientModule,    
     FormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({preventDuplicates: true})
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    GenericService,
+  providers: 
+  [
+    {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
 })
