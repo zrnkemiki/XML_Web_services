@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>XScience</h1>
+            <p><i>Scientific papers</i></p>
+        </div>
+    </div>
+
+    <nav class="navbar fixed-top navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                    <button type="button" (click)="searchDocuments()" class="btn btn-primary">{{currentUserEmail}}</button>
+                    <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-primary">SearchDocumentsMetadata</button>
+                    <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-primary">MY DOCUMENTS</button>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a *ngIf="currentUserEmail" role="button" (click)="profil()">
+                            <span *ngIf="currentUserEmail" class="glyphicon glyphicon-user"><b>{{currentUserEmail}}</b></span> 
+                        </a>
+                    </li>
+                    <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log in</button>
+                    <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log out</button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="textarea">
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">XML Document:</label>
+                <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="25"></textarea>
+              </div>
+        <style>
+            .textarea {
+                position: center;
+                text-align: left;
+                height: 600px;
+                width: 75%;
+            }
+        </style>
+    </div>
+</body>
+
+</html>

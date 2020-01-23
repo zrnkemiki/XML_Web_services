@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  private currentUserUsername: string;
   private credentials: UserCredentials;
   constructor(private loginService: LoginService, private router: Router) { }
 
@@ -23,17 +24,17 @@ export class LoginComponent implements OnInit {
   onClick() {
     this.loginService.login(this.credentials);
     this.loginService.currentUser.subscribe(
-
       (result) => {
         if (result) {
           this.router.navigate(['/homepage'])
         }
         else {
-          //this.toastr.error('error logging');
+          //alert('error logging');
         }
       });
 
-
+    
+      
   }
 
 }
