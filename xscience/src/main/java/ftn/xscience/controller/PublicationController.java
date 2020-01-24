@@ -46,7 +46,7 @@ public class PublicationController {
 	}
 	
 	// ===================================== AUTOR =================================================================
-	@PreAuthorize("hasRole('EDITOR')")
+	//@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/rest/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publication) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
 		
