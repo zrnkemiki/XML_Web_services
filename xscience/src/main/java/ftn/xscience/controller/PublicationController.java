@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +22,7 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.service.PublicationService;
+import ftn.xscience.service.ReviewService;
 import ftn.xscience.utils.dom.DOMParser;
 
 @RestController
@@ -33,8 +33,13 @@ public class PublicationController {
 	PublicationService publicationService;
 	
 	@Autowired
+	ReviewService reviewService;
+	
+	@Autowired
 	DOMParser domParser;
 
+	
+	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
 	public ResponseEntity<?> getPublicationById(@PathVariable("id") String id) {
 		return null;
@@ -107,15 +112,6 @@ public class PublicationController {
 	
 	
 	// ======================================== RECENZENT =================================================================
-	// POST ?
-	@PostMapping(value = "/{id}/accept-review")
-	public ResponseEntity<?> acceptReview() {
-		return null;
-	}
-	
-	@PostMapping(value = "/{id}/decline-review")
-	public ResponseEntity<?> declineReview() {
-		return null;
-	}
+
 	
 }

@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.springframework.beans.factory.FactoryBean;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Database;
+
+import ftn.xscience.exception.XMLConnectionPoolEmptyException;
 
 
 public class BasicXMLConnectionPool {
@@ -19,11 +20,7 @@ public class BasicXMLConnectionPool {
 	
 	public XMLConnectionProperties getConnection() {
 		if (connectionPool.isEmpty()) {
-			throw new RuntimeException("WOPA POOL JE PRAZAN SORRYYYYYYYYYYYYYYYYYY");
-		}
-
-		for (XMLConnectionProperties c : connectionPool) {
-			System.out.println(c.toString());
+			throw new XMLConnectionPoolEmptyException("WOPA POOL JE PRAZAN SORRYYYYYYYYYYYYYYYYYY");
 		}
 
 		XMLConnectionProperties conn = connectionPool.remove(connectionPool.size() - 1);

@@ -16,8 +16,9 @@ public class StringPathHandler {
 	}
 	
 	public static String formatEmailStringForDatabase(String originalEmail) {
-		String formatted = "user-" + originalEmail + ".xml";
-		formatted = formatted.replaceAll("\\@", "%40");
+		String formatted = "user-" + originalEmail.toLowerCase() + ".xml";
+		formatted = formatted.replaceAll("\\@", "-");
+		formatted = formatted.replace("-com", ".com");
 		return formatted;
 	}
 	

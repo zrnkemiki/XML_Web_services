@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd user.xsd ">
+  <role>ROLE_EDITOR</role>
+  <email>EDITOR@GMAIL.COM</email>
+  <password>editor123</password>
+  <first_name>Marko</first_name>
+  <middle-name>Mar</middle-name>
+  <last-name>Markovic</last-name>
+  <expertises>
+    <expertise>machine learning</expertise>
+  </expertises>
+  <publications>
+  </publications>
+  <publications_for_review>
+  </publications_for_review>
+</User>

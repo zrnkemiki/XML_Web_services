@@ -83,5 +83,10 @@ public class PublicationService {
 		ObjectFactory fac = new ObjectFactory();
 		reviewer.getPublicationsForReview().getForReviewID().add(fac.createTUserPublicationsForReviewForReviewID(publicationId));
 		System.out.println(userRepository.marshal(reviewer));
+		String updatedUser = userRepository.marshal(reviewer);
+		userRepository.updateUser(updatedUser, reviewerId);
+		
 	}
+	
+
 }

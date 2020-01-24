@@ -17,6 +17,7 @@ import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.ObjectFactory;
 import ftn.xscience.model.TUser;
+import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
 import ftn.xscience.utils.xmldb.DBHandler;
 import ftn.xscience.utils.xmldb.XMLConnectionProperties;
@@ -31,23 +32,34 @@ public class UserRepository {
 	
 	
 	public TUser getUserByEmail(String email) throws JAXBException {
-		String newStr = "user-" + email.toLowerCase() + ".xml";
-		String documentId = newStr.replaceAll("\\@", "-");
-		documentId = documentId.replace("-com", ".com");
-		System.out.println(documentId);
+		
+		String documentId = StringPathHandler.formatEmailStringForDatabase(email);
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		TUser user = null;
 		
 		try {
 			XMLResource res = DBHandler.getDocument(collectionId, documentId, conn);
 			user = unmarshal(res);
-		} catch (Exception e) {
+		
+		} catch (XMLDBException e) {
+			
 			e.printStackTrace();
 		} finally {
 			connectionPool.releaseConnection(conn);
 		}
 
 		return user;
+	}
+	
+	public void updateUser(String xmlUser, String documentId) {
+		XMLConnectionProperties conn = connectionPool.createConnection();
+		
+		try {
+			DBHandler.storeXMLResource(conn, collectionId, documentId, xmlUser);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		
 	}
 	
 	

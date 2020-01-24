@@ -26,7 +26,7 @@ public class PublicationRepository {
 		documentId = StringPathHandler.formatPublicationNameForDatabase(documentId);
 		try {
 			if (DBHandler.documentExists(collectionId, documentId, conn)) {
-				throw new DocumentAlreadyExistsException("Document [" + documentId + "] already exists!");
+				throw new DocumentAlreadyExistsException("[custom-err] Document [" + documentId + "] already exists!");
 			}
 			
 			DBHandler.saveDocument(collectionId, documentId, documentXml, conn);
