@@ -1,5 +1,7 @@
 package ftn.xscience.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.xmldb.api.base.XMLDBException;
 
+import antlr.collections.List;
 import ftn.xscience.dto.UserCredentials;
 import ftn.xscience.dto.UserDTO;
 import ftn.xscience.model.TUser;
@@ -62,10 +65,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	}
 	//ZA TESTIRANJE AUTORIZACIJE!
-	@PreAuthorize("hasRole('EDITOR')")
-	@GetMapping(value = "/rest/testiranje", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/testiranje", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getVehicle() {
-		System.out.println("Ovo je rec");
-		return new ResponseEntity<>(HttpStatus.OK);
+		ArrayList<String> titlovi = new ArrayList<String>();
+		titlovi.add("prvi");
+		titlovi.add("drugi");
+		return new ResponseEntity<ArrayList<String>>(titlovi, HttpStatus.OK);
 	}
 }
