@@ -4,6 +4,7 @@ package ftn.xscience.utils.xmldb;
 import javax.xml.transform.OutputKeys;
 
 import org.exist.xmldb.EXistResource;
+import org.exist.xmldb.UserManagementService;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.XMLDBException;
@@ -12,6 +13,7 @@ import org.xmldb.api.modules.XMLResource;
 import org.xmldb.api.modules.XUpdateQueryService;
 
 import ftn.xscience.exception.DocumentNotFoundException;
+import ftn.xscience.utils.dom.StringPathHandler;
 
 public class DBHandler {
 	
@@ -19,10 +21,13 @@ public class DBHandler {
 	public static void saveDocument(String collectionId, String documentName, String documentXml, XMLConnectionProperties conn) throws XMLDBException {
 		Collection col = null;
 		XMLResource res = null;
-
+		UserManagementService ums = null;
+		
 		try {
 
 			col = getOrCreateCollection(collectionId, 0, conn);
+			ums = (UserManagementService)col.getService("UserManagementService", "1.0");
+			
 			res = (XMLResource) col.createResource(documentName, XMLResource.RESOURCE_TYPE);
 			res.setContent(documentXml);
 			col.storeResource(res);
@@ -247,6 +252,46 @@ public class DBHandler {
 			}
 		}
 		return mods;
+	}
+	
+	public static XMLResource storeXMLResource(XMLConnectionProperties conn, String collectionId, String documentId, String xmlContent) {
+		Collection col = null;
+		XMLResource res = null;
+		
+		documentId = StringPathHandler.formatEmailStringForDatabase(documentId);
+		//UserManagementService ums = null;
+		try {
+			col = DatabaseManager.getCollection(conn.uri + collectionId);
+			res = (XMLResource)col.getResource(documentId);
+			//ums = (UserManagementService)col.getService("UserManagementService", "1.0");
+			
+			//ums.chmod(res, 504);;
+			
+			res.setContent(xmlContent);
+			col.storeResource(res);
+			
+		} catch (XMLDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (res != null) {
+				try {
+					((EXistResource)res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+				
+		
+		return null;
 	}
 
 }

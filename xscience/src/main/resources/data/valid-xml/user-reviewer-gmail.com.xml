@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd user.xsd ">
+  <role>ROLE_REVIEWER</role>
+  <email>REVIEWER@GMAIL.COM</email>
+  <password>reviewer123</password>
+  <first_name>Revijer</first_name>
+  <middle-name>Rev</middle-name>
+  <last-name>Revijic</last-name>
+  <expertises>
+    <expertise>Biology</expertise>
+  </expertises>
+  <publications_for_review>
+    <for_reviewID>Face_Recognition</for_reviewID>
+  </publications_for_review>
+</User>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd user.xsd ">
+  <role>ROLE_AUTHOR</role>
+  <email>AUTHOR@GMAIL.COM</email>
+  <password>author123</password>
+  <first_name>Autor</first_name>
+  <middle-name>Aut</middle-name>
+  <last-name>lAutoric</last-name>
+  <expertises>
+    <expertise>Chemistry</expertise>
+  </expertises>
+  <publications>
+    <publicationID>Face_Detection</publicationID>
+  </publications>
+</User>

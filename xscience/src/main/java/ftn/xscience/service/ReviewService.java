@@ -3,6 +3,8 @@ package ftn.xscience.service;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,10 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
+import ftn.xscience.model.TUser;
 import ftn.xscience.repository.ReviewRepository;
+import ftn.xscience.repository.UserRepository;
+import ftn.xscience.security.JwtValidator;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
 
@@ -23,6 +28,12 @@ public class ReviewService {
 	
 	@Autowired
 	ReviewRepository reviewRepository;
+	
+	@Autowired 
+	UserRepository userRepository;
+	
+	@Autowired 
+	JwtValidator validator;
 	
 	@Autowired
 	DOMParser domParser;
@@ -49,5 +60,28 @@ public class ReviewService {
 	// autor dobija nazad review bez navodjenja osobe koja je recenzirala
 	public String reviewAnonymization(String reviewXml) {
 		return "";
+	}
+	
+	public void declineReview(String token, String publicationId) throws JAXBException {
+		
+		TUser validUser = validator.validate(token);
+		
+		TUser reviewer = userRepository.getUserByEmail(validUser.getEmail());
+		
+		JAXBElement<String> forRemove = null;
+	
+		for (JAXBElement<String> elem : reviewer.getPublicationsForReview().getForReviewID()) {
+			if (elem.getValue().equalsIgnoreCase(publicationId)) {
+				forRemove = elem;
+				break;
+			}
+		}
+		
+		if (forRemove == null) {
+			return;
+		}
+		reviewer.getPublicationsForReview().getForReviewID().remove(forRemove);
+		String xmlReviewer = userRepository.marshal(reviewer);
+		userRepository.updateUser(xmlReviewer, reviewer.getEmail());
 	}
 }
