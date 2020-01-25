@@ -25,6 +25,7 @@ export class SearchDocumentsTextComponent implements OnInit {
   }
 
   openDocument(title) {
+    this.router.navigate(["/document-view/" + title]);
     //Redirektuj na stranicu za prikaz dokumenta... path/documentTitle
   }
 

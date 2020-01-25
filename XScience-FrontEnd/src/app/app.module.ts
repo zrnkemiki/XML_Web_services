@@ -13,6 +13,7 @@ import { JwtInterceptor } from './interceptors/jwt-interceptor';
 import { UploadComponent } from './upload/upload.component';
 import { MyDocumentsComponent } from './my-documents/my-documents.component';
 import { SearchDocumentsMetadataComponent } from './search-documents-metadata/search-documents-metadata.component';
+import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SearchDocumentsMetadataComponent } from './search-documents-metadata/se
     SearchDocumentsTextComponent,
     UploadComponent,
     MyDocumentsComponent,
-    SearchDocumentsMetadataComponent
+    SearchDocumentsMetadataComponent,
+    DocumentViewerComponent
   ],
   imports: [
     BrowserModule,

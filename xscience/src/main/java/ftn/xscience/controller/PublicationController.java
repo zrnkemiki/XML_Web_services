@@ -1,6 +1,7 @@
 package ftn.xscience.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,6 +46,17 @@ public class PublicationController {
 		return null;
 	}
 	
+	@GetMapping(value = "getPublication/{id}", produces = MediaType.TEXT_HTML_VALUE)
+	public ResponseEntity<?> searchPublications(@PathVariable("id") String id) {
+		//GET ALL PUBLICATIONS FROM DB
+		//ITERATE AND FIND MATCHES, PUT THOSE PUBLICATION.TITLE in publicationsTitle
+		
+		ArrayList<String> publicationsTitle = new ArrayList<>();
+		return new ResponseEntity<ArrayList<String>>(publicationsTitle, HttpStatus.OK);
+		
+	}
+	
+
 	// ===================================== AUTOR =================================================================
 	//@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/rest/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

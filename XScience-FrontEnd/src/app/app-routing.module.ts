@@ -6,6 +6,7 @@ import { SearchDocumentsTextComponent } from './search-documents-text/search-doc
 import { UploadComponent } from './upload/upload.component';
 import { SearchDocumentsMetadataComponent } from './search-documents-metadata/search-documents-metadata.component';
 import { MyDocumentsComponent } from './my-documents/my-documents.component';
+import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'my-documents', component: MyDocumentsComponent  },
   { path: 'search-documents-text', component: SearchDocumentsTextComponent  },
   { path: 'search-documents-metadata', component: SearchDocumentsMetadataComponent  },
-  { path: 'upload-publication', component: UploadComponent}
+  { path: 'upload-publication', component: UploadComponent},
+  { path: 'document-view/:title', component: DocumentViewerComponent },
 ]
 
 @NgModule({
