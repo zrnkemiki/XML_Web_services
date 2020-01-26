@@ -8,6 +8,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
+	@ExceptionHandler(CollectionEmptyException.class)
+	public ResponseEntity<ExceptionResponse> handleCollectionEmptyException(CollectionEmptyException e) {
+		ExceptionResponse response = new ExceptionResponse(e.getMessage());
+		return new ResponseEntity<ExceptionResponse>(response, e.getHttpStatus());
+	}
+	
 	@ExceptionHandler(DocumentAlreadyExistsException.class)
 	public ResponseEntity<ExceptionResponse> handleDocumentAlreadyExistsException(DocumentAlreadyExistsException e) {
 		ExceptionResponse response = new ExceptionResponse(e.getMessage());

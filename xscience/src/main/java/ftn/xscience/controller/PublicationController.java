@@ -1,7 +1,8 @@
 package ftn.xscience.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.service.PublicationService;
 import ftn.xscience.service.ReviewService;
@@ -43,18 +45,22 @@ public class PublicationController {
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
 	public ResponseEntity<?> getPublicationById(@PathVariable("id") String id) {
+		System.out.println("HEHEHE");
 		return null;
 	}
 	
-	@GetMapping(value = "getPublication/{id}", produces = MediaType.TEXT_HTML_VALUE)
-	public ResponseEntity<?> searchPublications(@PathVariable("id") String id) {
-		//GET ALL PUBLICATIONS FROM DB
-		//ITERATE AND FIND MATCHES, PUT THOSE PUBLICATION.TITLE in publicationsTitle
+	
+	@GetMapping(value="/search")
+	public ResponseEntity<?> searchForPublication(@RequestParam Map<String,String> params) {
+		System.out.println("usao");
 		
-		ArrayList<String> publicationsTitle = new ArrayList<>();
-		return new ResponseEntity<ArrayList<String>>(publicationsTitle, HttpStatus.OK);
-		
+		List<XMLResource> ret = publicationService.searchPublications(params);
+		System.out.println("===============\ndokumenti u kojima se nalazi pojam: \n");
+		System.out.println(ret.size());
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
+	
+	// ===================================== AUTOR =================================================================
 	
 
 	// ===================================== AUTOR =================================================================
@@ -111,6 +117,7 @@ public class PublicationController {
 	}
 	
 	// dodeljivanje recenzenta publikaciji
+	@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/{id}/assign-reviewer/{reviewerId}")
 	public ResponseEntity<?> assignReviewer(@PathVariable("id") String publicationId, @PathVariable("reviewerId") String reviewerId) {
 		try {
@@ -123,7 +130,7 @@ public class PublicationController {
 	}
 	
 	
-	// ======================================== RECENZENT =================================================================
+	// ======================================== RECEZENT =================================================================
 
 	
 }

@@ -1,17 +1,23 @@
 package ftn.xscience.utils.xmldb;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.transform.OutputKeys;
 
 import org.exist.xmldb.EXistResource;
 import org.exist.xmldb.UserManagementService;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import org.xmldb.api.modules.XPathQueryService;
 import org.xmldb.api.modules.XUpdateQueryService;
 
+import ftn.xscience.exception.CollectionEmptyException;
 import ftn.xscience.exception.DocumentNotFoundException;
 import ftn.xscience.utils.dom.StringPathHandler;
 
@@ -95,7 +101,7 @@ public class DBHandler {
         	System.out.println("[INFO] Retrieving the collection: " + collectionId);
             col = DatabaseManager.getCollection(conn.uri + collectionId);
             col.setProperty(OutputKeys.INDENT, "yes");
-            
+          
             System.out.println("[INFO] Retrieving the document: " + documentId);
             res = (XMLResource)col.getResource(documentId);
             
@@ -292,6 +298,108 @@ public class DBHandler {
 				
 		
 		return null;
+	}
+	
+	public static List<XMLResource> getAllDocumentsFromCollection(XMLConnectionProperties conn, String collectionId) throws XMLDBException {
+		ArrayList<XMLResource> resources = new ArrayList<XMLResource>();
+		
+		String[] resourceIds = null;
+		Collection col = null;
+		XMLResource res = null;
+		try {
+			col = getCollection(collectionId, conn);
+			col.setProperty(OutputKeys.INDENT, "yes");
+			
+			
+			resourceIds = col.listResources();
+			
+			for (String id : resourceIds) {
+				res = (XMLResource)col.getResource(id);
+				resources.add(res);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return resources;
+	}
+	
+	public static List<XMLResource>	search(XMLConnectionProperties conn, String collectionId, String targetNamespace, String xpathCommand, List<String> searchKeywords) {
+		
+		/* xpathCommand - npr onaj moj XPATH_EXP_CONTAINS -> 
+		 * arg1 = ime dokumenta iz baze (znaci sve zajedno sa .xml)
+		 * arg2 = string koji se pretrazuje u dokumentu
+		 * keyword je taj string koji se trazi u dokumentu
+		 */
+		
+		Collection col = null;
+		XMLResource res = null;
+		String[] documentNames = null;
+		String xpathExp = null;
+		List<XMLResource> resources = new ArrayList<XMLResource>();
+		ResourceSet result = null;
+		
+		try {
+			col = getCollection(collectionId, conn);
+			col.setProperty(OutputKeys.INDENT, "yes");
+			
+			XPathQueryService xpathService = (XPathQueryService) col.getService("XPathQueryService", "1.0");
+            xpathService.setProperty("indent", "yes");
+            
+            // make the service aware of namespaces, using the default one
+            xpathService.setNamespace("", targetNamespace);
+            
+            
+            documentNames = col.listResources();
+            for (String docName : documentNames) {
+            	
+            	res = (XMLResource)col.getResource(docName);
+            	
+            	// idemo redom -> prva rec je cela fraza
+            	// ako je nadje, odma prelazi na sledeci dokument
+            	
+            	for (int i = 0; i < searchKeywords.size(); i++) {
+            		result = null;
+            		// u slucaju da fraza nije pronadjena
+            		// znaci moraju biti sve pojedinacno pronadjene
+            		// inace je pretraga neuspesna
+            		
+            		xpathExp = String.format(xpathCommand, docName, searchKeywords.get(i).toLowerCase());
+            		// execute xpath expression 
+                    System.out.println("[INFO] Invoking XPath query service for: " + xpathExp);
+    				result = xpathService.query(xpathExp);
+    				    				
+    				// trazi se cela fraza
+    				if (i == 0) {
+    					// pronadjena je -> sledeci dokument
+    					if (result.getSize() != 0) {
+    						resources.add(res);
+    						break;
+    					// nije pronadjena -> trazi pojedinacne reci	
+    					} else {
+    						continue;
+    					}
+    					// pojedinacne reci
+    				} else if (i == searchKeywords.size()-1 && result.getSize() != 0) {
+       					// ako je pronasao sve reci -> dodaj resurs
+    					resources.add(res);
+    				} else {
+    					// jedna rec nije pronadjena --> odma idemo sledeci dokument
+    					if (result.getSize() == 0) {
+    						break;
+    					}  					
+    				}	
+            	}
+			}
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return resources;
+		
 	}
 
 }
