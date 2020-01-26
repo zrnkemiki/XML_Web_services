@@ -1,6 +1,9 @@
 package ftn.xscience.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.ObjectFactory;
 import ftn.xscience.model.TUser;
@@ -86,6 +90,19 @@ public class PublicationService {
 		String updatedUser = userRepository.marshal(reviewer);
 		userRepository.updateUser(updatedUser, reviewerId);
 		
+	}
+	
+	public List<XMLResource> searchPublications(Map<String, String> searchParams) {
+		
+		List<String> searchKeywords = new ArrayList<String>(searchParams.values());
+		String wholePhrase = "";
+		for (String s : searchKeywords) {
+			wholePhrase = wholePhrase + " " + s;
+		}
+		wholePhrase = wholePhrase.trim();
+		searchKeywords.add(0, wholePhrase);
+			
+		return publicationRepository.searchPublications(searchKeywords);
 	}
 	
 

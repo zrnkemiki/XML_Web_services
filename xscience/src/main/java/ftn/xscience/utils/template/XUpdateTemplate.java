@@ -70,4 +70,8 @@ public class XUpdateTemplate {
 	 */
 	public static final String REMOVE = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
 			+ "\" xmlns=\"%1$s\">" + "<xu:remove select=\"%2$s\"/>" + "</xu:modifications>";
+	
+	
+	public static final String XPATH_EXP_CONTAINS = "doc(\"%1$s\")//text()[contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),\"%2$s\")]";
+	
 }
