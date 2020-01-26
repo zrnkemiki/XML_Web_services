@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
-import { Publication } from '../model/publication';
 import { DocumentSearchTextService } from '../services/document-search-text.service';
+import { PublicationDTO } from '../model/publicationDTO';
 
 @Component({
   selector: 'app-search-documents-text',
@@ -12,7 +12,7 @@ import { DocumentSearchTextService } from '../services/document-search-text.serv
 })
 export class SearchDocumentsTextComponent implements OnInit {
   searchWord: string;
-  public documentsTitle: String[];
+  public documents: PublicationDTO[];
 
   constructor(private router: Router, private http: HttpClient, private documentSearchText: DocumentSearchTextService) { }
 
@@ -20,7 +20,7 @@ export class SearchDocumentsTextComponent implements OnInit {
   }
 
   search() {
-    this.documentSearchText.documentsObservable.subscribe(documentsTitle => this.documentsTitle = documentsTitle);
+    this.documentSearchText.documentsObservable.subscribe(documents => this.documents = documents);
     this.documentSearchText.searchByText(this.searchWord);
   }
 

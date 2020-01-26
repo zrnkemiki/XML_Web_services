@@ -28,7 +28,8 @@
                     <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-primary">Search Documents by Metadata</button>
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'" (click)="myDocuments()" class="btn btn-primary">My Documents</button>
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'"(click)="uploadPublication()" class="btn btn-primary">Upload Publication</button>
-                    </li>
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()" class="btn btn-primary">Documents for approval</button>    
+                </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>

@@ -2,24 +2,35 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { PublicationDTO } from '../model/publicationDTO';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentSearchTextService {
-  private documentsSource = new BehaviorSubject<String[]>([]);
+  private documentsSource = new BehaviorSubject<PublicationDTO[]>([]);
   documentsObservable = this.documentsSource.asObservable();
-  private documentsTitle = [];//Lista titlova dokumenata
+  public documents: PublicationDTO[];
+  public params: string[];
+  public temp = "";
+
 
   constructor(private router: Router, private http: HttpClient) { }
-  //TODO BACKEND
+
   searchByText(searchWord) {
-    //Lista publikacijaDTO(samo title da ima npr)
-    this.http.get<String[]>("http://localhost:9000/xscience/testiranje")
+    this.params = searchWord.split(" ");
+    for (let i = 0; i < this.params.length; i++) {
+      this.temp += "k" + i + "=" + this.params[i] + "&"
+    }
+    this.temp = this.temp.slice(0, -1); 
+    debugger;
+    this.http.get<PublicationDTO[]>("http://localhost:9000/xscience/publication/search?/" + this.temp)
       .subscribe(documents => {
-        this.documentsTitle = documents;
-        this.documentsSource.next(this.documentsTitle);
+        this.documents = documents;
+        this.documentsSource.next(this.documents);
       });
   }
+
 
 }

@@ -8,7 +8,7 @@ export class User implements Deserializable {
     email: string;
     password: string;
     jwtToken? : string;
-    
+    expertises: string[];
     role: string;
 
     deserialize(input: any): this {

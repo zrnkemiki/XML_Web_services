@@ -71,6 +71,9 @@ export class HomepageComponent implements OnInit {
   myDocuments(){
     this.router.navigate(["my-documents"]);
   }
+  documentsForApproval(){
+    this.router.navigate(["editor-document-manager"]);
+  }
   
 
 }

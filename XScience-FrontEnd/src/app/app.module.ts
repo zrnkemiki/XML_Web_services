@@ -14,6 +14,8 @@ import { UploadComponent } from './upload/upload.component';
 import { MyDocumentsComponent } from './my-documents/my-documents.component';
 import { SearchDocumentsMetadataComponent } from './search-documents-metadata/search-documents-metadata.component';
 import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
+import { EditorDocumentManagerComponent } from './editor-document-manager/editor-document-manager.component';
+import { DocumentReviewsComponent } from './document-reviews/document-reviews.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { DocumentViewerComponent } from './document-viewer/document-viewer.compo
     UploadComponent,
     MyDocumentsComponent,
     SearchDocumentsMetadataComponent,
-    DocumentViewerComponent
+    DocumentViewerComponent,
+    EditorDocumentManagerComponent,
+    DocumentReviewsComponent
   ],
   imports: [
     BrowserModule,

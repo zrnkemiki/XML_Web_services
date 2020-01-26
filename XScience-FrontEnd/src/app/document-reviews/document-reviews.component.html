@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
@@ -18,23 +21,22 @@
         <table class="table table-bordered table-hover table-dark">
             <thead>
                 <tr>
-                    <th><b>Document title</b></th>
-                    <th><b>Document author</b></th>
+                    <th><b>Review title</b></th>
+                    <th><b>Review author</b></th>
                     <th style="width: 15%">Action</th>
                 </tr>
             </thead>
 
             <tbody >
-                <tr *ngFor="let document of documents; let i = index">
+                <tr *ngFor="let review of reviews; let i = index">
                     <td>
-                        {{document.title}}
+                        {{review.title}}
                     </td>
                     <td>
-                        {{document.author}}
+                        {{review.author}}
                     </td>
                     <td>
-                        <button (click)='openDocument(title)' type="button" class="btn btn-danger">Open</button>
-                        <button (click)='deleteDocument(title)' *ngIf="currentUserRole === 'ROLE_AUTHOR'"type="button" class="btn btn-danger">Delete</button>
+                        <button (click)='openReview(title)' type="button" class="btn btn-danger">Open</button>
                     </td>
                 </tr>
             </tbody>

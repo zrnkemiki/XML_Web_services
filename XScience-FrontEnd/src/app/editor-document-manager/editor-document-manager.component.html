@@ -11,54 +11,37 @@
 </head>
 
 <body>
-
     <div class="jumbotron">
         <div class="container text-center">
             <h1>XScience</h1>
             <p><i>Scientific papers</i></p>
         </div>
     </div>
-    <div id="login">
-        <div class="container">
-            <div id="login-row" class="row justify-content-center align-items-center">
-                <div id="login-column" class="col-md-6">
-                    <div id="login-box" class="col-md-12">
-                        <form class="form" action="" method="post">
-                            <h3 class="text-center text-info">Search documents</h3>
-                            <div class="form-group">
-                                <label for="line_id" class="text-info">Search input:</label><br>
-                                <input type="text" name="line_id" class="form-control" [(ngModel)]="this.searchWord">
-                            </div>
-                            <div class="form-group" id="buttons">
-                                <button (click)="search()" class="btn btn-primary">Search</button>
-                                <button (click)="cancel()" class="btn btn-primary">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="table-wrapper">
+    <div class="table-wrapper" >
         <table class="table table-bordered table-hover table-dark">
             <thead>
                 <tr>
                     <th><b>Document title</b></th>
+                    <th><b>Document author</b></th>
                     <th style="width: 15%">Action</th>
                 </tr>
             </thead>
 
-            <tbody>
-                <tr *ngFor="let title of documentsTitle; let i = index">
+            <tbody >
+                <tr *ngFor="let document of documents; let i = index">
                     <td>
-                        {{title}}
+                        {{document.title}}
+                    </td>
+                    <td>
+                        {{document.author}}
                     </td>
                     <td>
                         <button (click)='openDocument(title)' type="button" class="btn btn-danger">Open</button>
+                        <button (click)='viewReviews(title)' type="button" class="btn btn-danger">View reviews</button>
+                        <button (click)='acceptDocument(title)' type="button" class="btn btn-danger">Accpet</button>
+                        <button (click)='minorRevision(title)' type="button" class="btn btn-danger">Minor revision</button>
+                        <button (click)='majorRevision(title)' type="button" class="btn btn-danger">Major revision</button>
+                        <button (click)='rejectDocument(title)' type="button" class="btn btn-danger">Reject</button>
                     </td>
                 </tr>
             </tbody>
