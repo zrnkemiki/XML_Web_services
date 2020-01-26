@@ -1,6 +1,8 @@
 package ftn.xscience.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBElement;
@@ -11,9 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 
+import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_KEYWORDS;
+
+import ftn.xscience.dto.UserDTO;
 import ftn.xscience.model.TUser;
+import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.ReviewRepository;
 import ftn.xscience.repository.UserRepository;
 import ftn.xscience.security.JwtValidator;
@@ -31,6 +40,9 @@ public class ReviewService {
 	
 	@Autowired 
 	UserRepository userRepository;
+	
+	@Autowired
+	PublicationRepository publicationRepository;
 	
 	@Autowired 
 	JwtValidator validator;
@@ -83,5 +95,31 @@ public class ReviewService {
 		reviewer.getPublicationsForReview().getForReviewID().remove(forRemove);
 		String xmlReviewer = userRepository.marshal(reviewer);
 		userRepository.updateUser(xmlReviewer, reviewer.getEmail());
+	}
+
+	public List<UserDTO> reviewerSuggestionAlg(String documentId) throws XMLDBException, JAXBException {
+		
+		String xpathQuery = String.format(XPATH_EXP_KEYWORDS, documentId);
+		ResourceSet keywordsSet = null;
+		keywordsSet = publicationRepository.getKeywords(documentId, xpathQuery);
+		ResourceIterator i = keywordsSet.getIterator();
+		List<String> keywords = new ArrayList<String>();
+		while (i.hasMoreResources()) {
+			keywords.add((String)i.nextResource().getContent());
+		}
+		
+		List<TUser> foundUsers = userRepository.getUsersByExpertise(keywords);
+		List<UserDTO> foundUsersDTO = new ArrayList<>();
+		
+		if(foundUsers.size()!= 0) {
+			for (TUser user : foundUsers) {
+				UserDTO temp = new UserDTO(user);
+				foundUsersDTO.add(temp);
+			}
+		}
+		
+		return foundUsersDTO;
+		
+		
 	}
 }

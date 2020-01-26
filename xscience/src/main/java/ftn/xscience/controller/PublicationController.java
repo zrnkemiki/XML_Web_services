@@ -26,6 +26,7 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.dto.PublicationDTO;
+import ftn.xscience.dto.UserDTO;
 import ftn.xscience.service.PublicationService;
 import ftn.xscience.service.ReviewService;
 import ftn.xscience.utils.dom.DOMParser;
@@ -59,9 +60,10 @@ public class PublicationController {
 		List<XMLResource> ret = publicationService.searchPublications(params);
 		System.out.println("===============\ndokumenti u kojima se nalazi pojam: \n");
 		System.out.println(ret.size());
+		//VRATI MI PUBLICATION<>
 		
 		ArrayList<PublicationDTO> publications = new ArrayList<>();
-		PublicationDTO publicationDTO = new PublicationDTO();
+			PublicationDTO publicationDTO = new PublicationDTO();
 		publicationDTO.setAuthor("MIKI ZRNKE");
 		publicationDTO.setTitle("MIKIJEV RAD");
 		PublicationDTO publicationDTO1 = new PublicationDTO();
@@ -106,6 +108,14 @@ public class PublicationController {
 	
 	
 	// ======================================== EDITOR ===============================================================
+	
+	@GetMapping(value="/{id}/reviewer-suggestion")
+	public ResponseEntity<?> reviewerSuggestion(@PathVariable("id") String documentId) throws XMLDBException, JAXBException {
+		List<UserDTO> userFound = reviewService.reviewerSuggestionAlg(documentId);
+		
+		return new ResponseEntity<List<UserDTO>>(userFound, HttpStatus.OK);
+	}
+	
 	
 	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")

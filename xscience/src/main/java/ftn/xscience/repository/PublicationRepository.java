@@ -18,6 +18,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -126,6 +127,18 @@ public class PublicationRepository {
 		}
 		return found;
 	}
+	
+	public ResourceSet getKeywords(String documentId, String xpathQuery) {
+		XMLConnectionProperties conn = connectionPool.getConnection();
+		ResourceSet keywords = null;
+		try {
+			keywords = DBHandler.universalXPathQueryResourceSet(conn, collectionId, documentId, TARGET_NS_PUBLICATION, xpathQuery);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		return keywords;
+	}
+	
 	
 	public String marshal(TPublication publication) throws JAXBException {
 		OutputStream os = new ByteArrayOutputStream();

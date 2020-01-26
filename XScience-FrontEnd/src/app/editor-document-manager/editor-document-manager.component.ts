@@ -18,6 +18,7 @@ export class EditorDocumentManagerComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient, private documentService: DocumentService) { }
 
   ngOnInit() {
+    debugger;
     if (this.router.url === "/editor-document-manager") {
       this.getDocuments();
     }
@@ -40,6 +41,10 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   viewReviews(title){
     this.router.navigate(["/document-reviews/" + title]);
+  }
+
+  assignReviewer(title){
+    this.router.navigate(["/assign-reviewer/" + title]);
   }
 
   //TODO

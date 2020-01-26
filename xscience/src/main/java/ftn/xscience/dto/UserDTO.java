@@ -14,7 +14,7 @@ public class UserDTO {
 	private String middleName;
 	private String lastName;
 	private String jwtToken;
-	//private TUser.Expertises expertises;
+	private TUser.Expertises expertises;
 	//private TUser.Publications publications;
 	//private TUser.PublicationsForReview publicationsForReview;
 	
@@ -27,7 +27,7 @@ public class UserDTO {
 		this.firstName = user.getFirstName();
 		this.middleName = user.getMiddleName();
 		this.lastName = user.getLastName();
-		//this.expertises = user.getExpertises();
+		this.expertises = user.getExpertises();
 		//this.publications = user.getPublications();
 		//this.publicationsForReview = user.getPublicationsForReview();
 	}

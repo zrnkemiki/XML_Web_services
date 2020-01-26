@@ -320,6 +320,21 @@ public class DBHandler {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}  finally {
+			if (res != null) {
+				try {
+					((EXistResource)res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
 		}
 		
 		
@@ -355,7 +370,7 @@ public class DBHandler {
             documentNames = col.listResources();
             for (String docName : documentNames) {
             	
-            	res = (XMLResource)col.getResource(docName);
+            	
             	
             	// idemo redom -> prva rec je cela fraza
             	// ako je nadje, odma prelazi na sledeci dokument
@@ -375,6 +390,7 @@ public class DBHandler {
     				if (i == 0) {
     					// pronadjena je -> sledeci dokument
     					if (result.getSize() != 0) {
+    						res = (XMLResource)col.getResource(docName);
     						resources.add(res);
     						break;
     					// nije pronadjena -> trazi pojedinacne reci	
@@ -384,6 +400,7 @@ public class DBHandler {
     					// pojedinacne reci
     				} else if (i == searchKeywords.size()-1 && result.getSize() != 0) {
        					// ako je pronasao sve reci -> dodaj resurs
+    					res = (XMLResource)col.getResource(docName);
     					resources.add(res);
     				} else {
     					// jedna rec nije pronadjena --> odma idemo sledeci dokument
@@ -396,10 +413,182 @@ public class DBHandler {
             
 		} catch (Exception e) {
 			e.printStackTrace();
+		}  finally {
+			if (res != null) {
+				try {
+					((EXistResource)res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
 		}
 		
 		return resources;
 		
+	}
+	
+	/* ovo je univerzalni query
+	 * pretrazuje samo dokument sa documentID
+	 * xPathQuery je cela komanda koja se samo prosledi xpathquery servisu
+	 * return je ResourceSet
+	 */
+	public static ResourceSet universalXPathQueryResourceSet(XMLConnectionProperties conn, String collectionId, String documentId, String targetNamespace, String xpathQuery) {
+		Collection col = null;
+		
+		ResourceSet result = null;
+		
+		try {
+			col = getCollection(collectionId, conn);
+			col.setProperty(OutputKeys.INDENT, "yes");
+			
+			XPathQueryService xpathService = (XPathQueryService) col.getService("XPathQueryService", "1.0");
+            xpathService.setProperty("indent", "yes");
+            
+            // make the service aware of namespaces, using the default one
+            xpathService.setNamespace("", targetNamespace);
+            
+            System.out.println("[INFO] Invoking XPath query service for: " + xpathQuery);
+			result = xpathService.query(xpathQuery);
+
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}  finally {
+			
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	/* ovo je univerzalni query
+	 * pretrazuje samo dokument sa documentID
+	 * @xpathQuery - cela komanda koja se samo prosledi xpathquery servisu
+	 * @return - XMLResource
+	 */
+
+	public static XMLResource universalXPathQueryXMLResource(XMLConnectionProperties conn, String collectionId, String documentId, String targetNamespace, String xpathQuery) {
+		Collection col = null;
+		
+		ResourceSet result = null;
+		XMLResource res = null;
+		
+		try {
+			col = getCollection(collectionId, conn);
+			col.setProperty(OutputKeys.INDENT, "yes");
+			
+			XPathQueryService xpathService = (XPathQueryService) col.getService("XPathQueryService", "1.0");
+            xpathService.setProperty("indent", "yes");
+            
+            // make the service aware of namespaces, using the default one
+            xpathService.setNamespace("", targetNamespace);
+            
+            System.out.println("[INFO] Invoking XPath query service for: " + xpathQuery);
+			result = xpathService.query(xpathQuery);
+			
+			if (result.getSize() != 0) {
+				res = (XMLResource)col.getResource(documentId);
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}  finally {
+			if (res != null) {
+				try {
+					((EXistResource)res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+	
+	/*
+	 * 
+	 * ovaj dobija isto komandu kao i basic search
+	 * @xpathCommand - komanda iz Template klase
+	 */
+	public static List<XMLResource> universalSearch(XMLConnectionProperties conn, String collectionId, String targetNamespace, String xpathCommand, List<String> searchKeywords) {
+		Collection col = null;
+		
+		ResourceSet result = null;
+		XMLResource res = null;
+		List<XMLResource> resources = new ArrayList<XMLResource>();
+		String[] documentNames = null;
+		String xpathQuery = null;
+		
+		try {
+			col = getCollection(collectionId, conn);
+			col.setProperty(OutputKeys.INDENT, "yes");
+			
+			XPathQueryService xpathService = (XPathQueryService) col.getService("XPathQueryService", "1.0");
+            xpathService.setProperty("indent", "yes");
+            
+            // make the service aware of namespaces, using the default one
+            xpathService.setNamespace("", targetNamespace);
+            
+            documentNames = col.listResources();
+            for (String docName : documentNames) {
+				
+            	for (int i = 0; i < searchKeywords.size(); i++) {
+            		result = null;
+            		
+            		xpathQuery = String.format(xpathCommand, docName, searchKeywords.get(i).toLowerCase());
+                    System.out.println("[INFO] Invoking XPath query service for: " + xpathQuery);
+        			result = xpathService.query(xpathQuery);
+        			
+        			if (result.getSize() != 0) {
+        				res = (XMLResource)col.getResource(docName);
+        				resources.add(res);
+        			}
+            	}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}  finally {
+			if (res != null) {
+				try {
+					((EXistResource)res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		
+		return resources;
+	
 	}
 
 }

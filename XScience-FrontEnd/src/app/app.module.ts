@@ -16,6 +16,7 @@ import { SearchDocumentsMetadataComponent } from './search-documents-metadata/se
 import { DocumentViewerComponent } from './document-viewer/document-viewer.component';
 import { EditorDocumentManagerComponent } from './editor-document-manager/editor-document-manager.component';
 import { DocumentReviewsComponent } from './document-reviews/document-reviews.component';
+import { AssignReviewerComponent } from './assign-reviewer/assign-reviewer.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DocumentReviewsComponent } from './document-reviews/document-reviews.co
     SearchDocumentsMetadataComponent,
     DocumentViewerComponent,
     EditorDocumentManagerComponent,
-    DocumentReviewsComponent
+    DocumentReviewsComponent,
+    AssignReviewerComponent
   ],
   imports: [
     BrowserModule,

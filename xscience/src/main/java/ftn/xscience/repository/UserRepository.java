@@ -2,6 +2,8 @@ package ftn.xscience.repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Repository;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import static ftn.xscience.utils.template.XUpdateTemplate.TARGET_NS_USER;
+import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_EXPERTISE;
 import ftn.xscience.model.ObjectFactory;
 import ftn.xscience.model.TUser;
 import ftn.xscience.utils.dom.StringPathHandler;
@@ -60,6 +64,30 @@ public class UserRepository {
 			connectionPool.releaseConnection(conn);
 		}
 		
+	}
+	
+	public List<TUser> getUsersByExpertise(List<String> keywords) throws JAXBException, XMLDBException {
+		XMLConnectionProperties conn = connectionPool.createConnection();
+		List<XMLResource> usersList = null;
+		List<TUser> users = new ArrayList<TUser>();
+		TUser u = null;
+		try {
+			usersList = DBHandler.universalSearch(conn, collectionId, TARGET_NS_USER, XPATH_EXP_EXPERTISE, keywords);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		
+		if (usersList != null) {
+			for (XMLResource res : usersList) {
+				u = null;
+				u = unmarshal(res);
+				if (u != null) {
+					users.add(u);
+				}
+			}
+		}
+		
+		return users;
 	}
 	
 	
