@@ -11,7 +11,7 @@ export class HomepageComponent implements OnInit {
   totalAngularPackages;
   private currentUserEmail: string;
   private currentUserUsername: string;
-  private currentUserType: string;
+  private currentUserRole: string;
   private currentUserToken: string;
 
   private applicationAdministrator: string;
@@ -30,12 +30,18 @@ export class HomepageComponent implements OnInit {
       const currentUser: any = this.loginService.currentUserValue;
       this.currentUserUsername = currentUser.username;
       this.currentUserEmail = currentUser.email;
-      this.currentUserType = currentUser.userType;
+      this.currentUserRole = currentUser.role;
+
+      if(this.currentUserRole == "ROLE_EDITOR"){
+
+      }
     }
   }
-
-
-
+/*
+  searchDocumentsMetadata(){
+    this.router.navigate(["/search-documents-metadata"]);
+  }
+*/
   login() {
     this.router.navigate(["/login"]);
   }
@@ -48,14 +54,23 @@ export class HomepageComponent implements OnInit {
   searchDocumentsMetadata() {
     const currentUser: any = this.loginService.currentUserValue;
     this.currentUserToken = currentUser.jwtToken;
-    alert(this.currentUserToken);
+    alert("Ovo je user-ov JWTtoken  " + this.currentUserToken);
     this.http.get<any>('http://localhost:9000/xscience/rest/testiranje').subscribe(data => {
             this.totalAngularPackages = data.total;
         })
   }
 
   searchDocumentsText() {
-    this.router.navigate(["searchDocuments"]);
+    this.router.navigate(["search-documents-text"]);
   }
+
+  uploadPublication(){
+    this.router.navigate(["upload-publication"]);
+  }
+
+  myDocuments(){
+    this.router.navigate(["my-documents"]);
+  }
+  
 
 }

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-</head> 
+</head>
 
 <body>
     <div id="login">
@@ -20,16 +20,44 @@
                             <h3 class="text-center text-info">Search documents</h3>
                             <div class="form-group">
                                 <label for="line_id" class="text-info">Search input:</label><br>
-                                <input type="text" name="line_id" class="form-control" [(ngModel)]="this.STRING_NEKI">
+                                <input type="text" name="line_id" class="form-control" [(ngModel)]="this.searchWord">
                             </div>
                             <div class="form-group" id="buttons">
-                                <button (click)="searchDocumentsText()" class="btn btn-primary">Search</button>
-                                
+                                <button (click)="search()" class="btn btn-primary">Search</button>
+                                <button (click)="cancel()" class="btn btn-primary">Cancel</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="table-wrapper" >
+        <table class="table table-bordered table-hover table-dark">
+            <thead>
+                <tr>
+                    <th><b>Document title</b></th>
+                    <th style="width: 15%">Action</th>
+                </tr>
+            </thead>
+
+            <tbody >
+                <tr *ngFor="let title of documentsTitle; let i = index">
+                    <td>
+                        {{title}}
+                    </td>
+                    <td>
+                        <button (click)='openDocument(title)' type="button" class="btn btn-danger">Open</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group" id="button">
+            <button id="return" (click)="homepage()" class="btn btn-success">Home Page</button>
         </div>
     </div>
 </body>
