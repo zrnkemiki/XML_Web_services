@@ -48,17 +48,21 @@
             <thead>
                 <tr>
                     <th><b>Document title</b></th>
+                    <th><b>Document author</b></th>
                     <th style="width: 15%">Action</th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr *ngFor="let title of documentsTitle; let i = index">
+                <tr *ngFor="let document of documents; let i = index">
                     <td>
-                        {{title}}
+                        {{document.title}}
                     </td>
                     <td>
-                        <button (click)='openDocument(title)' type="button" class="btn btn-danger">Open</button>
+                        {{document.author}}
+                    </td>
+                    <td>
+                        <button (click)='openDocument(document.title)' type="button" class="btn btn-danger">Open</button>
                     </td>
                 </tr>
             </tbody>

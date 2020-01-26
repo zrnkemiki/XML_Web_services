@@ -1,6 +1,7 @@
 package ftn.xscience.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.service.PublicationService;
 import ftn.xscience.service.ReviewService;
 import ftn.xscience.utils.dom.DOMParser;
@@ -52,12 +54,25 @@ public class PublicationController {
 	
 	@GetMapping(value="/search")
 	public ResponseEntity<?> searchForPublication(@RequestParam Map<String,String> params) {
-		System.out.println("usao");
+		System.out.println(params);
 		
 		List<XMLResource> ret = publicationService.searchPublications(params);
 		System.out.println("===============\ndokumenti u kojima se nalazi pojam: \n");
 		System.out.println(ret.size());
-		return new ResponseEntity<String>(HttpStatus.OK);
+		
+		ArrayList<PublicationDTO> publications = new ArrayList<>();
+		PublicationDTO publicationDTO = new PublicationDTO();
+		publicationDTO.setAuthor("MIKI ZRNKE");
+		publicationDTO.setTitle("MIKIJEV RAD");
+		PublicationDTO publicationDTO1 = new PublicationDTO();
+		publicationDTO1.setAuthor("KONI MKD");
+		publicationDTO1.setTitle("KONIJEV RAD");
+		
+		publications.add(publicationDTO);
+		publications.add(publicationDTO1);
+		
+		
+		return new ResponseEntity<ArrayList<PublicationDTO>>(publications, HttpStatus.OK);
 	}
 	
 	// ===================================== AUTOR =================================================================

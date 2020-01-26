@@ -11,7 +11,7 @@ export class DocumentService {
 
   private documentsSource = new BehaviorSubject<PublicationDTO[]>([]);
   documentsObservable = this.documentsSource.asObservable();
-  private documents = [];
+  public documents: PublicationDTO[];
 
   private documentForView : string;
   constructor(private http: HttpClient) { }

@@ -13,18 +13,18 @@ export class DocumentSearchTextService {
   documentsObservable = this.documentsSource.asObservable();
   public documents: PublicationDTO[];
   public params: string[];
-  public temp = "";
+  public temp: string;
 
 
   constructor(private router: Router, private http: HttpClient) { }
 
   searchByText(searchWord) {
     this.params = searchWord.split(" ");
+    this.temp = "";
     for (let i = 0; i < this.params.length; i++) {
       this.temp += "k" + i + "=" + this.params[i] + "&"
     }
-    this.temp = this.temp.slice(0, -1); 
-    debugger;
+    this.temp = this.temp.slice(0, -1);
     this.http.get<PublicationDTO[]>("http://localhost:9000/xscience/publication/search?/" + this.temp)
       .subscribe(documents => {
         this.documents = documents;
