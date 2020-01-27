@@ -1,1 +1,52 @@
-<p>assign-reviewer works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>XScience</h1>
+            <p><i>Scientific papers</i></p>
+        </div>
+    </div>
+    <div class="table-wrapper" >
+        <table class="table table-bordered table-hover table-dark">
+            <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Lastname</b></th>
+                    <th><b>Email</b></th>
+                    <th style="width: 15%">Action</th>
+                </tr>
+            </thead>
+
+            <tbody >
+                <tr *ngFor="let user of users; let i = index">
+                    <td>
+                        {{user.firstName}}
+                    </td>
+                    <td>
+                        {{user.lastName}}
+                    </td>
+                    <td>
+                        {{user.email}}
+                    </td>
+                    <td>
+                        <button (click)='assignReviewer(user.email)' type="button" class="btn btn-danger">Assign Reviewer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group" id="button">
+            <button id="return" (click)="homepage()" class="btn btn-success">Home Page</button>
+        </div>
+    </div>
+</body>
