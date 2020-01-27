@@ -17,6 +17,7 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.ObjectFactory;
+import ftn.xscience.model.TPublication;
 import ftn.xscience.model.TUser;
 import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.UserRepository;
@@ -92,7 +93,7 @@ public class PublicationService {
 		
 	}
 	
-	public List<XMLResource> searchPublications(Map<String, String> searchParams) {
+	public List<TPublication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
 		
 		List<String> searchKeywords = new ArrayList<String>(searchParams.values());
 		String wholePhrase = "";
@@ -101,8 +102,31 @@ public class PublicationService {
 		}
 		wholePhrase = wholePhrase.trim();
 		searchKeywords.add(0, wholePhrase);
+		
+		List<XMLResource> searchResult = null;
+		searchResult = publicationRepository.searchPublications(searchKeywords, status);
+		
+		List<TPublication> found = new ArrayList<TPublication>();
+		
+		for (XMLResource res : searchResult) {
+			TPublication p = publicationRepository.unmarshal(res);
+			found.add(p);
+		}
 			
-		return publicationRepository.searchPublications(searchKeywords);
+		return found;
+	}
+	
+	public List<TPublication> getPublicationsByStatus(String status) throws JAXBException, XMLDBException {
+		List<XMLResource> foundResources = publicationRepository.getPublicationsByStatus(status);
+		List<TPublication> foundPublications = new ArrayList<TPublication>();
+		TPublication p = null;
+		for (XMLResource res : foundResources) {
+			p = publicationRepository.unmarshal(res);
+			foundPublications.add(p);
+		}
+		
+		return foundPublications;
+		
 	}
 	
 
