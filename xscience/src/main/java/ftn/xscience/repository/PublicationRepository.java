@@ -3,6 +3,7 @@ package ftn.xscience.repository;
 import static ftn.xscience.utils.template.XUpdateTemplate.TARGET_NS_PUBLICATION;
 import static ftn.xscience.utils.template.XUpdateTemplate.UPDATE;
 import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_CONTAINS;
+import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_STATUS;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -98,6 +99,19 @@ public class PublicationRepository {
 		return ret;
 	}
 	
+	public List<XMLResource> getPublicationsByStatus(String status) {
+		XMLConnectionProperties conn = connectionPool.getConnection();
+		List<XMLResource> resourcesFound = null;
+		
+		try {
+			resourcesFound = DBHandler.getResourcesByOneElement(conn, collectionId, TARGET_NS_PUBLICATION, XPATH_EXP_STATUS, status);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		
+		return resourcesFound;
+	}
+	
 	public List<TPublication> getAllPublications() {
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		List<TPublication> publicationList = new ArrayList<TPublication>();
@@ -117,11 +131,11 @@ public class PublicationRepository {
 		return publicationList;
 	}
 	
-	public List<XMLResource> searchPublications(List<String> searchKeywords) {
+	public List<XMLResource> searchPublications(List<String> searchKeywords, String status) {
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		List<XMLResource> found = null;
 		try {
-			found = DBHandler.search(conn, collectionId, TARGET_NS_PUBLICATION, XPATH_EXP_CONTAINS, searchKeywords);
+			found = DBHandler.search(conn, collectionId, TARGET_NS_PUBLICATION, XPATH_EXP_CONTAINS, searchKeywords, XPATH_EXP_STATUS, status);
 		} finally {
 			connectionPool.releaseConnection(conn);
 		}

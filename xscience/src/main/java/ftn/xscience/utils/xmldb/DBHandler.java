@@ -341,7 +341,7 @@ public class DBHandler {
 		return resources;
 	}
 	
-	public static List<XMLResource>	search(XMLConnectionProperties conn, String collectionId, String targetNamespace, String xpathCommand, List<String> searchKeywords) {
+	public static List<XMLResource>	search(XMLConnectionProperties conn, String collectionId, String targetNamespace, String xpathCommand, List<String> searchKeywords, String xpathCommandStatus, String status) {
 		
 		/* xpathCommand - npr onaj moj XPATH_EXP_CONTAINS -> 
 		 * arg1 = ime dokumenta iz baze (znaci sve zajedno sa .xml)
@@ -353,8 +353,10 @@ public class DBHandler {
 		XMLResource res = null;
 		String[] documentNames = null;
 		String xpathExp = null;
+		String xpathExpStatus = null;
 		List<XMLResource> resources = new ArrayList<XMLResource>();
 		ResourceSet result = null;
+		ResourceSet statusOK = null;
 		
 		try {
 			col = getCollection(collectionId, conn);
@@ -369,7 +371,14 @@ public class DBHandler {
             
             documentNames = col.listResources();
             for (String docName : documentNames) {
-            	
+            	statusOK = null;
+            	// proveravamo da li je status rada dobar
+            	// ako nije -> ne pretrazuj rad, odma na sledeci idi
+            	xpathExpStatus = String.format(xpathCommandStatus, docName, status);
+            	statusOK = xpathService.query(xpathExpStatus);
+            	if (statusOK.getSize() == 0) {
+            		continue;
+            	}
             	
             	
             	// idemo redom -> prva rec je cela fraza
@@ -531,6 +540,8 @@ public class DBHandler {
 	 * 
 	 * ovaj dobija isto komandu kao i basic search
 	 * @xpathCommand - komanda iz Template klase
+	 * 
+	 * 
 	 */
 	public static List<XMLResource> universalSearch(XMLConnectionProperties conn, String collectionId, String targetNamespace, String xpathCommand, List<String> searchKeywords) {
 		Collection col = null;
@@ -553,7 +564,7 @@ public class DBHandler {
             
             documentNames = col.listResources();
             for (String docName : documentNames) {
-				
+
             	for (int i = 0; i < searchKeywords.size(); i++) {
             		result = null;
             		
@@ -588,7 +599,60 @@ public class DBHandler {
 		}
 		
 		return resources;
+	}
 	
+	public static List<XMLResource> getResourcesByOneElement(XMLConnectionProperties conn, String collectionId, String targetNamespace, String xpathCommand, String arg) {
+		
+		ResourceSet result = null;
+		XMLResource res = null;
+		Collection col = null;
+		List<XMLResource> resources = new ArrayList<XMLResource>();
+		String[] documentNames = null;
+		String xpathQuery = null;
+		
+		try {
+			col = getCollection(collectionId, conn);
+			col.setProperty(OutputKeys.INDENT, "yes");
+			
+			XPathQueryService xpathService = (XPathQueryService) col.getService("XPathQueryService", "1.0");
+            xpathService.setProperty("indent", "yes");
+            
+            // make the service aware of namespaces, using the default one
+            xpathService.setNamespace("", targetNamespace);
+            
+            documentNames = col.listResources();
+            for (String docName : documentNames) {
+            	result = null;
+            	xpathQuery = String.format(xpathCommand, docName, arg);
+            	System.out.println("[INFO] Invoking XPath query service for: " + xpathQuery);
+				result = xpathService.query(xpathQuery);
+				
+				if (result.getSize() != 0) {
+					res = (XMLResource)col.getResource(docName);
+					resources.add(res);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			if (res != null) {
+				try {
+					((EXistResource)res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		
+		return resources;
 	}
 
 }
