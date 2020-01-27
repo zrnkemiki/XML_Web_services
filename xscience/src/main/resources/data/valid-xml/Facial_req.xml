@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Publication about="" id="idvalue0" language="en-US" vocab="" xmlns="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publication.xsd ">
+  <MetaData>
+    <field_of_study>field_of_study</field_of_study>
+    <paper_type property="">RESEARCH_PAPER</paper_type>
+    <received property="">2001-01-01</received>
+    <revisied property="">2001-01-01</revisied>
+    <accepted property="">2001-01-01</accepted>
+    <status property="">UPLOADED</status>
+    <keywords>
+      <keyword property="">keyword</keyword>
+    </keywords>
+  </MetaData>
+  <Title>Facial req</Title>
+  <Author href="" rel="">
+    <Name>
+      <First_name>First_name</First_name>
+      <Last_name>Last_name</Last_name>
+    </Name>
+    <Affiliation>
+      <Organization>Organization</Organization>
+      <City>City</City>
+      <Country>Country</Country>
+    </Affiliation>
+    <Academic_degree>Academic_degree</Academic_degree>
+    <Email>DZOVAN@GMAIL.COM</Email>
+    <PhoneNumber>+12341234123165453532</PhoneNumber>
+    <Signature>MA==</Signature>
+  </Author>
+  <Abstract>
+    <content/>
+  </Abstract>
+  <Content>
+    <Paragraph id="idvalue1" level="1">
+      <Paragraph_title>Paragraph_title</Paragraph_title>
+      <Paragraph_content>
+        <Quote id="idvalue2">
+          <Source>Source</Source>
+          <Quote_content>Quote_content</Quote_content>
+        </Quote>
+      </Paragraph_content>
+    </Paragraph>
+  </Content>
+  <References>
+    <Reference id="idvalue3">
+      <Author>Author</Author>
+      <Year>1</Year>
+      <Title>Title</Title>
+      <Place>Place</Place>
+      <Reference_type>BOOK_REFERENCE</Reference_type>
+    </Reference>
+  </References>
+  <Corresponding_author href="" rel="">
+    <Name>
+      <First_name>First_name</First_name>
+      <Last_name>Last_name</Last_name>
+    </Name>
+    <Affiliation>
+      <Organization>Organization</Organization>
+      <City>City</City>
+      <Country>Country</Country>
+    </Affiliation>
+    <Academic_degree>Academic_degree</Academic_degree>
+    <Email>DOKICA@GAMIL.XOM</Email>
+    <PhoneNumber>+12341234123165453532</PhoneNumber>
+    <Signature>MA==</Signature>
+  </Corresponding_author>
+</Publication>

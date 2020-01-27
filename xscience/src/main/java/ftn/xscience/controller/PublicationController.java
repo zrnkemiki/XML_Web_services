@@ -68,15 +68,13 @@ public class PublicationController {
 		System.out.println(found.size());
 		//VRATI MI PUBLICATION<>
 		ArrayList<PublicationDTO> publications = new ArrayList<>();
-		PublicationDTO publicationDTO = new PublicationDTO();
-		publicationDTO.setAuthor("MIKI ZRNKE");
-		publicationDTO.setTitle("MIKIJEV RAD");
-		PublicationDTO publicationDTO1 = new PublicationDTO();
-		publicationDTO1.setAuthor("KONI MKD");
-		publicationDTO1.setTitle("KONIJEV RAD");
 		
-		publications.add(publicationDTO);
-		publications.add(publicationDTO1);
+		if(found.size()!=0) {
+			for (TPublication publication : found) {
+				PublicationDTO temp = new PublicationDTO(publication);
+				publications.add(temp);
+			}
+		}
 		
 		
 		return new ResponseEntity<ArrayList<PublicationDTO>>(publications, HttpStatus.OK);

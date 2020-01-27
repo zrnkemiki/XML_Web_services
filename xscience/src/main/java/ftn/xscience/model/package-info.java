@@ -5,5 +5,17 @@
 // Generated on: 2020.01.23 at 12:58:15 AM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "https://www.xscience.com/data/user.xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+		xmlns = {
+				@javax.xml.bind.annotation.XmlNs(prefix = "pbl", 
+						namespaceURI = "https://www.xscience.com/data/publication.xsd"),
+				@javax.xml.bind.annotation.XmlNs(prefix = "pred",
+						namespaceURI = "https://www.xscience.com/data/publication/predicate/"),
+				@javax.xml.bind.annotation.XmlNs(prefix = "xs",
+						namespaceURI = "http://www.w3.org/2001/XMLSchema"),
+				@javax.xml.bind.annotation.XmlNs(prefix = "cl",
+						namespaceURI = "https://www.xscience.com/data/coverLetter.xsd"),
+				@javax.xml.bind.annotation.XmlNs(prefix = "rv",
+						namespaceURI = "https://www.xscience.com/data/review.xsd"),
+		}, elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package ftn.xscience.model;
