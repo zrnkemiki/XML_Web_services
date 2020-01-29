@@ -4,6 +4,7 @@ import { DocumentSearchTextService } from '../services/document-search-text.serv
 import { HttpClient } from '@angular/common/http';
 import { PublicationDTO } from '../model/publicationDTO';
 import { DocumentService } from '../services/document.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-editor-document-manager',
@@ -18,15 +19,13 @@ export class EditorDocumentManagerComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient, private documentService: DocumentService) { }
 
   ngOnInit() {
-    debugger;
-    if (this.router.url === "/editor-document-manager") {
       this.getDocuments();
-    }
   }
 
   getDocuments(){
+    var status = "UPLOADED"
     this.documentService.documentsObservable.subscribe(documents => this.documents = documents);
-    this.documentService.findAll();
+    this.documentService.findAll(status);
   }
   /*
   search() {

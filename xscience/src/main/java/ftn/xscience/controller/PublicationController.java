@@ -57,6 +57,26 @@ public class PublicationController {
 		return null;
 	}
 	
+	@GetMapping(value = "/getAll/{status}")
+	public ResponseEntity<?> getPublicationByStatus(@PathVariable("status") String status) throws JAXBException, XMLDBException {
+		List<TPublication> publications = publicationService.getPublicationsByStatus(status);
+		System.out.println("===============\ndokumenti u koji su uploaded: \n");
+		System.out.println(publications.size());
+		ArrayList<PublicationDTO> publicationsDTO = new ArrayList<>();
+		
+		if(publications.size()!=0) {
+			System.out.println(publications.get(0).getTitle());
+			for (TPublication publication : publications) {
+				PublicationDTO temp = new PublicationDTO(publication);
+				publicationsDTO.add(temp);
+			}
+		}
+		System.out.println("Ovo je dto " + publicationsDTO.get(0).getTitle());
+		
+		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
+	}
+	
+	
 	
 	@GetMapping(value="/search")
 	public ResponseEntity<?> searchForPublication(@RequestParam Map<String,String> params) throws JAXBException, XMLDBException {
@@ -75,7 +95,6 @@ public class PublicationController {
 				publications.add(temp);
 			}
 		}
-		
 		
 		return new ResponseEntity<ArrayList<PublicationDTO>>(publications, HttpStatus.OK);
 	}

@@ -17,13 +17,14 @@ export class DocumentService {
   constructor(private http: HttpClient) { }
 
 
-  findAll() {
-    this.http.get<PublicationDTO[]>("http://localhost:9000/xscience/publication/getAll")
+  findAll(status) {
+    debugger;
+    this.http.get<PublicationDTO[]>("http://localhost:9000/xscience/publication/getAll/" + status)
       .subscribe(documents => {
         this.documents = documents;
         this.documentsSource.next(this.documents);
       });
-  }
+    }
 
   
 

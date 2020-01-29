@@ -22,27 +22,23 @@
             <thead>
                 <tr>
                     <th><b>Document title</b></th>
-                    <th><b>Document author</b></th>
-                    <th style="width: 15%">Action</th>
+                    <th style="width: 38%">Action</th>
                 </tr>
             </thead>
 
             <tbody >
                 <tr *ngFor="let document of documents; let i = index">
                     <td>
-                        {{document.title}}
+                        <b>{{document.title}}</b>
                     </td>
                     <td>
-                        {{document.author}}
-                    </td>
-                    <td>
-                        <button (click)='openDocument(title)' type="button" class="btn btn-danger">Open</button>
-                        <button (click)='assignReviewer(title)' type="button" class="btn btn-danger">Assign Reviewer</button>
-                        <button (click)='viewReviews(title)' type="button" class="btn btn-danger">View reviews</button>
-                        <button (click)='acceptDocument(title)' type="button" class="btn btn-danger">Accpet</button>
-                        <button (click)='minorRevision(title)' type="button" class="btn btn-danger">Minor revision</button>
-                        <button (click)='majorRevision(title)' type="button" class="btn btn-danger">Major revision</button>
-                        <button (click)='rejectDocument(title)' type="button" class="btn btn-danger">Reject</button>
+                        <button (click)='openDocument(document.title)' type="button" class="btn  btn-primary">Open</button>
+                        <button (click)='assignReviewer(document.title)' type="button" class="btn  btn-primary">Assign Reviewer</button>
+                        <button (click)='viewReviews(document.title)' type="button" class="btn  btn-primary">View reviews</button>
+                        <button (click)='minorRevision(document.title)' type="button" class="btn  btn-primary">Minor revision</button>
+                        <button (click)='majorRevision(document.title)' type="button" class="btn  btn-primary">Major revision</button>
+                        <button (click)='acceptDocument(document.title)' type="button" class="btn btn-success">Accept</button>
+                        <button (click)='rejectDocument(document.title)' type="button" class="btn btn-danger">Reject</button>
                     </td>
                 </tr>
             </tbody>
