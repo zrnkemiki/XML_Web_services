@@ -8,10 +8,10 @@ import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_STATUS;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Marshaller;
@@ -24,6 +24,7 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.exception.DocumentAlreadyExistsException;
+import ftn.xscience.model.ObjectFactory;
 import ftn.xscience.model.TPublication;
 import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;

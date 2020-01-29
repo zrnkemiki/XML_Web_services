@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
 
 
+
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
@@ -37,6 +38,21 @@ public class ObjectFactory {
     private final static QName _User_QNAME = new QName("https://www.xscience.com/data/user.xsd", "User");
     private final static QName _TUserPublicationsPublicationID_QNAME = new QName("https://www.xscience.com/data/user.xsd", "publicationID");
     private final static QName _TUserPublicationsForReviewForReviewID_QNAME = new QName("https://www.xscience.com/data/user.xsd", "for_reviewID");
+    private final static QName _Publication_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Publication");
+    private final static QName _TStyleBold_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Bold");
+    private final static QName _TStyleUnderline_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Underline");
+    private final static QName _TStyleItalic_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Italic");
+    private final static QName _TParagraphContentFigure_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Figure");
+    private final static QName _TParagraphContentStyle_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Style");
+    private final static QName _TParagraphContentList_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "List");
+    private final static QName _TParagraphContentQuote_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Quote");
+    private final static QName _TParagraphContentTable_QNAME = new QName("https://www.xscience.com/data/publication.xsd", "Table");
+    private final static QName _TCommentForEditorList_QNAME = new QName("https://www.xscience.com/data/review.xsd", "list");
+    private final static QName _TCommentForEditorStyle_QNAME = new QName("https://www.xscience.com/data/review.xsd", "style");
+    private final static QName _TCLSectionList_QNAME = new QName("https://www.xscience.com/data/coverLetter.xsd", "List");
+    private final static QName _TCLSectionStyle_QNAME = new QName("https://www.xscience.com/data/coverLetter.xsd", "Style");
+
+
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ftn.xscience.model
@@ -107,5 +123,422 @@ public class ObjectFactory {
     public JAXBElement<String> createTUserPublicationsForReviewForReviewID(String value) {
         return new JAXBElement<String>(_TUserPublicationsForReviewForReviewID_QNAME, String.class, TUser.PublicationsForReview.class, value);
     }
+    
+    /**
+     * Create an instance of {@link TTable }
+     * 
+     */
+    public TTable createTTable() {
+        return new TTable();
+    }
+
+    /**
+     * Create an instance of {@link TPublication }
+     * 
+     */
+    public TPublication createTPublication() {
+        return new TPublication();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.Content }
+     * 
+     */
+    public TPublication.Content createTPublicationContent() {
+        return new TPublication.Content();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.MetaData }
+     * 
+     */
+    public TPublication.MetaData createTPublicationMetaData() {
+        return new TPublication.MetaData();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.MetaData.Keywords }
+     * 
+     */
+    public TPublication.MetaData.Keywords createTPublicationMetaDataKeywords() {
+        return new TPublication.MetaData.Keywords();
+    }
+
+    /**
+     * Create an instance of {@link TParagraphContent }
+     * 
+     */
+    public TParagraphContent createTParagraphContent() {
+        return new TParagraphContent();
+    }
+
+    /**
+     * Create an instance of {@link TAuthor }
+     * 
+     */
+    public TAuthor createTAuthor() {
+        return new TAuthor();
+    }
+
+    /**
+     * Create an instance of {@link TStyle }
+     * 
+     */
+    public TStyle createTStyle() {
+        return new TStyle();
+    }
+
+    /**
+     * Create an instance of {@link ftn.xscience.model2.PaperType }
+     * 
+     */
+    public PaperType createPaperType() {
+        return new PaperType();
+    }
+
+    /**
+     * Create an instance of {@link StatusType }
+     * 
+     */
+    public StatusType createStatusType() {
+        return new StatusType();
+    }
+
+    /**
+     * Create an instance of {@link TAffiliation }
+     * 
+     */
+    public TAffiliation createTAffiliation() {
+        return new TAffiliation();
+    }
+
+    /**
+     * Create an instance of {@link TQuote }
+     * 
+     */
+    public TQuote createTQuote() {
+        return new TQuote();
+    }
+
+    /**
+     * Create an instance of {@link TFigure }
+     * 
+     */
+    public TFigure createTFigure() {
+        return new TFigure();
+    }
+
+    /**
+     * Create an instance of {@link TReference }
+     * 
+     */
+    public TReference createTReference() {
+        return new TReference();
+    }
+
+    /**
+     * Create an instance of {@link TList }
+     * 
+     */
+    public TList createTList() {
+        return new TList();
+    }
+
+    /**
+     * Create an instance of {@link DateType }
+     * 
+     */
+    public DateType createDateType() {
+        return new DateType();
+    }
+
+    /**
+     * Create an instance of {@link KeywordType }
+     * 
+     */
+    public KeywordType createKeywordType() {
+        return new KeywordType();
+    }
+
+    /**
+     * Create an instance of {@link TName }
+     * 
+     */
+    public TName createTName() {
+        return new TName();
+    }
+
+    /**
+     * Create an instance of {@link TTable.Row }
+     * 
+     */
+    public TTable.Row createTTableRow() {
+        return new TTable.Row();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.Abstract }
+     * 
+     */
+    public TPublication.Abstract createTPublicationAbstract() {
+        return new TPublication.Abstract();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.References }
+     * 
+     */
+    public TPublication.References createTPublicationReferences() {
+        return new TPublication.References();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.Content.Paragraph }
+     * 
+     */
+    public TPublication.Content.Paragraph createTPublicationContentParagraph() {
+        return new TPublication.Content.Paragraph();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.MetaData.PaperType }
+     * 
+     */
+    public TPublication.MetaData.PaperType createTPublicationMetaDataPaperType() {
+        return new TPublication.MetaData.PaperType();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.MetaData.Status }
+     * 
+     */
+    public TPublication.MetaData.Status createTPublicationMetaDataStatus() {
+        return new TPublication.MetaData.Status();
+    }
+
+    /**
+     * Create an instance of {@link TPublication.MetaData.Keywords.Keyword }
+     * 
+     */
+    public TPublication.MetaData.Keywords.Keyword createTPublicationMetaDataKeywordsKeyword() {
+        return new TPublication.MetaData.Keywords.Keyword();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TPublication }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Publication")
+    public JAXBElement<TPublication> createPublication(TPublication value) {
+        return new JAXBElement<TPublication>(_Publication_QNAME, TPublication.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Bold", scope = TStyle.class)
+    public JAXBElement<TStyle> createTStyleBold(TStyle value) {
+        return new JAXBElement<TStyle>(_TStyleBold_QNAME, TStyle.class, TStyle.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Underline", scope = TStyle.class)
+    public JAXBElement<TStyle> createTStyleUnderline(TStyle value) {
+        return new JAXBElement<TStyle>(_TStyleUnderline_QNAME, TStyle.class, TStyle.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Italic", scope = TStyle.class)
+    public JAXBElement<TStyle> createTStyleItalic(TStyle value) {
+        return new JAXBElement<TStyle>(_TStyleItalic_QNAME, TStyle.class, TStyle.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TFigure }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Figure", scope = TParagraphContent.class)
+    public JAXBElement<TFigure> createTParagraphContentFigure(TFigure value) {
+        return new JAXBElement<TFigure>(_TParagraphContentFigure_QNAME, TFigure.class, TParagraphContent.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Style", scope = TParagraphContent.class)
+    public JAXBElement<TStyle> createTParagraphContentStyle(TStyle value) {
+        return new JAXBElement<TStyle>(_TParagraphContentStyle_QNAME, TStyle.class, TParagraphContent.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "List", scope = TParagraphContent.class)
+    public JAXBElement<TList> createTParagraphContentList(TList value) {
+        return new JAXBElement<TList>(_TParagraphContentList_QNAME, TList.class, TParagraphContent.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TQuote }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Quote", scope = TParagraphContent.class)
+    public JAXBElement<TQuote> createTParagraphContentQuote(TQuote value) {
+        return new JAXBElement<TQuote>(_TParagraphContentQuote_QNAME, TQuote.class, TParagraphContent.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TTable }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/publication.xsd", name = "Table", scope = TParagraphContent.class)
+    public JAXBElement<TTable> createTParagraphContentTable(TTable value) {
+        return new JAXBElement<TTable>(_TParagraphContentTable_QNAME, TTable.class, TParagraphContent.class, value);
+    }
+
+    /**
+     * Create an instance of {@link Review }
+     * 
+     */
+    public Review createReview() {
+        return new Review();
+    }
+
+    /**
+     * Create an instance of {@link Review.Content }
+     * 
+     */
+    public Review.Content createReviewContent() {
+        return new Review.Content();
+    }
+
+    /**
+     * Create an instance of {@link TCommentForEditor }
+     * 
+     */
+    public TCommentForEditor createTCommentForEditor() {
+        return new TCommentForEditor();
+    }
+
+    /**
+     * Create an instance of {@link TEditSuggestion }
+     * 
+     */
+    public TEditSuggestion createTEditSuggestion() {
+        return new TEditSuggestion();
+    }
+
+
+    /**
+     * Create an instance of {@link Review.Content.Evaluation }
+     * 
+     */
+    public Review.Content.Evaluation createReviewContentEvaluation() {
+        return new Review.Content.Evaluation();
+    }
+
+    /**
+     * Create an instance of {@link Review.Content.CommentForAuthor }
+     * 
+     */
+    public Review.Content.CommentForAuthor createReviewContentCommentForAuthor() {
+        return new Review.Content.CommentForAuthor();
+    }
+
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/review.xsd", name = "list", scope = TCommentForEditor.class)
+    public JAXBElement<TList> createTCommentForEditorList(TList value) {
+        return new JAXBElement<TList>(_TCommentForEditorList_QNAME, TList.class, TCommentForEditor.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/review.xsd", name = "style", scope = TCommentForEditor.class)
+    public JAXBElement<TStyle> createTCommentForEditorStyle(TStyle value) {
+        return new JAXBElement<TStyle>(_TCommentForEditorStyle_QNAME, TStyle.class, TCommentForEditor.class, value);
+    }
+
+
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/review.xsd", name = "list", scope = TEditSuggestion.class)
+    public JAXBElement<TList> createTEditSuggestionList(TList value) {
+        return new JAXBElement<TList>(_TCommentForEditorList_QNAME, TList.class, TEditSuggestion.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/review.xsd", name = "style", scope = TEditSuggestion.class)
+    public JAXBElement<TStyle> createTEditSuggestionStyle(TStyle value) {
+        return new JAXBElement<TStyle>(_TCommentForEditorStyle_QNAME, TStyle.class, TEditSuggestion.class, value);
+    }
+
+    
+    /**
+     * Create an instance of {@link CoverLetter }
+     * 
+     */
+    public CoverLetter createCoverLetter() {
+        return new CoverLetter();
+    }
+
+    /**
+     * Create an instance of {@link CoverLetter.Content }
+     * 
+     */
+    public CoverLetter.Content createCoverLetterContent() {
+        return new CoverLetter.Content();
+    }
+
+    /**
+     * Create an instance of {@link TCLSection }
+     * 
+     */
+    public TCLSection createTCLSection() {
+        return new TCLSection();
+    }
+
+
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/coverLetter.xsd", name = "List", scope = TCLSection.class)
+    public JAXBElement<TList> createTCLSectionList(TList value) {
+        return new JAXBElement<TList>(_TCLSectionList_QNAME, TList.class, TCLSection.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link TStyle }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "https://www.xscience.com/data/coverLetter.xsd", name = "Style", scope = TCLSection.class)
+    public JAXBElement<TStyle> createTCLSectionStyle(TStyle value) {
+        return new JAXBElement<TStyle>(_TCLSectionStyle_QNAME, TStyle.class, TCLSection.class, value);
+    }
+
+
+
 
 }
