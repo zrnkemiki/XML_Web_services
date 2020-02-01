@@ -3,7 +3,7 @@ package ftn.xscience.security;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.TUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
@@ -24,7 +24,7 @@ public class JwtValidator {
 
             user = new TUser();
 
-            user.setEmail(body.getSubject());
+            user.setUsername(body.getSubject());
             user.setPassword(body.getId());
             user.setRole((String)body.get("role"));
         }

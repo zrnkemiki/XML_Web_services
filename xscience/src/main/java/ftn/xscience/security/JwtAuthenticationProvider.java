@@ -12,7 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.TUser;
 
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -42,7 +42,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
 			System.out.println("----------");
 			System.out.println(g.getAuthority());
 		}
-        return new JwtUserDetails(user.getEmail(), user.getPassword(),
+        return new JwtUserDetails(user.getUsername(), user.getPassword(),
                 token,
                 grantedAuthorities);
     }

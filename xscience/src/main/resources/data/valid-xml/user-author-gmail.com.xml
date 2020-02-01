@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd user.xsd ">
-  <role>ROLE_AUTHOR</role>
-  <email>AUTHOR@GMAIL.COM</email>
-  <password>author123</password>
-  <first_name>Autor</first_name>
-  <middle-name>Aut</middle-name>
-  <last-name>lAutoric</last-name>
-  <expertises>
-    <expertise>Chemistry</expertise>
-  </expertises>
-  <publications>
-    <publicationID>Face_Detection</publicationID>
-  </publications>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd ../xsd/user.xsd ">
+  <Role>ROLE_AUTHOR</Role>
+  <Username>MKOPANJA023@GMAIL.COM</Username>
+  <Password>author123</Password>
+  <PersonalInformation>
+    <pbl:Name>
+      <pbl:FirstName>Mihajlo</pbl:FirstName>
+      <pbl:LastName>Kopanja</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>University of Belgrade</pbl:University>
+      <pbl:City>Belgrade</pbl:City>
+      <pbl:Country>Serbia</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>MsC</pbl:AcademicDegree>
+    <pbl:Email>MKOPANJA@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </PersonalInformation>
+  <Expertises>
+    <Expertise>Geopolitics</Expertise>
+  </Expertises>
+  <Publications>
+    <PublicationID>Conceptualizing_Location-One_Term_Many_Meanings</PublicationID>
+  </Publications>
+  <PublicationsForReview/>
 </User>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd ../xsd/user.xsd ">
+  <Role>ROLE_REVIEWER</Role>
+  <Username>REVIEWER2@GMAIL.COM</Username>
+  <Password>reviewer123</Password>
+  <PersonalInformation>
+    <pbl:Name>
+      <pbl:FirstName>Revjuer2</pbl:FirstName>
+      <pbl:LastName>Revjuic2</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>University of Novi Sad</pbl:University>
+      <pbl:City>Novi Sad</pbl:City>
+      <pbl:Country>FTN</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>MsC</pbl:AcademicDegree>
+    <pbl:Email>REVIEWER2@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </PersonalInformation>
+  <Expertises>
+    <Expertise>Design patterns</Expertise>
+  </Expertises>
+  <Publications>
+    <PublicationID>rad_drugog_revjuera</PublicationID>
+  </Publications>
+  <PublicationsForReview>
+  	<ForReviewID>rad_drugog_za_revju</ForReviewID>
+  </PublicationsForReview>
+</User>

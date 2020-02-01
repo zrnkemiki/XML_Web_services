@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd user.xsd ">
-  <role>ROLE_EDITOR</role>
-  <email>EDITOR@GMAIL.COM</email>
-  <password>editor123</password>
-  <first_name>Marko</first_name>
-  <middle-name>Mar</middle-name>
-  <last-name>Markovic</last-name>
-  <expertises>
-    <expertise>machine learning</expertise>
-  </expertises>
-  <publications>
-  </publications>
-  <publications_for_review>
-  </publications_for_review>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd ../xsd/user.xsd ">
+  <Role>ROLE_EDITOR</Role>
+  <Username>EDITOR@GMAIL.COM</Username>
+  <Password>editor123</Password>
+  <PersonalInformation>
+    <pbl:Name>
+      <pbl:FirstName>Editor</pbl:FirstName>
+      <pbl:LastName>Editic</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>University of Vienna</pbl:University>
+      <pbl:City>Vienna</pbl:City>
+      <pbl:Country>Austria</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>EDITOR@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </PersonalInformation>
+  <Expertises>
+    <Expertise>Optimization algorithms</Expertise>
+    <Expertise>Neural Networks</Expertise>
+    <Expertise>Genetic algorithms</Expertise>
+  </Expertises>
+  <Publications>
+    <PublicationID>editorov_rad</PublicationID>
+  </Publications>
+  <PublicationsForReview/>
 </User>

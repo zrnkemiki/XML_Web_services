@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="https://www.xscience.com/data/user.xsd"
-    xmlns="https://www.xscience.com/data/user.xsd">
+    xmlns="https://www.xscience.com/data/user.xsd"
+    xmlns:pbl="https://www.xscience.com/data/publication.xsd">
+    <xs:import namespace="https://www.xscience.com/data/publication.xsd"
+        schemaLocation="publication.xsd"/>
     <xs:element name="User" type="TUser"> </xs:element>
     <xs:complexType name="TUser">
         <xs:sequence>
-            <xs:element default="PUBLIC_USER" name="role">
+            <xs:element default="ROLE_AUTHOR" name="Role">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:enumeration value="AUTHOR"/>
-                        <xs:enumeration value="REVIEWER"/>
-                        <xs:enumeration value="EDITOR"/>
-                        <xs:enumeration value="PUBLIC_USER"/>
+                        <xs:enumeration value="ROLE_AUTHOR"/>
+                        <xs:enumeration value="ROLE_REVIEWER"/>
+                        <xs:enumeration value="ROLE_EDITOR"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="email">
+            <xs:element name="Username">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}"/>
+                        <xs:pattern value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="password">
+            <xs:element name="Password">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="6"/>
@@ -30,49 +32,26 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="first_name">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:minLength value="2"/>
-                        <xs:maxLength value="30"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element minOccurs="0" name="middle-name">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:minLength value="1"/>
-                        <xs:maxLength value="30"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="last-name">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:minLength value="2"/>
-                        <xs:maxLength value="40"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element maxOccurs="1" minOccurs="1" name="expertises">
+            <xs:element name="PersonalInformation" type="pbl:TAuthorInformation"/>
+            <xs:element maxOccurs="1" minOccurs="1" name="Expertises">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element maxOccurs="30" minOccurs="0" name="expertise" type="xs:string"/>
+                        <xs:element maxOccurs="30" minOccurs="0" name="Expertise" type="xs:string"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element minOccurs="0" name="publications">
+            <xs:element minOccurs="0" name="Publications">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="publicationID"
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="PublicationID"
                             type="xs:ID"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element minOccurs="0" name="publications_for_review">
+            <xs:element minOccurs="0" name="PublicationsForReview">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="0" name="for_reviewID"
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="ForReviewID"
                             type="xs:ID"/>
                     </xs:sequence>
                 </xs:complexType>
