@@ -73,7 +73,7 @@ public class PublicationRepository {
 	
 	public long updatePublicationStatus(String documentId, String toDo) throws XMLDBException {
 		XMLConnectionProperties conn = connectionPool.getConnection();
-		String contextXPath = "/Publication/MetaData/status/text()";
+		String contextXPath = "/Publication/MetaData/Status/text()";
 		long mods = 0;
 		try {
 			mods = DBHandler.updateXMLResource(conn, collectionId, documentId, TARGET_NS_PUBLICATION, UPDATE, contextXPath, toDo);

@@ -12,8 +12,13 @@ import { FileUploadServiceService } from '../services/file-upload-service.servic
 })
 export class UploadComponent implements OnInit {
   ngOnInit(): void {
+    this.getCurrentUser();
   }
-  constructor(private http: HttpClient, private router: Router) { }
+
+
+  private currentUserRole: string;
+  private currentUserEmail: string;
+  constructor(private http: HttpClient, private router: Router, private loginService: LoginService) { }
 
   fileData: File = null;
   previewUrl: any = null;
@@ -51,6 +56,41 @@ export class UploadComponent implements OnInit {
 
   cancel() {
     this.router.navigate(["/homepage"]);
+  }
+
+  getCurrentUser() {
+    if (localStorage.getItem('currentUser') != null) {
+      const currentUser: any = this.loginService.currentUserValue;
+      this.currentUserRole = currentUser.role;
+      this.currentUserEmail = currentUser.email;
+    }
+  }
+
+
+  searchDocumentsText() {
+    this.router.navigate(["search-documents-text"]);
+  }
+  searchDocumentsMetadata() {
+    this.router.navigate(["search-documents-metadata"]);
+  }
+  uploadPublication() {
+    this.router.navigate(["upload-publication"]);
+  }
+
+  myDocuments() {
+    this.router.navigate(["my-documents"]);
+  }
+  documentsForApproval() {
+    this.router.navigate(["editor-document-manager"]);
+  }
+
+  login() {
+    this.router.navigate(["/login"]);
+  }
+
+  logout() {
+    this.loginService.logout();
+    location.reload()
   }
 
 

@@ -17,36 +17,63 @@
             <p><i>Scientific papers</i></p>
         </div>
     </div>
-    <div class="table-wrapper" >
-        <table class="table table-bordered table-hover table-dark">
-            <thead>
-                <tr>
-                    <th><b>Name</b></th>
-                    <th><b>Lastname</b></th>
-                    <th><b>Email</b></th>
-                    <th style="width: 15%">Action</th>
-                </tr>
-            </thead>
 
-            <tbody >
-                <tr *ngFor="let user of users; let i = index">
-                    <td>
-                        {{user.firstName}}
-                    </td>
-                    <td>
-                        {{user.lastName}}
-                    </td>
-                    <td>
-                        {{user.email}}
-                    </td>
-                    <td>
-                        <button (click)='assignReviewer(user.email)' type="button" class="btn btn-danger">Assign Reviewer</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="form-group" id="button">
-            <button id="return" (click)="homepage()" class="btn btn-success">Home Page</button>
+    <nav class="navbar fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                    <button type="button" (click)="searchDocumentsText()" class="btn btn-success">Search documents</button>
+                    <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search Documents by Metadata</button>
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'" (click)="myDocuments()" class="btn btn-success">My Documents</button>
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'"(click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()" class="btn btn-success">Documents for approval</button>    
+                </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log in</button>
+                    <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log out</button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Assign <b>Reviewer</b></h2>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 25%"><b>Name</b></th>
+                        <th style="width: 25%"><b>Lastname</b></th>
+                        <th><b>Email</b></th>
+                        <th style="width: 15%">Action</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let user of users; let i = index">
+                        <td>
+                            {{user.firstName}}
+                        </td>
+                        <td>
+                            {{user.lastName}}
+                        </td>
+                        <td>
+                            {{user.email}}
+                        </td>
+                        <td>
+                            <button (click)='assignReviewer(user.email)' type="button" class="btn btn-danger">Assign Reviewer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </body>
