@@ -1,12 +1,11 @@
-/* Remove the navbar's default rounded borders and increase the bottom margin */
-
 body {
-    background-color: #7c9494;
+    background-color:#eee;
     height: 100vh;
 }
 .navbar {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     border-radius: 0;
+    background-color: #435d7d;
 }
 
 /* Add a gray background color and some padding to the footer */
@@ -17,10 +16,17 @@ footer {
 }
 
 button {
-    margin-right: 2px;
-    margin-bottom: 2px;
+    margin-right: 0px;
+    margin-bottom: 0px;
 }
 
 .textarea {
     margin-left: 10%;
+}
+.jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee;
 }

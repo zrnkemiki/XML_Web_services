@@ -17,6 +17,7 @@ import { DocumentViewerComponent } from './document-viewer/document-viewer.compo
 import { EditorDocumentManagerComponent } from './editor-document-manager/editor-document-manager.component';
 import { DocumentReviewsComponent } from './document-reviews/document-reviews.component';
 import { AssignReviewerComponent } from './assign-reviewer/assign-reviewer.component';
+import {bootstrap}  from "bootstrap";
 
 @NgModule({
   declarations: [
