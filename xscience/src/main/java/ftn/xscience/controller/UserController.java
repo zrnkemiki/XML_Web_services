@@ -19,7 +19,7 @@ import org.xmldb.api.base.XMLDBException;
 import antlr.collections.List;
 import ftn.xscience.dto.UserCredentials;
 import ftn.xscience.dto.UserDTO;
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.TUser;
 import ftn.xscience.security.JwtGenerator;
 import ftn.xscience.service.UserService;
 

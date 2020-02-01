@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CoverLetter id="idvalue0" submissionDate="2001-01-01" xmlns="https://www.xscience.com/data/coverLetter.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/coverLetter.xsd ../xsd/coverLetter.xsd ">
+  <PublicationTitle>PublicationTitle</PublicationTitle>
+  <Editor>Editor Editic</Editor>
+  <Journal>Sociology Magazine</Journal>
+  <Author>
+    <pbl:Name>
+      <pbl:FirstName>Mihajlo</pbl:FirstName>
+      <pbl:LastName>Kopanja</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>University of Belgrade</pbl:University>
+      <pbl:City>Belgrade</pbl:City>
+      <pbl:Country>Serbia</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>MsC</pbl:AcademicDegree>
+    <pbl:Email>MKOPANJA023@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </Author>
+  <CorrsepondingAuthor>
+    <pbl:Name>
+      <pbl:FirstName>Nuno</pbl:FirstName>
+      <pbl:LastName>Morgado</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>Charles University</pbl:University>
+      <pbl:City>Prague</pbl:City>
+      <pbl:Country>Czech Republic</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>NUNOMORGADO@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </CorrsepondingAuthor>
+  <Content>
+    <CLSection>
+    By impossible of in difficulty discovered celebrated ye. Justice joy manners boy met resolve produce. Bed head loud next plan rent 
+had easy<Style><pbl:Underline>add him</pbl:Underline></Style>. As earnestly shameless elsewhere defective estimable fulfilled of. Esteem my advice it an excuse enable. 
+Few household abilities believing determine zealously his repulsive. To open draw dear be by side like. 
+Saw yet kindness too replying<Style><pbl:Bold> whatever marianne. Old sentiments resolution admiration</pbl:Bold></Style> unaffected its mrs literature. 
+Behaviour new set existence dashwoods. It satisfied to mr commanded consisted disposing engrossed. Tall snug do of till 
+on easy. Form not calm new fail. 
+    </CLSection>
+  </Content>
+</CoverLetter>

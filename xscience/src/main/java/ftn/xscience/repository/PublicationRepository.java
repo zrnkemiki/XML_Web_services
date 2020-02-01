@@ -24,8 +24,7 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.exception.DocumentAlreadyExistsException;
-import ftn.xscience.model.ObjectFactory;
-import ftn.xscience.model.TPublication;
+import ftn.xscience.model.publication.Publication;
 import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
 import ftn.xscience.utils.xmldb.DBHandler;
@@ -85,11 +84,11 @@ public class PublicationRepository {
 		return mods;
 	}
 	
-	public TPublication getPublication(String documentId) throws XMLDBException, JAXBException {
+	public Publication getPublication(String documentId) throws XMLDBException, JAXBException {
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		documentId = StringPathHandler.formatPublicationNameForDatabase(documentId);
 		XMLResource res = null;
-		TPublication ret = null;
+		Publication ret = null;
 		try {
 			res = DBHandler.getDocument(collectionId, documentId, conn);
 			ret = unmarshal(res);
@@ -113,14 +112,14 @@ public class PublicationRepository {
 		return resourcesFound;
 	}
 	
-	public List<TPublication> getAllPublications() {
+	public List<Publication> getAllPublications() {
 		XMLConnectionProperties conn = connectionPool.getConnection();
-		List<TPublication> publicationList = new ArrayList<TPublication>();
+		List<Publication> publicationList = new ArrayList<Publication>();
 		List<XMLResource> allPublications = null;
 		try {
 			allPublications = DBHandler.getAllDocumentsFromCollection(conn, collectionId);
 			for (XMLResource res : allPublications) {
-				TPublication temp = unmarshal(res);
+				Publication temp = unmarshal(res);
 				publicationList.add(temp);
 			}
 		} catch (Exception e) {
@@ -155,9 +154,9 @@ public class PublicationRepository {
 	}
 	
 	
-	public String marshal(TPublication publication) throws JAXBException {
+	public String marshal(Publication publication) throws JAXBException {
 		OutputStream os = new ByteArrayOutputStream();
-		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model");
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.publication");
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		//ObjectFactory fac = new ObjectFactory();
@@ -168,10 +167,10 @@ public class PublicationRepository {
 
 	}
 	
-	public TPublication unmarshal(XMLResource resource) throws JAXBException, XMLDBException {
-		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model");
+	public Publication unmarshal(XMLResource resource) throws JAXBException, XMLDBException {
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.publication");
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		TPublication publication = (TPublication) JAXBIntrospector.getValue(unmarshaller.unmarshal(resource.getContentAsDOM()));
+		Publication publication = (Publication) JAXBIntrospector.getValue(unmarshaller.unmarshal(resource.getContentAsDOM()));
 		return publication;
 	}
 }

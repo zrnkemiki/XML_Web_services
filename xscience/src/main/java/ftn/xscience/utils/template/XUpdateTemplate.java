@@ -74,9 +74,9 @@ public class XUpdateTemplate {
 	
 	public static final String XPATH_EXP_CONTAINS = "doc(\"%1$s\")//text()[contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),\"%2$s\")]";
 	
-	public static final String XPATH_EXP_STATUS = "doc(\"%1$s\")//status[text()=\"%2$s\"]";
+	public static final String XPATH_EXP_STATUS = "doc(\"%1$s\")//Status[text()=\"%2$s\"]";
 	
-	public static final String XPATH_EXP_KEYWORDS = "doc(\"%1$s\")//keyword/text()";
+	public static final String XPATH_EXP_KEYWORDS = "doc(\"%1$s\")//Keyword/text()";
 	
-	public static final String XPATH_EXP_EXPERTISE = "doc(\"%1$s\")//.[role='ROLE_REVIEWER']//expertise/text()[contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),\"%2$s\")]";
+	public static final String XPATH_EXP_EXPERTISE = "doc(\"%1$s\")//.[Role='ROLE_REVIEWER']//Expertise/text()[contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),\"%2$s\")]";
 }

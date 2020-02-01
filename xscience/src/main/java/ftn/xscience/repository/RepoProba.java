@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.TUser;
 import ftn.xscience.utils.template.AuthenticationUtilities;
 import ftn.xscience.utils.template.FileUtil;
 import ftn.xscience.utils.template.MetadataExtractor;

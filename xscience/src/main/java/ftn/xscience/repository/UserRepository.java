@@ -19,8 +19,8 @@ import org.xmldb.api.modules.XMLResource;
 
 import static ftn.xscience.utils.template.XUpdateTemplate.TARGET_NS_USER;
 import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_EXPERTISE;
-import ftn.xscience.model.ObjectFactory;
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.ObjectFactory;
+import ftn.xscience.model.user.TUser;
 import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
 import ftn.xscience.utils.xmldb.DBHandler;
@@ -93,7 +93,7 @@ public class UserRepository {
 	
 	public String marshal(TUser user) throws JAXBException {
 		OutputStream os = new ByteArrayOutputStream();
-		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model");
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.user");
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		ObjectFactory fac = new ObjectFactory();
@@ -105,7 +105,7 @@ public class UserRepository {
 	}
 	
 	public TUser unmarshal(XMLResource resource) throws JAXBException, XMLDBException {
-		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model");
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.user");
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		TUser user = (TUser) JAXBIntrospector.getValue(unmarshaller.unmarshal(resource.getContentAsDOM()));
 		return user;

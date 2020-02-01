@@ -1,13 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="https://www.xscience.com/data/publication.xsd"
-    xmlns:pbl="https://www.xscience.com/data/publication.xsd"
+    xmlns="https://www.xscience.com/data/publication.xsd"
     xmlns:pred="https://www.xscience.com/data/publication/predicate/">
 
-    <xs:element name="Publication" type="pbl:TPublication"> </xs:element>
+    <xs:element name="Publication">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="MetaData">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="FieldOfStudy">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute default="pred:fieldOfStudy"
+                                                name="property" type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element default="RESEARCH_PAPER" name="PaperType">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:restriction base="paperType">
+                                            <xs:enumeration value="RESEARCH_PAPER"/>
+                                            <xs:enumeration value="VIEWPOINT"/>
+                                            <xs:enumeration value="TECHNICAL_PAPER"/>
+                                            <xs:enumeration value="CONCEPTUAL_PAPER"/>
+                                            <xs:enumeration value="CASE_STUDY"/>
+                                            <xs:enumeration value="LITERATURE_REVIEW"/>
+                                            <xs:enumeration value="GENERAL_REVIEW"/>
+                                        </xs:restriction>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Recieved">
+                                <xs:complexType>
+                                    <xs:complexContent>
+                                        <xs:extension base="dateType">
+                                            <xs:attribute default="pred:recieved" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:complexContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Revised">
+                                <xs:complexType>
+                                    <xs:complexContent>
+                                        <xs:extension base="dateType">
+                                            <xs:attribute default="pred:revised" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:complexContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Accepted">
+                                <xs:complexType>
+                                    <xs:complexContent>
+                                        <xs:extension base="dateType">
+                                            <xs:attribute default="pred:accepted" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:complexContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Status">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:restriction base="statusType">
+                                            <xs:enumeration value="UPLOADED"/>
+                                            <xs:enumeration value="REJECTED"/>
+                                            <xs:enumeration value="REVISED"/>
+                                            <xs:enumeration value="ACCEPTED"/>
+                                            <xs:enumeration value="RECIEVED"/>
+                                            <xs:enumeration value="WITHDRAWN"/>
+                                            <xs:enumeration value="IN_REVIEW"/>
+                                        </xs:restriction>
+                                    </xs:simpleContent>
+
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Keywords">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element maxOccurs="10" name="Keyword">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                  <xs:restriction base="keywordType">
+                                                  <xs:minLength value="1"/>
+                                                  <xs:maxLength value="40"/>
+                                                  </xs:restriction>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Title">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:restriction base="titleType">
+                                <xs:minLength value="1"/>
+                                <xs:maxLength value="100"/>
+                            </xs:restriction>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Author" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="TAuthorInformation">
+                                <xs:attribute name="href" type="xs:string"/>
+                                <xs:attribute default="pred:authoredBy" name="rel" type="xs:string"
+                                />
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Abstract">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element name="Content" type="TStyle"/>
+                            <xs:element name="Quote" type="TQuote"/>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Content">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="Paragraph">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="ParagraphTitle">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                  <xs:minLength value="1"/>
+                                                  <xs:maxLength value="50"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+                                        <xs:element name="ParagraphContent" type="TParagraphContent"
+                                            > </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="id" type="xs:ID"/>
+                                    <xs:attribute default="1" name="level">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:positiveInteger">
+                                                <xs:maxInclusive value="5"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="References">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="Reference" type="TReference">
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Corresponding_author">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="TAuthorInformation">
+                                <xs:attribute default="pred:mentoredBy" name="rel" type="xs:string"/>
+                                <xs:attribute name="href" type="xs:string"/>
+                            </xs:extension>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute default="en-US" name="language" type="xs:language"/>
+            <xs:attribute name="id" type="xs:ID"/>
+            <xs:attribute name="version" type="xs:positiveInteger"/>
+            <xs:attribute name="about"/>
+            <xs:attribute name="vocab"/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:complexType name="TName">
         <xs:sequence>
-            <xs:element name="First_name">
+            <xs:element name="FirstName">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -15,7 +196,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="Middle_name">
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="MiddleName">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -23,7 +204,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="Last_name">
+            <xs:element name="LastName">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -79,11 +260,11 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="TAuthor">
+    <xs:complexType name="TAuthorInformation">
         <xs:sequence>
-            <xs:element name="Name" type="pbl:TName"/>
-            <xs:element name="Affiliation" type="pbl:TAffiliation"> </xs:element>
-            <xs:element name="Academic_degree" type="xs:string"/>
+            <xs:element name="Name" type="TName"/>
+            <xs:element name="Affiliation" type="TAffiliation"> </xs:element>
+            <xs:element name="AcademicDegree" type="xs:string"/>
             <xs:element name="Email">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -100,8 +281,6 @@
             </xs:element>
             <xs:element name="Signature" type="xs:base64Binary"/>
         </xs:sequence>
-        <xs:attribute name="rel"/>
-        <xs:attribute name="href"/>
     </xs:complexType>
     <xs:complexType name="TReference">
         <xs:sequence>
@@ -137,7 +316,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="Book_editor" minOccurs="0">
+            <xs:element name="BookEditor" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -145,7 +324,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element default="BOOK_REFERENCE" name="Reference_type">
+            <xs:element default="BOOK_REFERENCE" name="ReferenceType">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:enumeration value="BOOK_REFERENCE"/>
@@ -154,7 +333,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="Chapter_title" minOccurs="0">
+            <xs:element name="ChapterTitle" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -170,7 +349,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="Article_title" minOccurs="0">
+            <xs:element name="ArticleTitle" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -178,7 +357,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="Journal_name" minOccurs="0">
+            <xs:element name="JournalName" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -186,7 +365,7 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="Volume_issue" minOccurs="0">
+            <xs:element name="VolumeIssue" minOccurs="0">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:minLength value="1"/>
@@ -196,18 +375,20 @@
             </xs:element>
         </xs:sequence>
         <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute default="pred:reference" name="rel" type="xs:string"/>
+        <xs:attribute default="xs:string" name="href"/>
     </xs:complexType>
     <xs:complexType mixed="true" name="TStyle">
         <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <xs:element name="Bold" type="pbl:TStyle"/>
-            <xs:element name="Italic" type="pbl:TStyle"/>
-            <xs:element name="Underline" type="pbl:TStyle"/>
+            <xs:element name="Bold" type="TStyle"/>
+            <xs:element name="Italic" type="TStyle"/>
+            <xs:element name="Underline" type="TStyle"/>
         </xs:choice>
     </xs:complexType>
     <xs:complexType name="TQuote">
         <xs:sequence>
             <xs:element name="Source" type="xs:string"/>
-            <xs:element name="Quote_content" type="xs:string"/>
+            <xs:element name="QuoteContent" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
@@ -220,7 +401,7 @@
     </xs:complexType>
     <xs:complexType name="TList">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="List_item" type="pbl:TStyle"/>
+            <xs:element maxOccurs="unbounded" name="ListItem" type="TStyle"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="ordered" type="xs:boolean"/>
@@ -261,23 +442,21 @@
     <xs:complexType name="paperType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute name="property" type="xs:string"/>
+                <xs:attribute name="property" type="xs:string" default="pred:paperType"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="dateType">
         <xs:simpleContent>
-            <xs:extension base="xs:date">
-                <xs:attribute name="property" type="xs:string"/>
-            </xs:extension>
+            <xs:extension base="xs:date"> </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="statusType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute name="property" type="xs:string"/>
+                <xs:attribute name="property" type="xs:string" default="pred:status"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
@@ -285,138 +464,36 @@
     <xs:complexType name="keywordType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute name="property" type="xs:string"/>
+                <xs:attribute name="property" type="xs:string" default="pred:keyword"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
 
-    <xs:complexType name="TPublication">
-        <xs:sequence>
-            <xs:element name="MetaData">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="field_of_study" type="xs:string"/>
-                        <xs:element default="RESEARCH_PAPER" name="paper_type">
-                            <xs:complexType>
-                                <xs:simpleContent>
-                                    <xs:restriction base="pbl:paperType">
-                                        <xs:enumeration value="RESEARCH_PAPER"/>
-                                        <xs:enumeration value="VIEWPOINT"/>
-                                        <xs:enumeration value="TECHNICAL_PAPER"/>
-                                        <xs:enumeration value="CONCEPTUAL_PAPER"/>
-                                        <xs:enumeration value="CASE_STUDY"/>
-                                        <xs:enumeration value="LITERATURE_REVIEW"/>
-                                        <xs:enumeration value="GENERAL_REVIEW"/>
-                                    </xs:restriction>
-                                </xs:simpleContent>
-                            </xs:complexType>
-                        </xs:element>
-                        <xs:element name="received" type="pbl:dateType"/>
-                        <xs:element name="revisied" type="pbl:dateType"/>
-                        <xs:element name="accepted" type="pbl:dateType"/>
-                        <xs:element name="status">
-                            <xs:complexType>
-                                <xs:simpleContent>
-                                    <xs:restriction base="pbl:statusType">
-                                        <xs:enumeration value="UPLOADED"/>
-                                        <xs:enumeration value="REJECTED"/>
-                                        <xs:enumeration value="REVISED"/>
-                                        <xs:enumeration value="ACCEPTED"/>
-                                        <xs:enumeration value="RECEIVED"/>
-                                        <xs:enumeration value="WITHDRAWN"/>
-                                    </xs:restriction>
-                                </xs:simpleContent>
-
-                            </xs:complexType>
-                        </xs:element>
-                        <xs:element name="keywords">
-                            <xs:complexType>
-                                <xs:sequence>
-                                    <xs:element maxOccurs="10" name="keyword">
-                                        <xs:complexType>
-                                            <xs:simpleContent>
-                                                <xs:restriction base="pbl:keywordType">
-                                                  <xs:minLength value="1"/>
-                                                  <xs:maxLength value="40"/>
-                                                </xs:restriction>
-                                            </xs:simpleContent>
-                                        </xs:complexType>
-                                    </xs:element>
-                                </xs:sequence>
-                            </xs:complexType>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="Title">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:minLength value="1"/>
-                        <xs:maxLength value="100"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="Author" maxOccurs="unbounded" type="pbl:TAuthor"> </xs:element>
-            <xs:element name="Abstract">
-                <xs:complexType>
-                    <xs:choice maxOccurs="unbounded">
-                        <xs:element name="content" type="pbl:TStyle"/>
-                        <xs:element name="quote" type="pbl:TQuote"/>
-                    </xs:choice>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="Content">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" name="Paragraph">
-                            <xs:complexType>
-                                <xs:sequence>
-                                    <xs:element name="Paragraph_title">
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:minLength value="1"/>
-                                                <xs:maxLength value="50"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:element>
-                                    <xs:element name="Paragraph_content"
-                                        type="pbl:TParagraphContent"> </xs:element>
-                                </xs:sequence>
-                                <xs:attribute name="id" type="xs:ID"/>
-                                <xs:attribute default="1" name="level">
-                                    <xs:simpleType>
-                                        <xs:restriction base="xs:positiveInteger">
-                                            <xs:maxInclusive value="5"/>
-                                        </xs:restriction>
-                                    </xs:simpleType>
-                                </xs:attribute>
-                            </xs:complexType>
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="References">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" name="Reference" type="pbl:TReference">
-                        </xs:element>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="Corresponding_author" type="pbl:TAuthor"/>
-        </xs:sequence>
-        <xs:attribute default="en-US" name="language" type="xs:language"/>
-        <xs:attribute name="id" type="xs:ID"/>
-        <xs:attribute name="about"/>
-        <xs:attribute name="vocab"/>
+    <xs:complexType name="titleType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="property" type="xs:string" default="pred:title"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
+
+    <xs:complexType name="hyperlinkType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="href" type="xs:string" default=""/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+
     <xs:complexType mixed="true" name="TParagraphContent">
-        <xs:choice maxOccurs="unbounded">
-            <xs:element name="Quote" type="pbl:TQuote"/>
-            <xs:element name="Figure" type="pbl:TFigure"/>
-            <xs:element name="List" type="pbl:TList"/>
-            <xs:element name="Table" type="pbl:TTable"/>
-            <xs:element name="Style" type="pbl:TStyle"/>
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <xs:element name="Quote" type="TQuote"/>
+            <xs:element name="Figure" type="TFigure"/>
+            <xs:element name="List" type="TList"/>
+            <xs:element name="Table" type="TTable"/>
+            <xs:element name="Style" type="TStyle"/>
+            <xs:element name="Hyperlink" type="hyperlinkType"/>
         </xs:choice>
     </xs:complexType>
 </xs:schema>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd ../xsd/user.xsd ">
+  <Role>ROLE_AUTHOR</Role>
+  <Username>AUTHOR3@GMAIL.COM</Username>
+  <Password>author123</Password>
+  <PersonalInformation>
+    <pbl:Name>
+      <pbl:FirstName>Autor3</pbl:FirstName>
+      <pbl:LastName>Autoric3</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>University of Belgrade</pbl:University>
+      <pbl:City>Belgrade</pbl:City>
+      <pbl:Country>Serbia</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>AUTHOR3@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </PersonalInformation>
+  <Expertises>
+    <Expertise>Physics</Expertise>
+    <Expertise>Machine learning</Expertise>
+  </Expertises>
+  <Publications>
+    <PublicationID>rad3</PublicationID>
+  </Publications>
+  <PublicationsForReview/>
+</User>

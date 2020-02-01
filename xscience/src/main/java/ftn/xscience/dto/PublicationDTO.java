@@ -1,6 +1,6 @@
 package ftn.xscience.dto;
 
-import ftn.xscience.model.TPublication;
+import ftn.xscience.model.publication.Publication;
 
 public class PublicationDTO {
 
@@ -8,8 +8,8 @@ public class PublicationDTO {
 	
 	private String author;
 	
-	public PublicationDTO(TPublication publication) {
-		this.title = publication.getTitle();
+	public PublicationDTO(Publication publication) {
+		this.title = publication.getTitle().getValue();
 		// TODO Auto-generated constructor stub
 	}
 	public String getAuthor() {

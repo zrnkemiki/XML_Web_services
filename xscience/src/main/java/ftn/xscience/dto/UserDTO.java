@@ -1,9 +1,9 @@
 package ftn.xscience.dto;
 
-import ftn.xscience.model.TUser;
-import ftn.xscience.model.TUser.Expertises;
-import ftn.xscience.model.TUser.Publications;
-import ftn.xscience.model.TUser.PublicationsForReview;
+import ftn.xscience.model.user.TUser;
+import ftn.xscience.model.user.TUser.Expertises;
+import ftn.xscience.model.user.TUser.Publications;
+import ftn.xscience.model.user.TUser.PublicationsForReview;
 
 public class UserDTO {
 	
@@ -22,11 +22,11 @@ public class UserDTO {
 
 	public UserDTO(TUser user) {
 		this.role = user.getRole();
-		this.email = user.getEmail();
+		this.email = user.getUsername();
 		this.password = user.getPassword();
-		this.firstName = user.getFirstName();
-		this.middleName = user.getMiddleName();
-		this.lastName = user.getLastName();
+		this.firstName = user.getPersonalInformation().getName().getFirstName();
+		//this.middleName = user.getPersonalInformation().getName().getMiddleName().get(0);
+		this.lastName = user.getPersonalInformation().getName().getLastName();
 		this.expertises = user.getExpertises();
 		//this.publications = user.getPublications();
 		//this.publicationsForReview = user.getPublicationsForReview();
