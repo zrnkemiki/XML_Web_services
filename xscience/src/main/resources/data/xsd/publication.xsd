@@ -73,7 +73,7 @@
                                             <xs:enumeration value="REJECTED"/>
                                             <xs:enumeration value="REVISED"/>
                                             <xs:enumeration value="ACCEPTED"/>
-                                            <xs:enumeration value="RECIEVED"/>
+                                            <xs:enumeration value="REVIEWED"/>
                                             <xs:enumeration value="WITHDRAWN"/>
                                             <xs:enumeration value="IN_REVIEW"/>
                                         </xs:restriction>
@@ -395,7 +395,7 @@
     <xs:complexType name="TFigure">
         <xs:sequence>
             <xs:element name="Description" type="xs:string"/>
-            <xs:element maxOccurs="unbounded" name="Image" type="xs:base64Binary"/>
+            <xs:element maxOccurs="unbounded" name="Image" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
@@ -489,6 +489,7 @@
     <xs:complexType mixed="true" name="TParagraphContent">
         <xs:choice maxOccurs="unbounded" minOccurs="0">
             <xs:element name="Quote" type="TQuote"/>
+            <xs:element name="ReviewerComment" type="xs:string"/>
             <xs:element name="Figure" type="TFigure"/>
             <xs:element name="List" type="TList"/>
             <xs:element name="Table" type="TTable"/>

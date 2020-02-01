@@ -8,6 +8,16 @@
     <xs:element name="Review">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="PublicationTitle">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:restriction base="titleType">
+                                <xs:minLength value="1"/>
+                                <xs:maxLength value="100"/>
+                            </xs:restriction>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="Content">
                     <xs:complexType>
                         <xs:sequence>
@@ -72,5 +82,12 @@
             <xs:element name="List" type="pbl:TList"/>
             <xs:element name="Style" type="pbl:TStyle"/>
         </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="titleType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="property" type="xs:string" default="pred:publicationTitle"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 </xs:schema>
