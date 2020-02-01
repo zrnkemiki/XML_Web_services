@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'document-view/:title', component: DocumentViewerComponent },
   { path: 'editor-document-manager', component: EditorDocumentManagerComponent},
   { path: 'document-reviews/:title', component: DocumentReviewsComponent},
-  { path: 'assign-reviewer/"title', component: AssignReviewerComponent}
+  { path: 'assign-reviewer/:title', component: AssignReviewerComponent}
 ]
 
 @NgModule({

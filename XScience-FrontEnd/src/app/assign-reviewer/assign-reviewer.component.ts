@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user';
 import { UserService } from '../services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DocumentService } from '../services/document.service';
 
 @Component({
   selector: 'app-assign-reviewer',
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AssignReviewerComponent implements OnInit {
   public users: User[];
 
-  constructor(private userService: UserService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private route: ActivatedRoute, private documentService: DocumentService, private router: Router) { }
 
   ngOnInit() {
     //get reviewers by DOCtitle from URL
@@ -25,7 +26,11 @@ export class AssignReviewerComponent implements OnInit {
   
 
   assignReviewer(email){
-    //assign reviewer (email + docTitle)
-    //redirect to homepage
+    const title = this.route.snapshot.paramMap.get('title');
+    this.documentService.assignReviewer(title, email);
+  }
+
+  homepage() {
+    this.router.navigate(["/homepage"]);
   }
 }

@@ -4,6 +4,7 @@ import { DocumentSearchTextService } from '../services/document-search-text.serv
 import { HttpClient } from '@angular/common/http';
 import { PublicationDTO } from '../model/publicationDTO';
 import { DocumentService } from '../services/document.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-editor-document-manager',
@@ -18,15 +19,13 @@ export class EditorDocumentManagerComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient, private documentService: DocumentService) { }
 
   ngOnInit() {
-    debugger;
-    if (this.router.url === "/editor-document-manager") {
-      this.getDocuments();
-    }
+    this.getDocuments();
   }
 
-  getDocuments(){
+  getDocuments() {
+    var status = "UPLOADED"
     this.documentService.documentsObservable.subscribe(documents => this.documents = documents);
-    this.documentService.findAll();
+    this.documentService.findAllByStatus(status);
   }
   /*
   search() {
@@ -35,33 +34,43 @@ export class EditorDocumentManagerComponent implements OnInit {
   }
   */
   openDocument(title) {
+    title = title.split(' ').join('_');
     this.router.navigate(["/document-view/" + title]);
     //Redirektuj na stranicu za prikaz dokumenta... path/documentTitle
   }
 
-  viewReviews(title){
+  viewReviews(title) {
+    title = title.split(' ').join('_');
     this.router.navigate(["/document-reviews/" + title]);
   }
 
-  assignReviewer(title){
+  assignReviewer(title) {
+    title = title.split(' ').join('_');
     this.router.navigate(["/assign-reviewer/" + title]);
   }
 
   //TODO
-  acceptDocument(title){
+  acceptDocument(title) {
+    title = title.split(' ').join('_');
+    this.documentService.acceptPublication(title);
     alert("Accept document")
   }
-  minorRevision(title){
+
+  minorRevision(title) {
+    title = title.split(' ').join('_');
     alert("Minor revision document")
   }
-  majorRevision(title){
+
+  majorRevision(title) {
+    title = title.split(' ').join('_');
     alert("Major revision document")
   }
-  rejectDocument(title){
+  rejectDocument(title) {
+    title = title.split(' ').join('_');
+    this.documentService.rejectPublication(title);
     alert("Reject document")
   }
 
-  
   cancel() {
     this.router.navigate(["/homepage"]);
   }
