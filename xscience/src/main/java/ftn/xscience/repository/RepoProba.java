@@ -84,16 +84,16 @@ public class RepoProba {
 			System.out.println("[INFO] ");
 
 			// Referencing XML file with RDF data in attributes
-			String xmlFilePath = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\xml\\publication.xml";
+			String xmlFilePath = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\xml\\publication3.xml";
 
-			String rdfFilePath = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.rdf";
+			String rdfFilePath = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication3.rdf";
 
 			// Automatic extraction of RDF triples from XML file
 			MetadataExtractor metadataExtractor = new MetadataExtractor();
-
 			System.out.println("[INFO] Extracting metadata from RDFa attributes...");
 			metadataExtractor.extractMetadata(new FileInputStream(new File(xmlFilePath)),
 					new FileOutputStream(new File(rdfFilePath)));
+			
 
 			// Loading a default model with extracted metadata
 			Model model = ModelFactory.createDefaultModel();
@@ -141,60 +141,8 @@ public class RepoProba {
 		}
 		
 		//-----------------------------------SPARQL PROBA----------------------------------------------
-		public TUser sparqlProba() throws IOException {
-			String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
-			ConnectionProperties conn = AuthenticationUtilities.loadProperties();
-			String sparqlFilePath = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\sparql\\query1.rq";
-
-			// Querying the named graph with a referenced SPARQL query
-			System.out.println("[INFO] Loading SPARQL query from file \"" + sparqlFilePath + "\"");
-			String sparqlQuery = String.format(FileUtil.readFile(sparqlFilePath, StandardCharsets.UTF_8),
-					conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI);
-
-			System.out.println(sparqlQuery);
-
-			// Create a QueryExecution that will access a SPARQL service over HTTP
-			QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
-
-			// Query the SPARQL endpoint, iterate over the result set...
-			System.out.println("[INFO] Showing the results for SPARQL query using the result handler.\n");
-			ResultSet results = query.execSelect();
-
-			String varName;
-			RDFNode varValue;
-
-			while (results.hasNext()) {
-
-				// A single answer from a SELECT query
-				QuerySolution querySolution = results.next();
-				Iterator<String> variableBindings = querySolution.varNames();
-
-				// Retrieve variable bindings
-				while (variableBindings.hasNext()) {
-
-					varName = variableBindings.next();
-					varValue = querySolution.get(varName);
-
-					System.out.println(varName + ": " + varValue);
-				}
-				System.out.println();
-			}
-
-			// Issuing the same query once again...
-
-			// Create a QueryExecution that will access a SPARQL service over HTTP
-			query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
-
-			// Query the collection, dump output response as XML
-			System.out.println("[INFO] Showing the results for SPARQL query in native SPARQL XML format.\n");
-			results = query.execSelect();
-
-			// ResultSetFormatter.outputAsXML(System.out, results);
-			ResultSetFormatter.out(System.out, results);
-
-			query.close();
-
-			System.out.println("[INFO] End.");
+		public TUser sparqlProba(String sparqlQuery) throws IOException {
+	
 			return null;
 		}
 

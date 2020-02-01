@@ -2,19 +2,19 @@
 <Publication xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns="https://www.xscience.com/data/publication.xsd"
     xmlns:pred="https://www.xscience.com/data/publication/predicate/"
-    about = "https://www.xscience.com/db/data/publication/1"
+    about = "https://www.xscience.com/db/data/publication/3"
     vocab="https://www.xscience.com/data/publication/predicate/"
     >
     <MetaData>
-        <field_of_study property = "pred:fieldStudy">Field Study</field_of_study>
+        <field_of_study property = "pred:fieldStudy">Algorithms</field_of_study>
         <paper_type property = "pred:paperType">RESEARCH_PAPER</paper_type>
-        <received property = "pred:dateReceived">2010-09-24</received>
-        <revisied property = "pred:dateRevisied">2010-10-24</revisied>
-        <accepted property = "pred:dateAccepted">2010-11-24</accepted>
-        <status property = "pred:status">ACCEPTED</status>
+        <received property = "pred:dateReceived">2010-09-30</received>
+        <revisied property = "pred:dateRevisied">2010-10-27</revisied>
+        
+        <status property = "pred:status">REJECTED</status>
         <keywords>
-            <keyword property = "pred:keyword">machine learning</keyword>
-            <keyword property = "pred:keyword">neural network</keyword>
+            <keyword property = "pred:keyword">A*</keyword>
+            <keyword property = "pred:keyword">path finding</keyword>
         </keywords>
     </MetaData>
     <Title>Facial Recognition</Title>
@@ -49,8 +49,8 @@
             <Paragraph_content>
                 asfqwfqwfqwdqwdqwd
                 <Quote>
-                   <Source>Source za Qoute</Source> 
-                   <Quote_content>Qoute content u contentu paragrafa</Quote_content>
+                    <Source>Source za Qoute</Source> 
+                    <Quote_content>Qoute content u contentu paragrafa</Quote_content>
                 </Quote>
                 <Figure>
                     <Description>Description za Figures</Description>

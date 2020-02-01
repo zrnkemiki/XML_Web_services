@@ -1,6 +1,6 @@
 # Retrieves persons and their hobbies, professions and locations.
 
 SELECT * FROM <%s>
-WHERE { 
-	?publication <https://www.xscience.com/data/publication/predicate/authoredBy> ?authoredBy .
+WHERE {
+	{?publication <https://www.xscience.com/data/publication/predicate/fieldStudy> "Algorithms"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.}UNION{?publication <https://www.xscience.com/data/publication/predicate/paperType> "RESEARCH_PAPER"^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.}
 }
