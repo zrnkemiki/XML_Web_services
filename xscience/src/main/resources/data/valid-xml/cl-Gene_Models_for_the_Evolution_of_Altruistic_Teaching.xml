@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CoverLetter id="idvalue0" submissionDate="2001-01-01" xmlns="https://www.xscience.com/data/coverLetter.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/coverLetter.xsd ../xsd/coverLetter.xsd ">
+  <PublicationTitle>PublicationTitle</PublicationTitle>
+  <Editor>Editor Editic</Editor>
+  <Journal>Biology Magazine</Journal>
+  <Author>
+    <pbl:Name>
+      <pbl:FirstName>Kenichi</pbl:FirstName>
+      <pbl:LastName>Aoki</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>Meiji University</pbl:University>
+      <pbl:City>Tokyo</pbl:City>
+      <pbl:Country>Japan</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>KAOKI@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </Author>
+  <CorrsepondingAuthor>
+    <pbl:Name>
+      <pbl:FirstName>Philip</pbl:FirstName>
+      <pbl:LastName>Gallagher</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:Organization>University of San Diego</pbl:Organization>
+      <pbl:State>California</pbl:State>
+      <pbl:City>San Diego</pbl:City>
+      <pbl:Country>United States</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>PGALAGHER@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </CorrsepondingAuthor>
+  <Content>
+    <CLSection>
+    Am if number no up period regard sudden better. Decisively surrounded all admiration and not you. Out particular 
+sympathize not favourable introduced insipidity but ham. Rather number can and set praise. Distrusts an it contented 
+perceived attending oh. Thoroughly estimating introduced stimulated why but motionless.
+    </CLSection>
+    <CLSection>
+Marianne or husbands if at stronger ye. Considered is as middletons uncommonly. Promotion perfectly ye consisted so. 
+His chatty dining for effect ladies active. Equally journey wishing not several behaved chapter she two sir. Deficient 
+procuring favourite extensive you two. Yet diminution she impossible understood age.     
+    </CLSection>
+  </Content>
+</CoverLetter>

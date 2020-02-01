@@ -16,9 +16,9 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import ftn.xscience.model.ObjectFactory;
-import ftn.xscience.model.TPublication;
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.ObjectFactory;
+import ftn.xscience.model.publication.Publication;
+import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.UserRepository;
 import ftn.xscience.utils.dom.DOMParser;
@@ -93,7 +93,7 @@ public class PublicationService {
 		
 	}
 	
-	public List<TPublication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
+	public List<Publication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
 		
 		List<String> searchKeywords = new ArrayList<String>(searchParams.values());
 		String wholePhrase = "";
@@ -106,24 +106,25 @@ public class PublicationService {
 		List<XMLResource> searchResult = null;
 		searchResult = publicationRepository.searchPublications(searchKeywords, status);
 		
-		List<TPublication> found = new ArrayList<TPublication>();
+		List<Publication> found = new ArrayList<Publication>();
 		
 		for (XMLResource res : searchResult) {
-			TPublication p = publicationRepository.unmarshal(res);
+			Publication p = publicationRepository.unmarshal(res);
 			found.add(p);
 		}
 			
 		return found;
 	}
 	
-	public List<TPublication> getPublicationsByStatus(String status) throws JAXBException, XMLDBException {
+	public List<Publication> gePublicationsByStatus(String status) throws JAXBException, XMLDBException {
 		List<XMLResource> foundResources = publicationRepository.getPublicationsByStatus(status);
-		List<TPublication> foundPublications = new ArrayList<TPublication>();
-		TPublication p = null;
+		List<Publication> foundPublications = new ArrayList<Publication>();
+		Publication p = null;
 		for (XMLResource res : foundResources) {
 			p = publicationRepository.unmarshal(res);
 			foundPublications.add(p);
 		}
+		
 		
 		return foundPublications;
 		

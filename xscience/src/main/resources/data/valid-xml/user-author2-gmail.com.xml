@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd ../xsd/user.xsd ">
+  <Role>ROLE_AUTHOR</Role>
+  <Username>KAOKI@GMAIL.COM</Username>
+  <Password>author123</Password>
+  <PersonalInformation>
+    <pbl:Name>
+      <pbl:FirstName>Kenichi</pbl:FirstName>
+      <pbl:LastName>Aoki</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>Meiji University</pbl:University>
+      <pbl:City>Tokyo</pbl:City>
+      <pbl:Country>Japan</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>KAOKI@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </PersonalInformation>
+  <Expertises>
+    <Expertise>Chemistry</Expertise>
+    <Expertise>Biology</Expertise>
+    <Expertise>Evolution</Expertise>
+  </Expertises>
+  <Publications>
+    <PublicationID>rad2</PublicationID>
+  </Publications>
+  <PublicationsForReview/>
+</User>

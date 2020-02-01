@@ -21,7 +21,7 @@ import org.xmldb.api.base.XMLDBException;
 import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_KEYWORDS;
 
 import ftn.xscience.dto.UserDTO;
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.ReviewRepository;
 import ftn.xscience.repository.UserRepository;
@@ -78,7 +78,7 @@ public class ReviewService {
 		
 		TUser validUser = validator.validate(token);
 		
-		TUser reviewer = userRepository.getUserByEmail(validUser.getEmail());
+		TUser reviewer = userRepository.getUserByEmail(validUser.getUsername());
 		
 		JAXBElement<String> forRemove = null;
 	
@@ -94,7 +94,7 @@ public class ReviewService {
 		}
 		reviewer.getPublicationsForReview().getForReviewID().remove(forRemove);
 		String xmlReviewer = userRepository.marshal(reviewer);
-		userRepository.updateUser(xmlReviewer, reviewer.getEmail());
+		userRepository.updateUser(xmlReviewer, reviewer.getUsername());
 	}
 
 	public List<UserDTO> reviewerSuggestionAlg(String documentId) throws XMLDBException, JAXBException {

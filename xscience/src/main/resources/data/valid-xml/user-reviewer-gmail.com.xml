@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd user.xsd ">
-  <role>ROLE_REVIEWER</role>
-  <email>REVIEWER@GMAIL.COM</email>
-  <password>reviewer123</password>
-  <first_name>Revijer</first_name>
-  <middle-name>Rev</middle-name>
-  <last-name>Revijic</last-name>
-  <expertises>
-    <expertise>Biology</expertise>
-  </expertises>
-  <publications_for_review>
-    <for_reviewID>Face_Recognition</for_reviewID>
-  </publications_for_review>
+<User xmlns="https://www.xscience.com/data/user.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/user.xsd ../xsd/user.xsd ">
+  <Role>ROLE_REVIEWER</Role>
+  <Username>REVIEWER@GMAIL.COM</Username>
+  <Password>reviewer123</Password>
+  <PersonalInformation>
+    <pbl:Name>
+      <pbl:FirstName>Revjuer1</pbl:FirstName>
+      <pbl:LastName>Revjuic1</pbl:LastName>
+    </pbl:Name>
+    <pbl:Affiliation>
+      <pbl:University>MIT</pbl:University>
+      <pbl:State>Massachusetts</pbl:State>
+      <pbl:City>Boston</pbl:City>
+      <pbl:Country>United States</pbl:Country>
+    </pbl:Affiliation>
+    <pbl:AcademicDegree>PhD</pbl:AcademicDegree>
+    <pbl:Email>REVIEWER@GMAIL.COM</pbl:Email>
+    <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
+    <pbl:Signature>MA==</pbl:Signature>
+  </PersonalInformation>
+  <Expertises>
+    <Expertise>Chemistry</Expertise>
+    <Expertise>Biology</Expertise>
+    <Expertise>Machine learning</Expertise>
+  </Expertises>
+  <Publications>
+    <PublicationID>rad_revjuerov</PublicationID>
+  </Publications>
+  <PublicationsForReview>
+  	<ForReviewID>for_review</ForReviewID>
+  </PublicationsForReview>
 </User>

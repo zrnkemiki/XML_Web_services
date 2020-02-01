@@ -26,7 +26,7 @@ import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.dto.UserDTO;
-import ftn.xscience.model.TPublication;
+import ftn.xscience.model.publication.Publication;
 import ftn.xscience.service.PublicationService;
 import ftn.xscience.service.ReviewService;
 import ftn.xscience.utils.dom.DOMParser;
@@ -63,14 +63,14 @@ public class PublicationController {
 		System.out.println(params);
 		// prosledjuje se kakav status treba da bude zavisno od korisnika i sta mu treba
 		String status = "ACCEPTED";
-		List<TPublication> found = publicationService.searchPublications(params, status);
+		List<Publication> found = publicationService.searchPublications(params, status);
 		System.out.println("===============\ndokumenti u kojima se nalazi pojam: \n");
 		System.out.println(found.size());
 		//VRATI MI PUBLICATION<>
 		ArrayList<PublicationDTO> publications = new ArrayList<>();
 		
 		if(found.size()!=0) {
-			for (TPublication publication : found) {
+			for (Publication publication : found) {
 				PublicationDTO temp = new PublicationDTO(publication);
 				publications.add(temp);
 			}

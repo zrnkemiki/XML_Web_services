@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ftn.xscience.dto.UserCredentials;
 import ftn.xscience.exception.UnmarshallingUserException;
 import ftn.xscience.exception.UserNotFoundException;
-import ftn.xscience.model.TUser;
+import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.UserRepository;
 
 @Service

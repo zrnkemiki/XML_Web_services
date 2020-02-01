@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Publication about="" id="pub2" language="en-US" version="1" vocab="" xmlns="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publication.xsd ">
+  <MetaData>
+    <FieldOfStudy property="pred:fieldOfStudy">Biology</FieldOfStudy>
+    <PaperType property="pred:paperType">RESEARCH_PAPER</PaperType>
+    <Recieved property="pred:recieved">2019-01-01</Recieved>
+    <Revised property="pred:revised">1000-01-01</Revised>
+    <Accepted property="pred:accepted">1000-01-11</Accepted>
+    <Status property="pred:status">UPLOADED</Status>
+    <Keywords>
+      <Keyword property="pred:keyword">Genes</Keyword>
+      <Keyword property="pred:keyword">Evolution</Keyword>
+      <Keyword property="pred:keyword">Biology</Keyword>
+      <Keyword property="pred:keyword">Physiology</Keyword>
+      <Keyword property="pred:keyword">Altruistic Teaching</Keyword>
+    </Keywords>
+  </MetaData>
+  <Title property="pred:title">Gene Models for the Evolution of Altruistic Teaching</Title>
+  <Author href="" rel="pred:authoredBy">
+    <Name>
+      <FirstName>Kenichi</FirstName>
+      <LastName>Aoki</LastName>
+    </Name>
+    <Affiliation>
+      <University>Meiji University</University>
+      <City>Tokyo</City>
+      <Country>Japan</Country>
+    </Affiliation>
+    <AcademicDegree>PhD</AcademicDegree>
+    <Email>KAOKI@GMAIL.COM</Email>
+    <PhoneNumber>+12312312312312312312</PhoneNumber>
+    <Signature>BA==</Signature>
+  </Author>
+  <Abstract>
+    <Content>
+    	We find that evolution of teaching is disfavored by temporal environmental variability, 
+but sometimes favored under conditions in which the adaptive phenotype can be maintained in the population 
+in the absence of teaching. We also find that the balance between the fitness costs of teaching and the benefit 
+associated with the adaptive phenotype may permit the coexistence of teachers and nonteachers. When teaching is 
+biparental, both the teaching gene and the cultural trait that is taught may remain polymorphic. In addition, we 
+briefly consider the effects of oblique (intergenerational) and horizontal (intragenerational) cultural transmission 
+occurring after vertical transmission, which likely characterizes the developmental pattern of social learning in present-day 
+hunter-gatherers.
+    </Content>
+  </Abstract>
+  <Content>
+    <Paragraph id="p1.1" level="1">
+      <ParagraphTitle>Introduction</ParagraphTitle>
+      <ParagraphContent>
+      By examining the evidence of plant exploitation and eventual cultivation practiced by Late Pleistocene and Early Holocene foragers in 
+regions where the information is sufficiently detailed, together with the nature of their habitation sites, one can trace the common 
+processes for the transition from hunting and gathering to farming communities who continued to exploit supplementary wild resources.
+      </ParagraphContent>
+    </Paragraph>
+    <Paragraph id="p2.1" level="1">
+      <ParagraphTitle>Idea Evolution</ParagraphTitle>
+      <ParagraphContent>
+        Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. 
+Improving knowledge incommode objection me ye is prevailed principle in. 
+Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if.
+		<Style>
+			<Italic>interested stimulated dissimilar. To matter</Italic>
+		</Style>
+		andd no inhabit ferrars it ye besides resolve
+      </ParagraphContent>
+    </Paragraph>
+    <Paragraph id="p3.1" level="1">
+      <ParagraphTitle>Conclusion</ParagraphTitle>
+      <ParagraphContent>
+        How promotion excellent curiosity yet attempted happiness. Gay prosperous impression had conviction. For every delay death ask style. 
+Me mean able my by in they. Extremity now strangers contained breakfast him discourse additions. Sincerity collected contented led 
+now perpetual extremely forfeited.
+		<Table>
+			<Description>Opis tabele</Description>
+			<Row>
+				<Cell>prva celija prvi red</Cell>
+				<Cell>druga celija prvi red</Cell>
+			</Row>
+			<Row>
+				<Cell>prva celija drugi rec</Cell>
+				<Cell>druga celija drugi red</Cell>
+			</Row>
+		</Table>
+		tekst posle tabele da se razdvoji malo moze...........
+		
+		<Figure>
+			<Description></Description>
+			<Image>MA==</Image>
+		</Figure>
+		<Quote>
+			<Source>Izvor neki npr www.gooogle.com/images/awfqwgqwf</Source>
+			<QuoteContent>ovo je neki quote primer da bude italic</QuoteContent>
+		</Quote>
+      </ParagraphContent>
+    </Paragraph>
+
+  </Content>
+  <References>
+    <Reference href="xs:string" id="ref1" rel="pred:reference">
+      <Author>Michael O. Bryant</Author>
+      <Year>2013</Year>
+      <Title>Biology Journal</Title>
+      <Place>Paris, France</Place>
+      <ReferenceType>JOURNAL_REFERENCE</ReferenceType>
+      <Pages>132</Pages>
+    </Reference>
+    <Reference>
+    	<Author>Mat Wilander</Author>
+    	<Year>2003</Year>
+    	<Title>Physiology Encyclopedia</Title>
+    	<Place>Boston, USA</Place>
+    	<BookEditor>John Isner</BookEditor>
+    	<ReferenceType>BOOK_CHAPTER_REFERENCE</ReferenceType>
+    	<ChapterTitle>Gene Models</ChapterTitle>
+    	<Pages>132-257</Pages>
+    	<VolumeIssue>Vol.11</VolumeIssue>
+    </Reference>
+  </References>
+  <Corresponding_author href="" rel="pred:mentoredBy">
+    <Name>
+      <FirstName>Philip</FirstName>
+      <LastName>Gallagher</LastName>
+    </Name>
+    <Affiliation>
+      <University>University of San Diego</University>
+      <State>California</State>
+      <City>San Diego</City>
+      <Country>United States</Country>
+    </Affiliation>
+    <AcademicDegree>PhD</AcademicDegree>
+    <Email>PHGALAGHER@GMAIL.COM</Email>
+    <PhoneNumber>+12312312312312312312</PhoneNumber>
+    <Signature>MA==</Signature>
+  </Corresponding_author>
+</Publication>
