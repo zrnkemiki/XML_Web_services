@@ -59,14 +59,15 @@ public class PublicationController {
 	
 	@GetMapping(value = "/getAll/{status}")
 	public ResponseEntity<?> getPublicationByStatus(@PathVariable("status") String status) throws JAXBException, XMLDBException {
-		List<TPublication> publications = publicationService.getPublicationsByStatus(status);
+		List<Publication> publications = publicationService.getPublicationsByStatus(status);
+		
 		System.out.println("===============\ndokumenti u koji su uploaded: \n");
 		System.out.println(publications.size());
 		ArrayList<PublicationDTO> publicationsDTO = new ArrayList<>();
 		
 		if(publications.size()!=0) {
 			System.out.println(publications.get(0).getTitle());
-			for (TPublication publication : publications) {
+			for (Publication publication : publications) {
 				PublicationDTO temp = new PublicationDTO(publication);
 				publicationsDTO.add(temp);
 			}

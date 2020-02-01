@@ -116,7 +116,7 @@ public class PublicationService {
 		return found;
 	}
 	
-	public List<Publication> gePublicationsByStatus(String status) throws JAXBException, XMLDBException {
+	public List<Publication> getPublicationsByStatus(String status) throws JAXBException, XMLDBException {
 		List<XMLResource> foundResources = publicationRepository.getPublicationsByStatus(status);
 		List<Publication> foundPublications = new ArrayList<Publication>();
 		Publication p = null;
