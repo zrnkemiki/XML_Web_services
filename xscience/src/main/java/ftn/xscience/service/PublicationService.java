@@ -11,13 +11,16 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import ftn.xscience.model.user.ObjectFactory;
+import ftn.xscience.exception.DocumentNotFoundException;
+import ftn.xscience.exception.UnmarshallingException;
 import ftn.xscience.model.publication.Publication;
+import ftn.xscience.model.user.ObjectFactory;
 import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.UserRepository;
@@ -42,11 +45,12 @@ public class PublicationService {
 	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/publication.xsd";
 	
-	public String savePublication(String publicationXml) throws SAXException, ParserConfigurationException, IOException, XMLDBException {
+	public String savePublication(MultipartFile publicationFile) throws SAXException, ParserConfigurationException, IOException, XMLDBException {
 		String contextPath = context.getRealPath("/");
 		
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
 		
+		String publicationXml = new String(publicationFile.getBytes());
 		Document publication = domParser.buildDocument(publicationXml, schemaPath);
 		
 		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
@@ -128,6 +132,34 @@ public class PublicationService {
 		
 		return foundPublications;
 		
+	}
+	
+	
+	// TO-DO
+	public List<Publication> getMyDocuments(TUser user) {
+		List<Publication> found = new ArrayList<Publication>();
+		
+		// iscupaj iz rdf baze sve authoredBy: user.getUsername() --> vraca id-eve publikacija
+		List<String> publicationIDs = new ArrayList<String>();
+		
+		
+		for (String publicationID : publicationIDs) {
+			// hendlaj string da bude u formatu kao u bazi:
+			// Face_Detection_Recognition.xml
+			try {
+				Publication p = publicationRepository.getPublication(publicationID);
+				found.add(p);
+			} catch (XMLDBException e) {
+				throw new DocumentNotFoundException("[custom err] Document [" + publicationID + "] not found!\n[original] " + e.getMessage());
+			} catch (JAXBException e) {
+				throw new UnmarshallingException("[custom err] Unmarshalling publication [" + publicationID + "] failed!\n[original] " + e.getMessage());
+				
+			} 
+			
+		}
+		
+		
+		return found;
 	}
 	
 

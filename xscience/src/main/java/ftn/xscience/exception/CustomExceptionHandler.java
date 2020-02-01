@@ -38,6 +38,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ExceptionResponse>(response, e.getHttpStatus());
 	}
 	
+	@ExceptionHandler(UnmarshallingException.class)
+	public ResponseEntity<ExceptionResponse> handleUnmarshallingException(UnmarshallingException e) {
+		ExceptionResponse response = new ExceptionResponse(e.getMessage());
+		return new ResponseEntity<ExceptionResponse>(response, e.getHttpStatus());
+	}
+	
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException e) {
 		ExceptionResponse response = new ExceptionResponse(e.getMessage());
@@ -49,4 +55,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		ExceptionResponse response = new ExceptionResponse(e.getMessage());
 		return new ResponseEntity<ExceptionResponse>(response, e.getHttpStatus());
 	}
+	
+
 }

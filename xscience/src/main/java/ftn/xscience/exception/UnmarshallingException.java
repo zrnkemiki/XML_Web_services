@@ -2,7 +2,7 @@ package ftn.xscience.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class UnmarshallingUserException extends RuntimeException{
+public class UnmarshallingException extends RuntimeException{
 
 	/**
 	 * 
@@ -10,7 +10,7 @@ public class UnmarshallingUserException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 	private HttpStatus httpStatus;
 	
-	public UnmarshallingUserException(String message) {
+	public UnmarshallingException(String message) {
 		super(message);
 		httpStatus = HttpStatus.CONFLICT;
 	}
