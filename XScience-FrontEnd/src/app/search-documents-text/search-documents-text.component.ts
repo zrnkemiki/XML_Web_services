@@ -77,5 +77,7 @@ export class SearchDocumentsTextComponent implements OnInit {
     this.loginService.logout();
     location.reload()
   }
-
+  myReviews() {
+    this.router.navigate(["my-reviews"]);
+  }
 }

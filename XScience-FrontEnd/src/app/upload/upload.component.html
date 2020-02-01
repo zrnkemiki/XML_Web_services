@@ -21,42 +21,60 @@
 
   <nav class="navbar fixed-top navbar-inverse">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="nav-item">
-                    <button type="button" (click)="searchDocumentsText()" class="btn btn-success">Search
-                        documents</button>
-                    <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
-                        Documents by Metadata</button>
-                    <button type="button"
-                        *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'"
-                        (click)="myDocuments()" class="btn btn-success">My Documents</button>
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="uploadPublication()"
-                        class="btn btn-success">Upload Publication</button>
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
-                        class="btn btn-success">Documents for approval</button>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log
-                    in</button>
-                <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log
-                    out</button>
-            </ul>
-        </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="nav-item">
+            <button type="button" (click)="searchDocumentsText()" class="btn btn-success">Search
+              documents</button>
+            <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
+              Documents by Metadata</button>
+            <button type="button"
+              *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'"
+              (click)="myDocuments()" class="btn btn-success">My Documents</button>
+            <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="uploadPublication()"
+              class="btn btn-success">Upload Publication</button>
+            <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
+              class="btn btn-success">Documents for approval</button>
+            <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'"
+              (click)="myReviews()" class="btn btn-success">Documents for my review</button>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log
+            in</button>
+          <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log
+            out</button>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
 
 
   <div class="container">
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <h3>Choose Document</h3>
+        <h3>Choose Publication</h3>
         <div class="form-group">
-          <input type="file" name="document" (change)="fileProgress($event)" />
+          <input type="file" name="document" (change)="fileProgressPublication($event)" />
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+          <button class="btn btn-primary" (click)="onSubmitPublication()">Submit Publication</button>
+          <button class="btn btn-primary" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h3>Choose Cover Letter</h3>
+        <div class="form-group">
+          <input type="file" name="document" (change)="fileProgressCoverLetter($event)" />
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" (click)="onSubmitCoverLetter()">Submit CoverLetter</button>
           <button class="btn btn-primary" (click)="cancel()">Cancel</button>
         </div>
       </div>

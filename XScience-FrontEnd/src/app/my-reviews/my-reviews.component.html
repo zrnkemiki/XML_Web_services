@@ -31,9 +31,8 @@
                             class="btn btn-success">Upload Publication</button>
                         <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
                             class="btn btn-success">Documents for approval</button>
-                        <button type="button"
-                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'"
-                            (click)="myReviews()" class="btn btn-success">Documents for my review</button>
+                        <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVIEWER'" (click)="myReviews()"
+                            class="btn btn-success">Documents for my review</button>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -52,7 +51,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>My <b>Documents</b></h2>
+                        <h2>Documents for my <b>Review</b></h2>
                     </div>
                     <div class="search-box">
                         <form class="form-inline md-form mr-auto mb-4">
@@ -80,8 +79,12 @@
                             {{document.status}}
                         </td>
                         <td>
+                            <button (click)='declineReview(document.title)' type="button" class="btn btn-danger">Decline
+                                review</button>
                             <button (click)='openDocument(document.title)' type="button"
-                                class="btn btn-danger">Open</button>
+                                class="btn btn-success">Open</button>
+                            <button (click)='writeReview(document.title)' type="button" class="btn btn-success">Write
+                                review</button>
                         </td>
                     </tr>
 

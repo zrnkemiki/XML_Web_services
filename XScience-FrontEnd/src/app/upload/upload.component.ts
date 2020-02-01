@@ -20,37 +20,53 @@ export class UploadComponent implements OnInit {
   private currentUserEmail: string;
   constructor(private http: HttpClient, private router: Router, private loginService: LoginService) { }
 
-  fileData: File = null;
+  filePublication: File = null;
+  fileCoverLetter: File = null;
   previewUrl: any = null;
   fileUploadProgress: string = null;
   uploadedFilePath: string = null;
 
-  fileProgress(fileInput: any) {
-    this.fileData = <File>fileInput.target.files[0];
+  fileProgressPublication(fileInput: any) {
+    this.filePublication = <File>fileInput.target.files[0];
+    //this.preview();
+  }
+
+  fileProgressCoverLetter(fileInput: any) {
+    this.fileCoverLetter = <File>fileInput.target.files[0];
     //this.preview();
   }
 
   preview() {
     // Show preview 
-    var mimeType = this.fileData.type;
+    var mimeType = this.filePublication.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
 
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.filePublication);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
     }
   }
 
-  onSubmit() {
+  onSubmitPublication() {
     const formData = new FormData();
-    formData.append('file', this.fileData);
+    formData.append('file', this.filePublication);
     this.http.post('http://localhost:9000/xscience/publication/rest/uploadPublication', formData)
       .subscribe(res => {
         console.log(res);
-        alert('SUCCESS !!');
+        alert('successfully UPLOADED PUBLICATION !!');
+      })
+  }
+
+  onSubmitCoverLetter() {
+    const formData = new FormData();
+    formData.append('file', this.fileCoverLetter);
+    this.http.post('http://localhost:9000/xscience/coverletter/rest/uploadCoverLetter', formData)
+      .subscribe(res => {
+        console.log(res);
+        alert('successfully UPLOADED COVER LETTER !!');
       })
   }
 
@@ -66,15 +82,15 @@ export class UploadComponent implements OnInit {
     }
   }
 
-
   searchDocumentsText() {
     this.router.navigate(["search-documents-text"]);
   }
-  searchDocumentsMetadata() {
-    this.router.navigate(["search-documents-metadata"]);
-  }
+
   uploadPublication() {
     this.router.navigate(["upload-publication"]);
+  }
+  searchDocumentsMetadata() {
+    this.router.navigate(["search-documents-metadata"]);
   }
 
   myDocuments() {
@@ -91,6 +107,9 @@ export class UploadComponent implements OnInit {
   logout() {
     this.loginService.logout();
     location.reload()
+  }
+  myReviews(){
+    this.router.navigate(["my-reviews"]);
   }
 
 

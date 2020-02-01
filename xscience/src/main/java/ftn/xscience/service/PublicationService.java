@@ -49,7 +49,7 @@ public class PublicationService {
 		
 		Document publication = domParser.buildDocument(publicationXml, schemaPath);
 		
-		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent();
+		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
 		
 		
 		// extract metadata FIRST

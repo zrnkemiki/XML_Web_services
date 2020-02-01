@@ -44,6 +44,9 @@ export class HomepageComponent implements OnInit {
 */
   
   //TESTIRANJE!
+  myReviews(){
+    this.router.navigate(["my-reviews"]);
+  }
   searchDocumentsMetadata() {
     this.router.navigate(["search-documents-metadata"]);
   }

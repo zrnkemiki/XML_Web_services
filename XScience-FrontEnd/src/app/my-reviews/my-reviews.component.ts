@@ -1,29 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { ReviewDTO } from '../model/reviewDTO';
-import { Route } from '@angular/compiler/src/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DocumentService } from '../services/document.service';
-import { ReviewService } from '../services/review.service';
+import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import { ReviewService } from '../services/review.service';
+import { PublicationDTO } from '../model/publicationDTO';
+import { DocumentService } from '../services/document.service';
 
 @Component({
-  selector: 'app-document-reviews',
-  templateUrl: './document-reviews.component.html',
-  styleUrls: ['./document-reviews.component.css']
+  selector: 'app-my-reviews',
+  templateUrl: './my-reviews.component.html',
+  styleUrls: ['./my-reviews.component.css']
 })
-export class DocumentReviewsComponent implements OnInit {
-  public reviews: ReviewDTO[];
-  public documentTitle: string;
-
+export class MyReviewsComponent implements OnInit {
+  public documents: PublicationDTO[];
   private currentUserRole: string;
   private currentUserEmail: string;
-  constructor(private router: Router, private route: ActivatedRoute, private reviewService: ReviewService, private loginService: LoginService) { }
+  constructor(private router: Router, private loginService: LoginService, private reviewService: ReviewService, private documentService: DocumentService) { }
 
   ngOnInit() {
     this.getCurrentUser();
-    const title = this.route.snapshot.paramMap.get('title');
-    this.getReviews(title)
+    this.getDocumentsForReview();
   }
+
+  getDocumentsForReview(){
+    this.documentService.documentsObservable.subscribe(documents => this.documents = documents);
+    this.documentService.getDocumentsForMyReview();
+  }
+
   getCurrentUser() {
     if (localStorage.getItem('currentUser') != null) {
       const currentUser: any = this.loginService.currentUserValue;
@@ -31,10 +33,21 @@ export class DocumentReviewsComponent implements OnInit {
       this.currentUserEmail = currentUser.email;
     }
   }
-  getReviews(documentTitle) {
-    this.reviewService.reviewsObservable.subscribe(reviews => this.reviews = reviews);
-    this.reviewService.findReviewsByDocument(documentTitle);
+
+  declineReview(title: any){
+    this.reviewService.declineReviewRequest(title);
+    //REVEWER NE ZELI DA RADI REVIEW
   }
+
+  openDocument(title:any){
+    //to view in browser
+  }
+
+  writeReview(title:any){
+    //write review for TITLE document
+  }
+
+
 
   searchDocumentsText() {
     this.router.navigate(["search-documents-text"]);
@@ -65,4 +78,5 @@ export class DocumentReviewsComponent implements OnInit {
   myReviews(){
     this.router.navigate(["my-reviews"]);
   }
+
 }

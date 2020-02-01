@@ -31,6 +31,10 @@
                             class="btn btn-success">Upload Publication</button>
                         <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
                             class="btn btn-success">Documents for approval</button>
+
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'"
+                            (click)="myReviews()" class="btn btn-success">My Reviews</button>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
