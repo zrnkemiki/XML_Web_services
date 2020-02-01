@@ -11,11 +11,13 @@ export class ReviewService {
   reviewsObservable = this.reviewsSource.asObservable();
   private reviews = [];
 
+  private reviewUri = "http://localhost:9000/xscience/review/";
+
 
   constructor(private http: HttpClient) { }
 
   findReviewsByDocument(documentTitle){
-    this.http.get<ReviewDTO[]>("http://localhost:9000/xscience/review/" + documentTitle)
+    this.http.get<ReviewDTO[]>(this.reviewUri + documentTitle)
     .subscribe(reviews => {
       this.reviews = reviews;
       this.reviewsSource.next(this.reviews);

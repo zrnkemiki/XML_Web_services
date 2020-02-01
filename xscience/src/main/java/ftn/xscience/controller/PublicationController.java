@@ -143,6 +143,7 @@ public class PublicationController {
 	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")
 	public ResponseEntity<?> acceptPublication(@PathVariable("id") String documentId) throws XMLDBException {
+		System.out.println("Usao sam ovde!");
 		publicationService.acceptPublication(documentId);
 		
 		

@@ -42,22 +42,10 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(["/search-documents-metadata"]);
   }
 */
-  login() {
-    this.router.navigate(["/login"]);
-  }
-
-  logout() {
-    this.loginService.logout();
-    location.reload()
-  }
+  
   //TESTIRANJE!
   searchDocumentsMetadata() {
-    const currentUser: any = this.loginService.currentUserValue;
-    this.currentUserToken = currentUser.jwtToken;
-    alert("Ovo je user-ov JWTtoken  " + this.currentUserToken);
-    this.http.get<any>('http://localhost:9000/xscience/rest/testiranje').subscribe(data => {
-            this.totalAngularPackages = data.total;
-        })
+    this.router.navigate(["search-documents-metadata"]);
   }
 
   searchDocumentsText() {
@@ -73,6 +61,15 @@ export class HomepageComponent implements OnInit {
   }
   documentsForApproval(){
     this.router.navigate(["editor-document-manager"]);
+  }
+
+  login() {
+    this.router.navigate(["/login"]);
+  }
+
+  logout() {
+    this.loginService.logout();
+    location.reload()
   }
   
 

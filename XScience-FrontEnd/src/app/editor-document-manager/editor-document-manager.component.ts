@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { PublicationDTO } from '../model/publicationDTO';
 import { DocumentService } from '../services/document.service';
 import { stringify } from 'querystring';
+import { User } from '../model/user';
+import { UserService } from '../services/user.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-editor-document-manager',
@@ -15,11 +18,23 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   searchWord: string;
   public documents: PublicationDTO[];
+  private currentUserRole: string;
+  private currentUserEmail: string;
 
-  constructor(private router: Router, private http: HttpClient, private documentService: DocumentService) { }
+
+  constructor(private router: Router, private http: HttpClient, private documentService: DocumentService, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.getCurrentUser();
     this.getDocuments();
+  }
+
+  getCurrentUser() {
+    if (localStorage.getItem('currentUser') != null) {
+      const currentUser: any = this.loginService.currentUserValue;
+      this.currentUserRole = currentUser.role;
+      this.currentUserEmail = currentUser.email;
+    }
   }
 
   getDocuments() {
@@ -53,7 +68,6 @@ export class EditorDocumentManagerComponent implements OnInit {
   acceptDocument(title) {
     title = title.split(' ').join('_');
     this.documentService.acceptPublication(title);
-    alert("Accept document")
   }
 
   minorRevision(title) {
@@ -77,6 +91,33 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   homepage() {
     this.router.navigate(["/homepage"]);
+  }
+
+  searchDocumentsText() {
+    this.router.navigate(["search-documents-text"]);
+  }
+  searchDocumentsMetadata() {
+    this.router.navigate(["search-documents-metadata"]);
+  }
+
+  uploadPublication() {
+    this.router.navigate(["upload-publication"]);
+  }
+
+  myDocuments() {
+    this.router.navigate(["my-documents"]);
+  }
+  documentsForApproval() {
+    this.router.navigate(["editor-document-manager"]);
+  }
+
+  login() {
+    this.router.navigate(["/login"]);
+  }
+
+  logout() {
+    this.loginService.logout();
+    location.reload()
   }
 
 }

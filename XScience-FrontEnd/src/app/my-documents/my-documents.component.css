@@ -239,3 +239,16 @@ table.table .avatar {
     top: 8px;
     left: 10px;
 }
+
+.navbar {
+    margin-bottom: 40px;
+    border-radius: 0;
+    background-color: #435d7d;
+}
+.jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee;
+}
