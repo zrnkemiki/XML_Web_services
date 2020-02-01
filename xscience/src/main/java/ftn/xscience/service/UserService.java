@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ftn.xscience.dto.UserCredentials;
-import ftn.xscience.exception.UnmarshallingUserException;
+import ftn.xscience.exception.UnmarshallingException;
 import ftn.xscience.exception.UserNotFoundException;
 import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.UserRepository;
@@ -22,7 +22,7 @@ public class UserService {
 		try {
 			user = userRepository.getUserByEmail(credentials.getEmail());
 		} catch (JAXBException e) {
-			throw new UnmarshallingUserException("[custom-err] Unmarshalling user [" + credentials.getEmail() + "] failed! \n[original-cause]\n" + e.getMessage());
+			throw new UnmarshallingException("[custom-err] Unmarshalling user [" + credentials.getEmail() + "] failed! \n[original-cause]\n" + e.getMessage());
 		}
 		
 		if (user == null || !user.getPassword().equals(credentials.getPassword())) {

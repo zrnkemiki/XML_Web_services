@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,11 @@ import org.xmldb.api.base.XMLDBException;
 import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.dto.UserDTO;
 import ftn.xscience.model.publication.Publication;
+import ftn.xscience.model.user.TUser;
+import ftn.xscience.security.JwtValidator;
 import ftn.xscience.service.PublicationService;
 import ftn.xscience.service.ReviewService;
+import ftn.xscience.service.UserService;
 import ftn.xscience.utils.dom.DOMParser;
 
 @RestController
@@ -44,10 +48,28 @@ public class PublicationController {
 	@Autowired
 	DOMParser domParser;
 
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	JwtValidator jwtValidator;
 	
 	
 	@GetMapping()
 	public ResponseEntity<?> getAcceptedPublications() {
+		return null;
+	}
+	
+	@GetMapping(value = "/my-documents")
+	public ResponseEntity<?> getMyDocuments(@RequestHeader("Authorization") final String token) {
+		
+		TUser loggedUser = jwtValidator.validate(token);
+		if (loggedUser == null) {
+			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		publicationService.getMyDocuments(loggedUser);
+		
 		return null;
 	}
 	
@@ -106,11 +128,11 @@ public class PublicationController {
 	// ===================================== AUTOR =================================================================
 	//@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/rest/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publication) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
+	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
 		
-		String publStr = new String(publication.getBytes());
-		System.out.println(publStr);
-		publicationService.savePublication(publStr);
+		//String publStr = new String(publication.getBytes());
+		//System.out.println(publStr);
+		publicationService.savePublication(publicationFile);
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
