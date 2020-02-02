@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -160,6 +161,67 @@ public class PublicationService {
 		
 		
 		return found;
+	}
+	
+	// TO-DO
+	public List<Publication> getDocumentsForReview(TUser user) {
+		List<Publication> documentsForReview = new ArrayList<Publication>();
+		
+		List<String> documentIDs = new ArrayList<String>();
+		List<JAXBElement<String>> jaxbList = user.getPublicationsForReview().getForReviewID();
+		
+		for (JAXBElement<String> jaxbID : jaxbList) {
+			documentIDs.add(jaxbID.getValue());
+		}
+		
+		// hendlaj string documentID --> .xml i to sve
+		// pitanje je kako ce se cuvati u listi kod USER-a: da li kao
+		// ime iz baze ili kao document.title ?
+		
+		
+		for (String docName : documentIDs) {
+			try {
+				Publication p = publicationRepository.getPublication(docName);
+				documentsForReview.add(p);
+			} catch (XMLDBException e) {
+				throw new DocumentNotFoundException("[custom-err] Document [" + docName + "] not found. \n[original] " + e.getMessage());
+			} catch (JAXBException e) {
+				throw new UnmarshallingException("[custom-err] Unmarshalling publication [" + docName + "] failed! \n[original] " + e.getMessage());
+			} 
+			
+		}
+		
+		return documentsForReview;
+		
+	}
+	
+	// TO-DO
+	public List<Publication> getDocumentsForApproval() {
+		// ovo je zapravo search po statusu --> status != ACCEPTED
+		
+		List<Publication> forApproval = new ArrayList<Publication>();
+		
+		List<String> statuses = new ArrayList<String>();
+		statuses.add("IN_REVIEW");
+		statuses.add("UPLOADED");
+		statuses.add("REVISED");
+		statuses.add("REVIEWED");
+		
+		// ovde izvuci sve id-eve dokumenata koji imaju ove statuse preko RDF
+		List<String> fromRdf = new ArrayList<String>();
+		
+		for (String documentID : fromRdf) {
+			try {
+				Publication p = publicationRepository.getPublication(documentID);
+				forApproval.add(p);	
+			} catch (XMLDBException e) {
+				throw new DocumentNotFoundException("[custom-err] Document [" + documentID + "] not found!\n[original-err] " + e.getMessage());
+			} catch (JAXBException e) {
+				throw new UnmarshallingException("[custom-err] Unmarshalling publication [" + documentID + "] failed!\n[original-err] " + e.getMessage());
+			} 
+		}
+		
+		return forApproval;
 	}
 	
 
