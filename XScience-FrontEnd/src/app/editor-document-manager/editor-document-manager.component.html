@@ -24,7 +24,8 @@
                     <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search Documents by Metadata</button>
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'" (click)="myDocuments()" class="btn btn-success">My Documents</button>
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'"(click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()" class="btn btn-success">Documents for approval</button>    
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()" class="btn btn-success">Documents for approval</button>                        
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'" (click)="myReviews()" class="btn btn-success">Documents for my review</button> 
                 </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -54,14 +55,18 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 35%"><b>Document title</b></th>
-                        <th style="width: 65%">Action</th>
+                        <th style="width: 20%"><b>Document title</b></th>
+                        <th style="width: 20%"><b>Current status</b></th>
+                        <th style="width: 60%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let document of documents; let i = index">
                         <td>
                             <b>{{document.title}}</b>
+                        </td>
+                        <td>
+                            <b>{{document.status}}</b>
                         </td>
                         <td>
                             <button (click)='openDocument(document.title)' type="button"

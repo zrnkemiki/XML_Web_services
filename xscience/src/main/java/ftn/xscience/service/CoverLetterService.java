@@ -36,7 +36,7 @@ public class CoverLetterService {
 		
 		Document coverLetter = domParser.buildDocument(coverLetterXml, schemaPath);
 		
-		String coverLetterName = coverLetter.getElementsByTagName("Publication_title").item(0).getTextContent();
+		String coverLetterName = coverLetter.getElementsByTagName("PublicationTitle").item(0).getTextContent() + ".xml";
 		
 		
 		// extract metadata FIRST

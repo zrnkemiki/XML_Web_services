@@ -36,8 +36,8 @@ public class CoverLetterController {
 		return null;
 	}
 
-	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> uploadCoverLetter(@RequestParam("file") MultipartFile coverLetter)throws IOException, SAXException, ParserConfigurationException, XMLDBException {
+	@PostMapping(value = "/rest/uploadCoverLetter", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile coverLetter) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
 		String cvrLetterStr = new String(coverLetter.getBytes());
 		System.out.println(cvrLetterStr);
 		coverLetterService.saveCoverLetter(cvrLetterStr);

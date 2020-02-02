@@ -187,6 +187,7 @@ public class PublicationController {
 		publicationService.acceptPublication(documentId);
 		
 		
+		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	

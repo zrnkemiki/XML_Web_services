@@ -59,13 +59,13 @@ public class ReviewService {
 		
 		Document review = domParser.buildDocument(reviewXml, schemaPath);
 		
-		//String reviewName = review.getElementsByTagName("Title").item(0).getTextContent();
+		String reviewName = review.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
 		
 		
 		// extract metadata FIRST
 		
 		
-		reviewRepository.save(reviewXml, "KONI");
+		reviewRepository.save(reviewXml, reviewName);
 		return "";
 	}
 	

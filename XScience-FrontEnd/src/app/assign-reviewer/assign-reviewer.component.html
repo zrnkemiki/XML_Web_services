@@ -28,6 +28,7 @@
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'" (click)="myDocuments()" class="btn btn-success">My Documents</button>
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'"(click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
                     <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()" class="btn btn-success">Documents for approval</button>    
+                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'" (click)="myReviews()" class="btn btn-success">My Reviews</button> 
                 </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

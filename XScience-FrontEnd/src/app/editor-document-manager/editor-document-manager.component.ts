@@ -26,8 +26,14 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   ngOnInit() {
     this.getCurrentUser();
+    if(this,this.currentUserRole == "ROLE_EDITOR"){      
     this.getDocuments();
+    }
+    else{
+      this.router.navigate(["/homepage"]);
+    }
   }
+  
 
   getCurrentUser() {
     if (localStorage.getItem('currentUser') != null) {
@@ -118,6 +124,9 @@ export class EditorDocumentManagerComponent implements OnInit {
   logout() {
     this.loginService.logout();
     location.reload()
+  }
+  myReviews(){
+    this.router.navigate(["my-reviews"]);
   }
 
 }

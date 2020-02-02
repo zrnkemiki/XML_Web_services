@@ -46,11 +46,12 @@ export class AssignReviewerComponent implements OnInit {
   searchDocumentsText() {
     this.router.navigate(["search-documents-text"]);
   }
-  searchDocumentsMetadata() {
-    this.router.navigate(["search-documents-metadata"]);
-  }
+
   uploadPublication() {
     this.router.navigate(["upload-publication"]);
+  }
+  searchDocumentsMetadata() {
+    this.router.navigate(["search-documents-metadata"]);
   }
 
   myDocuments() {
@@ -67,5 +68,8 @@ export class AssignReviewerComponent implements OnInit {
   logout() {
     this.loginService.logout();
     location.reload()
+  }
+  myReviews(){
+    this.router.navigate(["my-reviews"]);
   }
 }
