@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.UserRepository;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
+import ftn.xscience.utils.template.RDFManager;
 
 @Service
 public class PublicationService {
@@ -42,13 +44,17 @@ public class PublicationService {
 	@Autowired
 	DOMParser domParser;
 	
+	private RDFManager rdfManager = new RDFManager();
 	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/publication.xsd";
+	private static String rdfLocation = "WEB-INF/classes/data/gen/publication.rdf";
 	
-	public String savePublication(MultipartFile publicationFile) throws SAXException, ParserConfigurationException, IOException, XMLDBException {
+	public String savePublication(MultipartFile publicationFile) throws SAXException, ParserConfigurationException, IOException, XMLDBException, TransformerException {
 		String contextPath = context.getRealPath("/");
 		
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
+		
+		String rdfFilePath = StringPathHandler.handlePathSeparator(rdfLocation, contextPath);
 		
 		String publicationXml = new String(publicationFile.getBytes());
 		Document publication = domParser.buildDocument(publicationXml, schemaPath);
@@ -57,7 +63,7 @@ public class PublicationService {
 		
 		
 		// extract metadata FIRST
-		
+		rdfManager.extractMetadata(publicationFile, rdfFilePath);
 		
 		publicationRepository.save(publicationXml, publicationName);
 		return "";

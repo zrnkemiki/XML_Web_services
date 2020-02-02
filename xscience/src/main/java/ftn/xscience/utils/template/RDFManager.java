@@ -1,26 +1,81 @@
 package ftn.xscience.utils.template;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.xml.transform.TransformerException;
 
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.pfunction.library.listIndex;
+import org.apache.jena.update.UpdateExecutionFactory;
+import org.apache.jena.update.UpdateFactory;
+import org.apache.jena.update.UpdateProcessor;
+import org.apache.jena.update.UpdateRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
+import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.template.AuthenticationUtilities.ConnectionProperties;
 
 public class RDFManager {
 
+	
+	
 	public static final String PRED_PATH = "<https://www.xscience.com/data/publication/predicate/";
 	public static final String XML_LITERAL = "^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.";
 	public static final String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
 
-	public void extractMetadata() {
+	public void extractMetadata(MultipartFile publicationFile, String rdfFilePath) throws IOException, SAXException, TransformerException {
+		
+		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
+		
+		String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
+
+
+		
+		
+		
+		
+		InputStream inputStream =  new BufferedInputStream(publicationFile.getInputStream());
+		
+		MetadataExtractor metadataExtractor = new MetadataExtractor();
+		
+
+		
+		metadataExtractor.extractMetadata(inputStream, new FileOutputStream(new File(rdfFilePath)));
+		
+		Model model = ModelFactory.createDefaultModel();
+		
+		model.read(rdfFilePath);
+	
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		model.write(out, SparqlUtil.NTRIPLES);
+
+		
+
+		// Writing the named graph
+	
+		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI, new String(out.toByteArray()));
+		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
+		processor.execute();
 
 	}
 
@@ -122,7 +177,7 @@ public class RDFManager {
 		// Query the collection, dump output response as XML
 		System.out.println("[INFO] Showing the results for SPARQL query in native SPARQL XML format.\n");
 		results = query.execSelect();
-
+		
 		// ResultSetFormatter.outputAsXML(System.out, results);
 		ResultSetFormatter.out(System.out, results);
 

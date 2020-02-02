@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -127,8 +128,8 @@ public class PublicationController {
 
 	// ===================================== AUTOR =================================================================
 	//@PreAuthorize("hasRole('EDITOR')")
-	@PostMapping(value = "/rest/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
+	@PostMapping(value = "/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException, TransformerException {
 		
 		//String publStr = new String(publication.getBytes());
 		//System.out.println(publStr);
