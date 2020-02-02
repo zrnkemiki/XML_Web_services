@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -63,15 +64,32 @@ public class PublicationController {
 	
 	@GetMapping(value = "/my-documents")
 	public ResponseEntity<?> getMyDocuments(@RequestHeader("Authorization") final String token) {
-		
+		List<Publication> myDocuments = null;
 		TUser loggedUser = jwtValidator.validate(token);
-		if (loggedUser == null) {
-			return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
-		}
 		
-		publicationService.getMyDocuments(loggedUser);
+		myDocuments = publicationService.getMyDocuments(loggedUser);
 		
 		return null;
+	}
+	
+	@GetMapping(value = "/documents-for-review")
+	public ResponseEntity<?> getDocumentsForReview(@RequestHeader("Authorization") final String token) {
+		List<Publication> forReview = new ArrayList<Publication>();
+		TUser loggedUser = jwtValidator.validate(token);
+		
+		forReview = publicationService.getDocumentsForReview(loggedUser);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/documents-for-approval")
+	public ResponseEntity<?> getDocumentsForApproval(@RequestHeader("Authorization") final String token) {
+		List<Publication> forApproval = new ArrayList<Publication>();
+		TUser loggedUser = jwtValidator.validate(token);
+		
+		forApproval = publicationService.getDocumentsForApproval();
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
