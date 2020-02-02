@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,7 +68,7 @@ public class PublicationController {
 	
 	@GetMapping(value = "/my-documents")
 	public ResponseEntity<?> getMyDocuments(@RequestHeader("Authorization") final String token) {
-		
+		List<Publication> myDocuments = null;
 		TUser loggedUser = jwtValidator.validate(token);
 				
 		List<Publication> found = publicationService.getMyDocuments(loggedUser);
@@ -74,6 +76,26 @@ public class PublicationController {
 		ArrayList<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(found);
 		
 		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/documents-for-review")
+	public ResponseEntity<?> getDocumentsForReview(@RequestHeader("Authorization") final String token) {
+		List<Publication> forReview = new ArrayList<Publication>();
+		TUser loggedUser = jwtValidator.validate(token);
+		
+		forReview = publicationService.getDocumentsForReview(loggedUser);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/documents-for-approval")
+	public ResponseEntity<?> getDocumentsForApproval(@RequestHeader("Authorization") final String token) {
+		List<Publication> forApproval = new ArrayList<Publication>();
+		TUser loggedUser = jwtValidator.validate(token);
+		
+		forApproval = publicationService.getDocumentsForApproval();
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
@@ -116,8 +138,8 @@ public class PublicationController {
 
 	// ===================================== AUTOR =================================================================
 	//@PreAuthorize("hasRole('EDITOR')")
-	@PostMapping(value = "/rest/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
+	@PostMapping(value = "/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException, TransformerException {
 		
 		//String publStr = new String(publication.getBytes());
 		//System.out.println(publStr);

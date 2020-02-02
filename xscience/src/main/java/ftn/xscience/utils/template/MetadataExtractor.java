@@ -59,7 +59,7 @@ public class MetadataExtractor {
 		
 		// Initialize transformation subject
 		StreamSource source = new StreamSource(in);
-
+		
 		// Initialize result stream
 		StreamResult result = new StreamResult(out);
 		
