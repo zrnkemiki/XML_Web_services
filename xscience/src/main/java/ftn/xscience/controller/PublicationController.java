@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
+import ftn.xscience.dto.DTOConverter;
 import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.dto.UserDTO;
 import ftn.xscience.model.publication.Publication;
@@ -66,10 +67,12 @@ public class PublicationController {
 	public ResponseEntity<?> getMyDocuments(@RequestHeader("Authorization") final String token) {
 		List<Publication> myDocuments = null;
 		TUser loggedUser = jwtValidator.validate(token);
+				
+		List<Publication> found = publicationService.getMyDocuments(loggedUser);
 		
-		myDocuments = publicationService.getMyDocuments(loggedUser);
+		ArrayList<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(found);
 		
-		return null;
+		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/documents-for-review")
@@ -104,16 +107,8 @@ public class PublicationController {
 		
 		System.out.println("===============\ndokumenti u koji su uploaded: \n");
 		System.out.println(publications.size());
-		ArrayList<PublicationDTO> publicationsDTO = new ArrayList<>();
 		
-		if(publications.size()!=0) {
-			System.out.println(publications.get(0).getTitle());
-			for (Publication publication : publications) {
-				PublicationDTO temp = new PublicationDTO(publication);
-				publicationsDTO.add(temp);
-			}
-		}
-		System.out.println("Ovo je dto " + publicationsDTO.get(0).getTitle());
+		ArrayList<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(publications);
 		
 		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
 	}
@@ -129,16 +124,10 @@ public class PublicationController {
 		System.out.println("===============\ndokumenti u kojima se nalazi pojam: \n");
 		System.out.println(found.size());
 		//VRATI MI PUBLICATION<>
-		ArrayList<PublicationDTO> publications = new ArrayList<>();
 		
-		if(found.size()!=0) {
-			for (Publication publication : found) {
-				PublicationDTO temp = new PublicationDTO(publication);
-				publications.add(temp);
-			}
-		}
+		ArrayList<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(found);
 		
-		return new ResponseEntity<ArrayList<PublicationDTO>>(publications, HttpStatus.OK);
+		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
 	}
 	
 	// ===================================== AUTOR =================================================================
