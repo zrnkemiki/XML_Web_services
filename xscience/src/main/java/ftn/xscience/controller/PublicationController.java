@@ -57,9 +57,6 @@ public class PublicationController {
 	@Autowired
 	JwtValidator jwtValidator;
 	
-	@Autowired
-	DTOConverter dtoConverter;
-	
 	
 	@GetMapping()
 	public ResponseEntity<?> getAcceptedPublications() {
