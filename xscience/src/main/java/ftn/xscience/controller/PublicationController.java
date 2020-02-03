@@ -148,11 +148,11 @@ public class PublicationController {
 	//@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException, TransformerException {
-		
+		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 		//String publStr = new String(publication.getBytes());
 		//System.out.println(publStr);
 		publicationService.savePublication(publicationFile);
-		
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	

@@ -45,10 +45,10 @@ public class MetadataExtractor {
 	 * @param in XML containing input stream
 	 * @param out RDF/XML output stream
 	 */
-	public void extractMetadata(InputStream in, OutputStream out) throws FileNotFoundException, TransformerException {
+	public void extractMetadata(InputStream in, OutputStream out, String grddlFilePath) throws FileNotFoundException, TransformerException {
 		
 		// Create transformation source
-		StreamSource transformSource = new StreamSource(new File(XSLT_FILE));
+		StreamSource transformSource = new StreamSource(new File(grddlFilePath));
 		
 		// Initialize GRDDL transformer object
 		Transformer grddlTransformer = transformerFactory.newTransformer(transformSource);
@@ -68,27 +68,5 @@ public class MetadataExtractor {
 		
 	}
 	
-	
-	public void test() throws Exception {
-
-		System.out.println("[INFO] " + MetadataExtractor.class.getSimpleName());
-		
-		String filePath = "gen/grddl_metadata.rdf";
-		
-		InputStream in = new FileInputStream(new File("data/rdfa/contacts.xml")); 
-
-		OutputStream out = new FileOutputStream(filePath);
-		
-		extractMetadata(in, out);
-		
-		System.out.println("[INFO] File \"" + filePath + "\" generated successfully.");
-		
-		System.out.println("[INFO] End.");
-
-	}
-
-	public static void main(String[] args) throws Exception {
-		new MetadataExtractor().test();
-	}
 
 }

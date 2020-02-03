@@ -18,7 +18,7 @@ public class TestRepo {
 	private String userCollectionId = "/db/data/users";
 	private String publCollectionId = "/db/data/publications";
 	private String clCollectionId = "/db/data/cover-letters";
-	private String publicationId = "Conceptualizing_Location-One_Term_Many_Meanings.xml";
+	private String publicationId = "Gene_Models_for_the_Evolution_of_Altruistic_Teaching.xml";
 	private String clId = "cl-Conceptualizing_Location-One_Term_Many_Meanings.xml";
 	private String userId = "user-author-gmail.com.xml";
 	

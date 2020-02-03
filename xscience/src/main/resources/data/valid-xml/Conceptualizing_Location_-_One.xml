@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xsl/grddl.xsl"?>
-<Publication about="https://www.xscience.com/data/publications/Conceptualizing_Location-One_Term_Many_Meanings" id="pub1" 
+<Publication about="https://www.xscience.com/data/publications/Conceptualizing_Location-One" id="pub1" 
 language="en-US" version="1" 
 vocab="https://www.xscience.com/data/publication/predicate/"
 xmlns:pred="https://www.xscience.com/data/publication/predicate/" 
@@ -12,9 +12,9 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
     <FieldOfStudy property="pred:fieldOfStudy">Geopolitics</FieldOfStudy>
     <PaperType property="pred:paperType">RESEARCH_PAPER</PaperType>
     <Recieved property="pred:recieved" datatype="xs:date">2018-01-01</Recieved>
-    <Revised property="pred:revised" datatype="xs:date">2018-01-10</Revised>
+    <Revised property="pred:revised" datatype="xs:date">2019-01-10</Revised>
     <Accepted property="pred:accepted" datatype="xs:date">2018-01-11</Accepted>
-    <Status property="pred:status">ACCEPTED</Status>
+    <Status property="pred:status">REJECTED</Status>
     <Keywords>
       <Keyword property="pred:keyword">Geopolitics</Keyword>
       <Keyword property="pred:keyword">Location</Keyword>

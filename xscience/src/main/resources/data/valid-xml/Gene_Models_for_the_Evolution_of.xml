@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xsl/grddl.xsl"?>
-<Publication about="https://www.xscience.com/data/publication/Gene_Models_for_the_Evolution_of_Altruistic_Teaching" id="pub2" 
+<Publication about="https://www.xscience.com/data/publication/Gene_Models_for_the_Evolution_of" id="pub2" 
 language="en-US" version="1" 
 vocab="https://www.xscience.com/data/publication/predicate/" 
 xmlns:pred="https://www.xscience.com/data/publication/predicate/"
@@ -12,8 +12,8 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
     <FieldOfStudy property="pred:fieldOfStudy">Biology</FieldOfStudy>
     <PaperType property="pred:paperType">RESEARCH_PAPER</PaperType>
     <Recieved property="pred:recieved" datatype="xs:date">2019-01-01</Recieved>
-    <Revised property="pred:revised" datatype="xs:date">2017-01-01</Revised>
-    <Accepted property="pred:accepted" datatype="xs:date">2018-01-11</Accepted>
+    <Revised property="pred:revised" datatype="xs:date">1000-01-01</Revised>
+    <Accepted property="pred:accepted" datatype="xs:date">1000-01-11</Accepted>
     <Status property="pred:status">UPLOADED</Status>
     <Keywords>
       <Keyword property="pred:keyword">Genes</Keyword>

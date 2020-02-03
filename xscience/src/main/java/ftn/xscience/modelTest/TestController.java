@@ -84,6 +84,7 @@ public class TestController {
 		System.out.println(p.getAuthor().get(0).getEmail());
 		System.out.println(p.getAbstract().getContentOrQuote().get(0).toString());
 		
+		
 		String marshaledPub = marshalPublication(p);
 		System.out.println("========== MARSHALLED PUBLICATION ================");
 		System.out.println(marshaledPub);

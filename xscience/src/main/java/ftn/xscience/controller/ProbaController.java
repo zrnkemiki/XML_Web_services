@@ -1,10 +1,10 @@
 package ftn.xscience.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.repository.RepoProba;
@@ -61,25 +60,43 @@ public class ProbaController {
 	
 	@GetMapping(value="/advanced-search")
 	public ResponseEntity<?> searchForPublication(@RequestParam Map<String,String> params) throws JAXBException, XMLDBException {
+		List<String> results = null;
 		System.out.println(params);
 		/*
-		String predPath = " <https://www.xscience.com/data/publication/predicate/";
-		String sparqlQuery = "SELECT * FROM <%s> WHERE {";
+		 * ---------------------------------ZA PUNJENJE FUSEKIJA----------------------------------------
+		 * Rucno treba da se napravi data set "MetaDataSet" i izaberes opciju u sredini (prvi Persist)
+		 * u svaki xml treba dodati <?xml-stylesheet type="text/xsl" href="../xsl/grddl.xsl"?> odma u drugoj liniji
+		 * i xmlns:xs = "http://www.w3.org/2001/XMLSchema#" tu medju deklaracijama
+		 * na datume dodati atribut datatype="xs:date"
+		 * i onda se samo poziva metoda rdfManager.extractMetadata(publicationFile, rdfFilePath, grddlFilePath) -> ima u PubService save()
 		
-		for (Map.Entry<String, String> entry : params.entrySet()) {
-	        System.out.println(entry.getKey() + ":" + entry.getValue());
-	        sparqlQuery += "?publication " +  predPath + entry.getKey() + "> " + entry.getValue() + "^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.";
-	    }
-		sparqlQuery += "}";
+		 * ---------------------------------PUTANJE ZA SPARQL------------------------------------------
+		 * pretraga po jednom -> advanced-search?paperType="RESEARCH_PAPER"
+		 * po dva ili vise samo dodas izmedju & -> advanced-search?fieldOfStudy="Geopolitics"&paperType="RESEARCH_PAPER"
+		 * AUTOR sa @ -> advanced-search?authoredBy=@"user-author-gmail.com"
+		 * OR odvajas tacka-zarezom -> advanced-search?status="ACCEPTED";"REJECTED";"UPLOADED"
+		 * NOT sa ! -> advanced-search?status=!"ACCEPTED"
+		 * DATUMI oznaceni sa $ i stavlja se :
+		 * OD-DO datum -> advanced-search?recieved=$"2017-01-01":"2018-01-01"
+		 * VECE/MANJE/JEDNAKO ->advanced-search?recieved=$gt:"2017-01-01"
+		 * 
+		 * Pokretanje -> results = rdfManager.runSPARQL(params);
+		 * 
+		 * ---------------------------------NAPOMENA----------------------------------------
+		 * Kombinujes ih onda tako sto ih samo spajas sa &(Nisam jos detaljno testirao, moguce da ima bagova)
+		 * Vrednosti moraju u putanji da budu pod navodnicima, tokeni ne smeju(@,$,:,;)
+		
 		*/
 		
 		try {
-			rdfManager.runSPARQL(params);
+			results = rdfManager.runSPARQL(params);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-	
+		for(String publication : results) {
+			System.out.println(publication);
+		}
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	

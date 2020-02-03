@@ -41,6 +41,7 @@
                                         <xs:extension base="dateType">
                                             <xs:attribute default="pred:recieved" name="property"
                                                 type="xs:string"/>
+                                            <xs:attribute default="xs:date" name="datatype"/>
                                         </xs:extension>
                                     </xs:complexContent>
                                 </xs:complexType>
@@ -51,6 +52,7 @@
                                         <xs:extension base="dateType">
                                             <xs:attribute default="pred:revised" name="property"
                                                 type="xs:string"/>
+                                            <xs:attribute default="xs:date" name="datatype"/>
                                         </xs:extension>
                                     </xs:complexContent>
                                 </xs:complexType>
@@ -61,6 +63,7 @@
                                         <xs:extension base="dateType">
                                             <xs:attribute default="pred:accepted" name="property"
                                                 type="xs:string"/>
+                                            <xs:attribute default="xs:date" name="datatype"/>
                                         </xs:extension>
                                     </xs:complexContent>
                                 </xs:complexType>

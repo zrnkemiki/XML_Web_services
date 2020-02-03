@@ -49,22 +49,22 @@ public class PublicationService {
 	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/publication.xsd";
 	private static String rdfLocation = "WEB-INF/classes/data/gen/publication.rdf";
+	private static String grddlLocation = "WEB-INF/classes/data/xsl/grddl.xsl";
 	
 	public String savePublication(MultipartFile publicationFile) throws SAXException, ParserConfigurationException, IOException, XMLDBException, TransformerException {
 		String contextPath = context.getRealPath("/");
-		
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
-		
 		String rdfFilePath = StringPathHandler.handlePathSeparator(rdfLocation, contextPath);
+		String grddlFilePath = StringPathHandler.handlePathSeparator(grddlLocation, contextPath);
 		
 		String publicationXml = new String(publicationFile.getBytes());
 		Document publication = domParser.buildDocument(publicationXml, schemaPath);
 		
 		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
 		
-		
+		System.out.println("RDF: " + rdfFilePath);
 		// extract metadata FIRST
-		rdfManager.extractMetadata(publicationFile, rdfFilePath);
+		rdfManager.extractMetadata(publicationFile, rdfFilePath, grddlFilePath);
 		
 		publicationRepository.save(publicationXml, publicationName);
 		return "";

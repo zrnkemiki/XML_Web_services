@@ -1,27 +1,10 @@
 package ftn.xscience.repository;
 
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
-import javax.servlet.ServletContext;
 import javax.xml.transform.TransformerException;
 
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.update.UpdateExecutionFactory;
-import org.apache.jena.update.UpdateFactory;
-import org.apache.jena.update.UpdateProcessor;
-import org.apache.jena.update.UpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,11 +13,7 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.user.TUser;
-import ftn.xscience.utils.dom.StringPathHandler;
-import ftn.xscience.utils.template.AuthenticationUtilities;
-import ftn.xscience.utils.template.MetadataExtractor;
-import ftn.xscience.utils.template.SparqlUtil;
-import ftn.xscience.utils.template.AuthenticationUtilities.ConnectionProperties;
+import ftn.xscience.utils.template.RDFManager;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
 import ftn.xscience.utils.xmldb.DBHandler;
 import ftn.xscience.utils.xmldb.XMLConnectionProperties;
@@ -45,7 +24,7 @@ public class RepoProba {
 	@Autowired
 	BasicXMLConnectionPool connectionPool;
 	
-
+	RDFManager rdfManager = new RDFManager();
 	
 	public void retrieveDocument() throws XMLDBException {
 		
@@ -87,7 +66,7 @@ public class RepoProba {
 		
 		//-----------------------------------SPARQL PROBA----------------------------------------------
 		public TUser sparqlProba(String sparqlQuery) throws IOException {
-	
+			rdfManager.runSPARQL(null);
 			return null;
 		}
 

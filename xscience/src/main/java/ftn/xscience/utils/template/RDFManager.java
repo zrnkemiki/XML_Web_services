@@ -6,10 +6,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.xml.transform.TransformerException;
 
 import org.apache.jena.query.QueryExecution;
@@ -20,16 +21,13 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.sparql.pfunction.library.listIndex;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
-import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.template.AuthenticationUtilities.ConnectionProperties;
 
 public class RDFManager {
@@ -38,18 +36,14 @@ public class RDFManager {
 	
 	public static final String PRED_PATH = "<https://www.xscience.com/data/publication/predicate/";
 	public static final String XML_LITERAL = "^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.";
-	public static final String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
+	public static final String XS_DATE = "^^xs:date";
+	public static final String USER_PATH = "<https://www.xscience.com/data/users/";
+	public static final String PUBLICATION_NAMED_GRAPH_URI = "/publication/metadata";
+	
 
-	public void extractMetadata(MultipartFile publicationFile, String rdfFilePath) throws IOException, SAXException, TransformerException {
+	public void extractMetadata(MultipartFile publicationFile, String rdfFilePath, String grddlFilePath) throws IOException, SAXException, TransformerException {
 		
 		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
-		
-		String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
-
-
-		
-		
-		
 		
 		InputStream inputStream =  new BufferedInputStream(publicationFile.getInputStream());
 		
@@ -57,8 +51,7 @@ public class RDFManager {
 		
 
 		
-		metadataExtractor.extractMetadata(inputStream, new FileOutputStream(new File(rdfFilePath)));
-		
+		metadataExtractor.extractMetadata(inputStream, new FileOutputStream(new File(rdfFilePath)), grddlFilePath);
 		Model model = ModelFactory.createDefaultModel();
 		
 		model.read(rdfFilePath);
@@ -67,12 +60,11 @@ public class RDFManager {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		model.write(out, SparqlUtil.NTRIPLES);
-
-		
+		model.write(System.out, SparqlUtil.RDF_XML);
 
 		// Writing the named graph
 	
-		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI, new String(out.toByteArray()));
+		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI, new String(out.toByteArray()));
 		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
 		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
 		processor.execute();
@@ -88,19 +80,36 @@ public class RDFManager {
 			orStatement += "UNION" + "{" + "?publication " + PRED_PATH + entry.getKey() + "> " + values[i] + XML_LITERAL
 					+ "}";
 		}
+		
 
 		return orStatement;
 	}
 	
 	private static String makeDateFilterStatement(Map.Entry<String, String> entry) {
-		String dateStatement = "";
+		String dateStatement = "{?publication " + PRED_PATH + entry.getKey() + ">" + " ?" + entry.getKey() + " FILTER(?" + entry.getKey();
+		String[] values = entry.getValue().split(":");;
+			
+			switch(values[0]) {
+			  case "lt":
+			    dateStatement += " <= " + values[1] + XS_DATE + ")}";
+			    break;
+			  case "gt":
+				  dateStatement += " >= " + values[1] + XS_DATE + ")}";
+			    break;
+			  case "eq":
+			      dateStatement += " = " + values[1] + XS_DATE + ")}";
+			      break;
+			  default:
+				  dateStatement += " >= " + values[0] + XS_DATE + " && " + "?" + entry.getKey()  + " <= " + values[1] + XS_DATE + ")}" ;
+			
+			}
+		
 		return dateStatement;
 	}
 
 	private static String publicationSPARQLBuilder(Map<String, String> params) {
-		String sparqlStart = "SELECT * FROM <%s> WHERE {";
+		String sparqlStart = "PREFIX xs: <http://www.w3.org/2001/XMLSchema#> SELECT ?publication FROM <%s> WHERE {";
 		String sparqlQuery = "";
-		String logicalOperator = "";
 
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 
@@ -115,42 +124,41 @@ public class RDFManager {
 				sparqlQuery += " MINUS { ?publication" + PRED_PATH + entry.getKey() + "> " + entry.getValue().substring(1)
 						+ XML_LITERAL + "}";
 
-			} else if(entry.getKey().contains("date")) {
+			} else if(entry.getValue().contains("$")) {
+				String value = entry.getValue().substring(1);
+				entry.setValue(value);
+				sparqlQuery += makeDateFilterStatement(entry);
 				
+			}else if(entry.getValue().contains("@")){
+				String value = entry.getValue().split("@")[1];
+				sparqlQuery += "?publication " + PRED_PATH + entry.getKey() + "> " + USER_PATH + value.substring(1,value.length()-1) + ">";
 			}else {
 				sparqlQuery += "?publication " + PRED_PATH + entry.getKey() + "> " + entry.getValue() + XML_LITERAL;
 			}
 
 		}
 
-		sparqlQuery = sparqlStart + sparqlQuery + "}";
+		sparqlQuery += "}";
+		sparqlQuery = sparqlStart + sparqlQuery;
 		return sparqlQuery;
 	}
 	
-	public void runSPARQL(Map<String, String> params) throws IOException {
-		String sparqlQuery = publicationSPARQLBuilder(params);
+	public List<String> runSPARQL(Map<String, String> params) throws IOException {
 		
+		String sparqlQuery = publicationSPARQLBuilder(params);
+		List<String> resultList = new ArrayList<String>();
 		
 		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
-		//String sparqlFilePath = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\sparql\\query1.rq";
 
-		// Querying the named graph with a referenced SPARQL query
-		//System.out.println("[INFO] Loading SPARQL query from file \"" + sparqlFilePath + "\"");
-		//String sparqlQuery = String.format(FileUtil.readFile(sparqlFilePath, StandardCharsets.UTF_8),
-		//		conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI);
-
-		sparqlQuery = String.format(sparqlQuery, conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI);
+		sparqlQuery = String.format(sparqlQuery, conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI);
 		System.out.println(sparqlQuery);
-
-		// Create a QueryExecution that will access a SPARQL service over HTTP
 		QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
 
-		// Query the SPARQL endpoint, iterate over the result set...
-		System.out.println("[INFO] Showing the results for SPARQL query using the result handler.\n");
 		ResultSet results = query.execSelect();
 
 		String varName;
 		RDFNode varValue;
+		String[] strValue;
 
 		while (results.hasNext()) {
 
@@ -160,22 +168,19 @@ public class RDFManager {
 
 			// Retrieve variable bindings
 			while (variableBindings.hasNext()) {
-
+				
 				varName = variableBindings.next();
 				varValue = querySolution.get(varName);
-
-				System.out.println(varName + ": " + varValue);
+				
+				strValue = varValue.toString().split("/");
+				resultList.add(strValue[strValue.length-1]);
 			}
-			System.out.println();
 		}
 
 		// Issuing the same query once again...
 
-		// Create a QueryExecution that will access a SPARQL service over HTTP
 		query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
 
-		// Query the collection, dump output response as XML
-		System.out.println("[INFO] Showing the results for SPARQL query in native SPARQL XML format.\n");
 		results = query.execSelect();
 		
 		// ResultSetFormatter.outputAsXML(System.out, results);
@@ -183,6 +188,6 @@ public class RDFManager {
 
 		query.close();
 
-		System.out.println("[INFO] End.");
+		return resultList;
 	}
 }
