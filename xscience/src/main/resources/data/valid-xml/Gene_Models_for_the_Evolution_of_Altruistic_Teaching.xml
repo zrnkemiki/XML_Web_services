@@ -24,7 +24,7 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
     </Keywords>
   </MetaData>
   <Title property="pred:title">Gene Models for the Evolution of Altruistic Teaching</Title>
-  <Author href="https://www.xscience.com/data/users/user-author2-gmail.com" rel="pred:authoredBy">
+  <Author href="https://www.xscience.com/data/users/user-kaoki-gmail.com" rel="pred:authoredBy">
     <Name>
       <FirstName>Kenichi</FirstName>
       <LastName>Aoki</LastName>

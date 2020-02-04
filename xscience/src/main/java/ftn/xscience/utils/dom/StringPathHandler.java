@@ -26,4 +26,20 @@ public class StringPathHandler {
 		originalName = originalName.replaceAll(" ", "_");
 		return originalName;
 	}
+	
+	public static String formatUserEmailForSparqlQuery(String originalEmail) {
+		String formatted = formatEmailStringForDatabase(originalEmail);
+		formatted = formatted.split(".xml")[0];
+		formatted = "@\"" + formatted + "\"";
+		return formatted;
+	}
+	
+	public static String formatNameAddXMLInTheEnd(String original) {
+		if (original.endsWith(".xml")) {
+			return original;
+		} else {
+			original = original + ".xml";
+		}
+		return original;
+	}
 }

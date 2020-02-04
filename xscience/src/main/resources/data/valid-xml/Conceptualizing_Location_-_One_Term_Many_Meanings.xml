@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xsl/grddl.xsl"?>
-<Publication about="https://www.xscience.com/data/publications/Conceptualizing_Location-One_Term_Many_Meanings" id="pub1" 
+<Publication about="https://www.xscience.com/data/publications/Conceptualizing_Location_-_One_Term_Many_Meanings" id="pub1" 
 language="en-US" version="1" 
 vocab="https://www.xscience.com/data/publication/predicate/"
 xmlns:pred="https://www.xscience.com/data/publication/predicate/" 
@@ -24,13 +24,13 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
     </Keywords>
   </MetaData>
   <Title property="pred:title">Conceptualizing Location - One Term Many Meanings</Title>
-  <Author href="https://www.xscience.com/data/users/user-author-gmail.com" rel="pred:authoredBy">
+  <Author href="https://www.xscience.com/data/users/user-mkopanja023-gmail.com" rel="pred:authoredBy">
     <Name>
       <FirstName>Mihajlo</FirstName>
       <LastName>Kopanja</LastName>
     </Name>
     <Affiliation>
-      <University>Organization</University>
+      <University>Charles University</University>
       <City>Prague</City>
       <Country>Czech Republic</Country>
     </Affiliation>

@@ -2,6 +2,7 @@ package ftn.xscience.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.exception.DocumentNotFoundException;
 import ftn.xscience.exception.UnmarshallingException;
 import ftn.xscience.model.publication.Publication;
@@ -94,9 +96,18 @@ public class PublicationService {
 		return "";
 	}
 	
+	public List<PublicationDTO> anonymize(List<PublicationDTO> dtos) {
+		for (PublicationDTO dto : dtos) {
+			dto.setAuthor(null);
+		}
+		return dtos;
+	}
+	
 	public void assignReviewer(String publicationId, String reviewerId) throws JAXBException {
 		TUser reviewer = userRepository.getUserByEmail(reviewerId);
 		ObjectFactory fac = new ObjectFactory();
+		
+		publicationId = StringPathHandler.formatNameAddXMLInTheEnd(publicationId);
 		reviewer.getPublicationsForReview().getForReviewID().add(fac.createTUserPublicationsForReviewForReviewID(publicationId));
 		System.out.println(userRepository.marshal(reviewer));
 		String updatedUser = userRepository.marshal(reviewer);
@@ -148,11 +159,26 @@ public class PublicationService {
 		
 		// iscupaj iz rdf baze sve authoredBy: user.getUsername() --> vraca id-eve publikacija
 		List<String> publicationIDs = new ArrayList<String>();
+		Map<String, String> sparqlParams = new HashMap<String, String>();
+		String author = StringPathHandler.formatUserEmailForSparqlQuery(user.getUsername());
+		sparqlParams.put("authoredBy", author);
 		
+		System.out.println(author);
+		
+		try {
+			publicationIDs = rdfManager.runSPARQL(sparqlParams);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			
+		}
+
 		
 		for (String publicationID : publicationIDs) {
 			// hendlaj string da bude u formatu kao u bazi:
 			// Face_Detection_Recognition.xml
+			publicationID = publicationID + ".xml";
+			System.out.println(publicationID);
 			try {
 				Publication p = publicationRepository.getPublication(publicationID);
 				found.add(p);
@@ -176,6 +202,7 @@ public class PublicationService {
 		List<String> documentIDs = new ArrayList<String>();
 		List<JAXBElement<String>> jaxbList = user.getPublicationsForReview().getForReviewID();
 		
+		
 		for (JAXBElement<String> jaxbID : jaxbList) {
 			documentIDs.add(jaxbID.getValue());
 		}
@@ -187,6 +214,7 @@ public class PublicationService {
 		
 		for (String docName : documentIDs) {
 			try {
+				docName = StringPathHandler.formatNameAddXMLInTheEnd(docName);
 				Publication p = publicationRepository.getPublication(docName);
 				documentsForReview.add(p);
 			} catch (XMLDBException e) {
@@ -207,17 +235,28 @@ public class PublicationService {
 		
 		List<Publication> forApproval = new ArrayList<Publication>();
 		
-		List<String> statuses = new ArrayList<String>();
-		statuses.add("IN_REVIEW");
-		statuses.add("UPLOADED");
-		statuses.add("REVISED");
-		statuses.add("REVIEWED");
+		//List<String> statuses = new ArrayList<String>();
+		//statuses.add("IN_REVIEW");
+		//statuses.add("UPLOADED");
+		//statuses.add("REVISED");
+		//statuses.add("REVIEWED");
+		
+		String statuses = "\"IN_REVIEW\";\"UPLOADED\";\"REVISED\";\"REVIEWED\"";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("status", statuses);
 		
 		// ovde izvuci sve id-eve dokumenata koji imaju ove statuse preko RDF
-		List<String> fromRdf = new ArrayList<String>();
+		List<String> fromRdf = null;
+		try {
+			fromRdf = rdfManager.runSPARQL(params);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		for (String documentID : fromRdf) {
 			try {
+				documentID = StringPathHandler.formatNameAddXMLInTheEnd(documentID);
 				Publication p = publicationRepository.getPublication(documentID);
 				forApproval.add(p);	
 			} catch (XMLDBException e) {

@@ -30,4 +30,20 @@ public class UserService {
 		}
 		return user;
 	}
+	
+	public TUser getUserByEmail(String email) {
+		TUser user = null;
+		
+		try {
+			user = userRepository.getUserByEmail(email);
+		} catch (JAXBException e) {
+			throw new UnmarshallingException("[custom-err] Unmarshalling user [" + email + "] failed!\n[original-err] " + e.getMessage());
+		} 
+		
+		if (user == null) {
+			throw new UserNotFoundException("User " + email + " not found!");
+		}
+		
+		return user;
+	}
 }

@@ -1,6 +1,7 @@
 package ftn.xscience.dto;
 
 import ftn.xscience.model.publication.Publication;
+import ftn.xscience.model.publication.Publication.Author;
 
 public class PublicationDTO {
 
@@ -13,7 +14,13 @@ public class PublicationDTO {
 	public PublicationDTO(Publication publication) {
 		this.title = publication.getTitle().getValue();
 		this.status = publication.getMetaData().getStatus().getValue();
-		// TODO Auto-generated constructor stub
+		
+		String authors = "";
+		for (Author author : publication.getAuthor()) {
+			authors = authors + author.getName().getLastName() + " " + author.getName().getFirstName().substring(0, 1) + ". , ";
+		}
+		authors = authors.substring(0, authors.length() - 3);
+		this.author = authors;
 	}
 	public String getAuthor() {
 		return author;

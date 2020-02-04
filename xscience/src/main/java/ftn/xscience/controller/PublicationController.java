@@ -66,33 +66,40 @@ public class PublicationController {
 	@GetMapping(value = "/my-documents")
 	public ResponseEntity<?> getMyDocuments(@RequestHeader("Authorization") final String token) {
 		List<Publication> myDocuments = null;
-		TUser loggedUser = jwtValidator.validate(token);
+		TUser loggedUser = jwtValidator.validate(token.substring(7));
 				
-		List<Publication> found = publicationService.getMyDocuments(loggedUser);
+	    myDocuments = publicationService.getMyDocuments(loggedUser);
 		
-		ArrayList<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(found);
+		ArrayList<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(myDocuments);
 		
 		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/documents-for-review")
 	public ResponseEntity<?> getDocumentsForReview(@RequestHeader("Authorization") final String token) {
-		List<Publication> forReview = new ArrayList<Publication>();
-		TUser loggedUser = jwtValidator.validate(token);
+		List<Publication> forReview = null;
+		TUser loggedUser = jwtValidator.validate(token.substring(7));
 		
-		forReview = publicationService.getDocumentsForReview(loggedUser);
+		TUser reviewer = userService.getUserByEmail(loggedUser.getUsername());
 		
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		forReview = publicationService.getDocumentsForReview(reviewer);
+		
+		List<PublicationDTO> anonymized = DTOConverter.convertPublicationsToDTO(forReview);
+		anonymized = publicationService.anonymize(anonymized);
+		
+		return new ResponseEntity<List<PublicationDTO>>(anonymized, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/documents-for-approval")
 	public ResponseEntity<?> getDocumentsForApproval(@RequestHeader("Authorization") final String token) {
 		List<Publication> forApproval = new ArrayList<Publication>();
-		TUser loggedUser = jwtValidator.validate(token);
+		//TUser loggedUser = jwtValidator.validate(token);
 		
 		forApproval = publicationService.getDocumentsForApproval();
 		
-		return new ResponseEntity<Object>(HttpStatus.OK);
+		List<PublicationDTO> forApprovalDTOs = DTOConverter.convertPublicationsToDTO(forApproval);
+		
+		return new ResponseEntity<List<PublicationDTO>>(forApprovalDTOs, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
@@ -137,11 +144,8 @@ public class PublicationController {
 	//@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile) throws IOException, SAXException, ParserConfigurationException, XMLDBException, TransformerException {
-		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-		//String publStr = new String(publication.getBytes());
-		//System.out.println(publStr);
+
 		publicationService.savePublication(publicationFile);
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	

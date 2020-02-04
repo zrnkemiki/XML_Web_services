@@ -14,7 +14,6 @@ public class JwtValidator {
     private String secret;
 
     public TUser validate(String token) {
-
         TUser user = null;
         try {
             Claims body = Jwts.parser()
@@ -23,7 +22,6 @@ public class JwtValidator {
                     .getBody();
 
             user = new TUser();
-
             user.setUsername(body.getSubject());
             user.setPassword(body.getId());
             user.setRole((String)body.get("role"));

@@ -49,7 +49,6 @@ public class RDFManager {
 		
 		MetadataExtractor metadataExtractor = new MetadataExtractor();
 		
-
 		
 		metadataExtractor.extractMetadata(inputStream, new FileOutputStream(new File(rdfFilePath)), grddlFilePath);
 		Model model = ModelFactory.createDefaultModel();
