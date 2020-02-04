@@ -19,6 +19,7 @@ import { DocumentReviewsComponent } from './document-reviews/document-reviews.co
 import { AssignReviewerComponent } from './assign-reviewer/assign-reviewer.component';
 import {bootstrap}  from "bootstrap";
 import { MyReviewsComponent } from './my-reviews/my-reviews.component';
+import { ReviewComponent } from './review/review.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MyReviewsComponent } from './my-reviews/my-reviews.component';
     EditorDocumentManagerComponent,
     DocumentReviewsComponent,
     AssignReviewerComponent,
-    MyReviewsComponent
+    MyReviewsComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,

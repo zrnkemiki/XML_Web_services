@@ -20,7 +20,10 @@ import org.xmldb.api.base.XMLDBException;
 
 import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_KEYWORDS;
 
+import ftn.xscience.dto.DTOConverter;
+import ftn.xscience.dto.ReviewDTO;
 import ftn.xscience.dto.UserDTO;
+import ftn.xscience.model.review.Review;
 import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.PublicationRepository;
 import ftn.xscience.repository.ReviewRepository;
@@ -52,6 +55,18 @@ public class ReviewService {
 	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/review.xsd";
 	
+	public String saveReviewFromObject(Review review) throws JAXBException, SAXException, ParserConfigurationException, IOException, XMLDBException {
+		
+		String reviewXml = reviewRepository.marshal(review);
+		System.out.println("==================");
+		System.out.println(reviewXml);
+		
+		String status = saveReview(reviewXml);
+		
+		
+		return status;
+	}
+	
 	public String saveReview(String reviewXml) throws SAXException, ParserConfigurationException, IOException, XMLDBException {
 		String contextPath = context.getRealPath("/");
 		
@@ -59,8 +74,8 @@ public class ReviewService {
 		
 		Document review = domParser.buildDocument(reviewXml, schemaPath);
 		
-		String reviewName = review.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
-		
+		String reviewName = "Review_" + review.getElementsByTagName("PublicationTitle").item(0).getTextContent() + ".xml";
+		//TO_DO Proveriti da li postoji review za taj title, i ako ima getovati ime i staviti +1
 		
 		// extract metadata FIRST
 		

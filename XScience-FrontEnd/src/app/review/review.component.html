@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>XScience</h1>
+            <p><i>Scientific papers</i></p>
+        </div>
+    </div>
+
+    <nav class="navbar fixed-top navbar-inverse">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <button type="button" (click)="searchDocumentsText()" class="btn btn-success">Search
+                            documents</button>
+                        <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
+                            Documents by Metadata</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'"
+                            (click)="myDocuments()" class="btn btn-success">My Documents</button>
+                        <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="uploadPublication()"
+                            class="btn btn-success">Upload Publication</button>
+                        <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
+                            class="btn btn-success">Documents for approval</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'"
+                            (click)="myReviews()" class="btn btn-success">My Reviews</button>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log
+                        in</button>
+                    <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log
+                        out</button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Document <b>Review</b></h2>
+                    </div>
+                </div>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label>Originality</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.originality" required>
+                        <option value="STRONGLY_AGREE" selected>STRONGLY AGREE</option>
+                        <option value="AGREE">AGREE</option>
+                        <option value="NEUTRAL">NEUTRAL</option>
+                        <option value="DISAGREE">DISAGREE</option>
+                        <option value="STRONGLY_DISAGREE">STRONGLY DISAGREE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Adequate literature</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.adequate_literature" required>
+                        <option value="STRONGLY_AGREE" selected>STRONGLY AGREE</option>
+                        <option value="AGREE">AGREE</option>
+                        <option value="NEUTRAL">NEUTRAL</option>
+                        <option value="DISAGREE">DISAGREE</option>
+                        <option value="STRONGLY_DISAGREE">STRONGLY DISAGREE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Methodology</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.methodology" required>
+                        <option value="STRONGLY_AGREE" selected>STRONGLY AGREE</option>
+                        <option value="AGREE">AGREE</option>
+                        <option value="NEUTRAL">NEUTRAL</option>
+                        <option value="DISAGREE">DISAGREE</option>
+                        <option value="STRONGLY_DISAGREE">STRONGLY DISAGREE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Inference</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.inference" required>
+                        <option value="STRONGLY_AGREE" selected>STRONGLY AGREE</option>
+                        <option value="AGREE">AGREE</option>
+                        <option value="NEUTRAL">NEUTRAL</option>
+                        <option value="DISAGREE">DISAGREE</option>
+                        <option value="STRONGLY_DISAGREE">STRONGLY DISAGREE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Readability</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.readability" required>
+                        <option value="STRONGLY_AGREE" selected>STRONGLY AGREE</option>
+                        <option value="AGREE">AGREE</option>
+                        <option value="NEUTRAL">NEUTRAL</option>
+                        <option value="DISAGREE">DISAGREE</option>
+                        <option value="STRONGLY_DISAGREE">STRONGLY DISAGREE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Recommendations_for_editor</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.recommendations_for_editor" required>
+                        <option value="ACCEPT" selected>ACCEPT</option>
+                        <option value="MINOR REVISION">MINOR REVISION</option>
+                        <option value="MAJOR REVISION">MAJOR REVISION</option>
+                        <option value="REJECT">REJECT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea3">Comment for editor</label>
+                    <textarea class="form-control" name="commentForEditor" rows="7" [(ngModel)]="this.review.comment_for_editor"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea3">Comment for author</label>
+                    <textarea class="form-control" name="commentForAuthor" rows="7" [(ngModel)]="this.review.comment_for_author"></textarea>
+                </div>
+
+                <button type="button" (click)="saveReview()" class="btn btn-success">Save Review</button> 
+            </form>
+        </div>
+    </div>
+</body>

@@ -1,10 +1,22 @@
 package ftn.xscience.repository;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.JAXBIntrospector;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.exception.DocumentAlreadyExistsException;
+import ftn.xscience.model.publication.Publication;
+import ftn.xscience.model.review.Review;
 import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
 import ftn.xscience.utils.xmldb.DBHandler;
@@ -33,5 +45,25 @@ public class ReviewRepository {
 		}
 
 		return "";
+	}
+	
+	public String marshal(Review review) throws JAXBException {
+		OutputStream os = new ByteArrayOutputStream();
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.review");
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		//ObjectFactory fac = new ObjectFactory();
+		//JAXBElement<TPublication> jaxbUser = fac.cre;
+        marshaller.marshal(review, os);
+
+        return os.toString();
+
+	}
+	
+	public Review unmarshal(XMLResource resource) throws JAXBException, XMLDBException {
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.review");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		Review review = (Review) JAXBIntrospector.getValue(unmarshaller.unmarshal(resource.getContentAsDOM()));
+		return review;
 	}
 }

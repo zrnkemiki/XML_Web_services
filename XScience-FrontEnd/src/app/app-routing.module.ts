@@ -11,6 +11,7 @@ import { EditorDocumentManagerComponent } from './editor-document-manager/editor
 import { DocumentReviewsComponent } from './document-reviews/document-reviews.component';
 import { AssignReviewerComponent } from './assign-reviewer/assign-reviewer.component';
 import { MyReviewsComponent } from './my-reviews/my-reviews.component';
+import { ReviewComponent } from './review/review.component';
 
 
 
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'editor-document-manager', component: EditorDocumentManagerComponent},
   { path: 'document-reviews/:title', component: DocumentReviewsComponent},
   { path: 'assign-reviewer/:title', component: AssignReviewerComponent},
-  { path: 'my-reviews', component: MyReviewsComponent}
+  { path: 'my-reviews', component: MyReviewsComponent},
+  { path: 'review/:title', component: ReviewComponent}
 ]
 
 @NgModule({
