@@ -16,6 +16,10 @@ export class SearchDocumentsMetadataComponent implements OnInit {
 
   public documents: PublicationDTO[];
 
+
+  private currentUserRole: string;
+  private currentUserEmail: string;
+  isShow = false;
   private searchData = "";
 
   private titleTemp = "";
@@ -38,6 +42,16 @@ export class SearchDocumentsMetadataComponent implements OnInit {
   constructor(private loginService: LoginService, private router: Router, private documentSearchText: DocumentSearchTextService) { }
 
   ngOnInit() {
+    this.getCurrentUser();
+    this.documents = [];
+  }
+
+  getCurrentUser() {
+    if (localStorage.getItem('currentUser') != null) {
+      const currentUser: any = this.loginService.currentUserValue;
+      this.currentUserRole = currentUser.role;
+      this.currentUserEmail = currentUser.email;
+    }
   }
 
   search() {
@@ -71,7 +85,7 @@ export class SearchDocumentsMetadataComponent implements OnInit {
 
     }
     this.title = "title=";
-   // this.status = "status=";
+    // this.status = "status=";
     this.fieldOfStudy = "fieldOfStudy=";
     this.author = "authoredBy=@";
     this.dateRange = "recieved=$";
@@ -80,9 +94,15 @@ export class SearchDocumentsMetadataComponent implements OnInit {
 
     this.searchData = this.searchData.substring(0, this.searchData.length - 1);
 
-
     this.documentSearchText.documentsObservable.subscribe(documents => this.documents = documents);
     this.documentSearchText.searchByMetadata(this.searchData);
+
+    this.isShow = !this.isShow;
+
+  }
+
+  searchAgain() {
+    location.reload();
   }
 
 
@@ -122,19 +142,19 @@ export class SearchDocumentsMetadataComponent implements OnInit {
     }
     this.paperTypeTemp = "";
   }
-/*
-  addStatus() {
-    if (this.statusTemp != "") {
-      if (this.status === "status=") {
-        this.status = this.status + "\"" + this.statusTemp + "\"";
+  /*
+    addStatus() {
+      if (this.statusTemp != "") {
+        if (this.status === "status=") {
+          this.status = this.status + "\"" + this.statusTemp + "\"";
+        }
+        else {
+          this.status = this.status + ";" + "\"" + this.statusTemp + "\"";
+        }
       }
-      else {
-        this.status = this.status + ";" + "\"" + this.statusTemp + "\"";
-      }
+      this.statusTemp = "";
     }
-    this.statusTemp = "";
-  }
-*/
+  */
   addFieldOfStudy() {
     if (this.fieldOfStudyTemp != "") {
       if (this.fieldOfStudy === "fieldOfStudy=") {
@@ -161,17 +181,20 @@ export class SearchDocumentsMetadataComponent implements OnInit {
   }
 
   addDate() {
-    var currentDate = new Date();
-    var dd = String(currentDate.getDate()).padStart(2, '0');
-    var mm = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = currentDate.getFullYear();
-    var temp = yyyy + "-" + mm + "-" + dd;
     if (this.dateFromTemp != undefined) {
       if (this.dateRange === "recieved=$") {
-        if (this.dateUntilTemp == undefined)
-          this.dateRange = this.dateRange + "\"" + this.dateFromTemp + "\"" + ":" + "\"" + temp + "\"";
-      } else {
-        this.dateRange = this.dateRange + "\"" + this.dateFromTemp + "\"" + ":" + "\"" + this.dateUntilTemp + "\"";
+        if (this.dateUntilTemp == undefined) {
+          this.dateRange = this.dateRange + "gt:" + "\"" + this.dateFromTemp + "\"";
+        }
+        else if (this.dateUntilTemp != undefined) {
+          this.dateRange = this.dateRange + "\"" + this.dateFromTemp + "\"" + ":" + "\"" + this.dateUntilTemp + "\"";
+        }
+      }
+    }
+    else if (this.dateUntilTemp != undefined) {
+      if (this.dateRange === "recieved=$") {
+        if (this.dateFromTemp == undefined)
+          this.dateRange = this.dateRange + "lt:" + "\"" + this.dateUntilTemp + "\"";
       }
     }
   }
