@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
+import ftn.xscience.exception.UnmarshallingException;
 import ftn.xscience.repository.CoverLetterRepository;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
@@ -36,13 +37,22 @@ public class CoverLetterService {
 		
 		Document coverLetter = domParser.buildDocument(coverLetterXml, schemaPath);
 		
-		String coverLetterName = coverLetter.getElementsByTagName("PublicationTitle").item(0).getTextContent() + ".xml";
+		String coverLetterName = coverLetter.getElementsByTagName("PublicationTitle").item(0).getTextContent();
 		
+		coverLetter.getDocumentElement().setAttribute("submissionDate", StringPathHandler.formatCurrentDateToString());
+		coverLetter.getDocumentElement().setAttribute("id", "idvalue0");
 		
-		// extract metadata FIRST
+		coverLetterName = StringPathHandler.formatCLNameForDatabase(coverLetterName);
 		
+		String coverLetterDateUpdated = null;
+		try {
+			coverLetterDateUpdated = coverLetterRepository.marshal(coverLetterRepository.unmarshalFromDocument(coverLetter));
+		} catch (Exception e) {
+			throw new UnmarshallingException("Unmarshaling document [" + coverLetterName + "] failed!");
+		}
 		
-		coverLetterRepository.save(coverLetterXml, coverLetterName);
+		coverLetterRepository.save(coverLetterDateUpdated, coverLetterName);
+		//coverLetterRepository.save(coverLetterXml, coverLetterName);
 		return "";
 	}
 }

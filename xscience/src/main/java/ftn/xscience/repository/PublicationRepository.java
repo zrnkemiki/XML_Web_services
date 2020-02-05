@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.JAXBIntrospector;
 import javax.xml.bind.Marshaller;
@@ -19,6 +18,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.w3c.dom.Document;
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
@@ -77,6 +77,11 @@ public class PublicationRepository {
 		long mods = 0;
 		try {
 			mods = DBHandler.updateXMLResource(conn, collectionId, documentId, TARGET_NS_PUBLICATION, UPDATE, contextXPath, toDo);
+			if (toDo.equalsIgnoreCase("ACCEPTED")) {
+				contextXPath = "/Publication/MetaData/Accepted/text()";
+				String patch = StringPathHandler.formatCurrentDateToString();
+				mods += DBHandler.updateXMLResource(conn, collectionId, documentId, TARGET_NS_PUBLICATION, UPDATE, contextXPath, patch);
+			}
 		} finally {
 			connectionPool.releaseConnection(conn);
 		}
@@ -172,5 +177,12 @@ public class PublicationRepository {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		Publication publication = (Publication) JAXBIntrospector.getValue(unmarshaller.unmarshal(resource.getContentAsDOM()));
 		return publication;
+	}
+	
+	public Publication unmarshalFromDocument(Document publication) throws JAXBException {
+		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.publication");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		Publication p = (Publication) JAXBIntrospector.getValue(unmarshaller.unmarshal(publication));
+		return p;
 	}
 }

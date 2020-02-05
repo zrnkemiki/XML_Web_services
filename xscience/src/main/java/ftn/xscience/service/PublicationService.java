@@ -64,11 +64,28 @@ public class PublicationService {
 		
 		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
 		
-		System.out.println("RDF: " + rdfFilePath);
+		// ovde se radi update datuma
+		// odradi se unmarshal -> marshal kako bi se dobio nazad String celog dokumenta
+		// i on se onda prosledi u repository.save()
+		
+		publication.getElementsByTagName("Recieved").item(0).setTextContent(StringPathHandler.formatCurrentDateToString());
+		publication.getElementsByTagName("Revised").item(0).setTextContent(StringPathHandler.formatNullDateToString());
+		publication.getElementsByTagName("Accepted").item(0).setTextContent(StringPathHandler.formatNullDateToString());
+		publication.getElementsByTagName("Status").item(0).setTextContent("UPLOADED");
+		
+		String publicationXmlDatesUpdated = null;
+		try {
+			publicationXmlDatesUpdated = publicationRepository.marshal(publicationRepository.unmarshalFromDocument(publication));
+			
+		} catch (JAXBException e) {
+			throw new UnmarshallingException("[custom-err] Unmarshaling document [" + publicationName + "] failed during dates update!");
+		}
+		
 		// extract metadata FIRST
+		System.out.println("RDF: " + rdfFilePath);
 		rdfManager.extractMetadata(publicationFile, rdfFilePath, grddlFilePath);
 		
-		publicationRepository.save(publicationXml, publicationName);
+		publicationRepository.save(publicationXmlDatesUpdated, publicationName);
 		return "";
 	}
 	
@@ -113,6 +130,12 @@ public class PublicationService {
 		String updatedUser = userRepository.marshal(reviewer);
 		userRepository.updateUser(updatedUser, reviewerId);
 		
+		try {
+			long mods = publicationRepository.updatePublicationStatus(publicationId, "IN_REVIEW");
+			System.out.println("[INFO] " + mods + " made on document [" + publicationId + "]");
+		} catch (XMLDBException e) {
+			throw new DocumentNotFoundException("[custom-err] Document [" + publicationId + "] not found!");
+		} 	
 	}
 	
 	public List<Publication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
@@ -250,7 +273,6 @@ public class PublicationService {
 		try {
 			fromRdf = rdfManager.runSPARQL(params);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		

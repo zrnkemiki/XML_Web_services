@@ -1,5 +1,8 @@
 package ftn.xscience.utils.dom;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class StringPathHandler {
 	
 	private static String fileSeparator = System.getProperty("file.separator");
@@ -27,6 +30,12 @@ public class StringPathHandler {
 		return originalName;
 	}
 	
+	public static String formatCLNameForDatabase(String original) {
+		original = original.replaceAll(" ", "_");
+		original = "cl-" + original + ".xml";
+		return original;
+	}
+	
 	public static String formatUserEmailForSparqlQuery(String originalEmail) {
 		String formatted = formatEmailStringForDatabase(originalEmail);
 		formatted = formatted.split(".xml")[0];
@@ -41,5 +50,15 @@ public class StringPathHandler {
 			original = original + ".xml";
 		}
 		return original;
+	}
+	
+	public static String formatCurrentDateToString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date now = new Date();
+		return sdf.format(now);
+	}
+	
+	public static String formatNullDateToString() {
+		return "1000-01-01";
 	}
 }
