@@ -20,7 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.xmldb.api.base.XMLDBException;
 
+import ftn.xscience.dto.DTOConverter;
+import ftn.xscience.dto.PublicationDTO;
+import ftn.xscience.model.publication.Publication;
 import ftn.xscience.repository.RepoProba;
+import ftn.xscience.service.PublicationService;
 import ftn.xscience.utils.template.RDFManager;
 
 @RestController
@@ -32,6 +36,9 @@ public class ProbaController {
 	
 	//@Autowired
 	RDFManager rdfManager = new RDFManager();
+	
+	@Autowired
+	PublicationService publicationService;
 	
 	// MORA DA BUDE /REST ZA AUTORIZACIJU
 	@PreAuthorize("hasRole('EDITOR')")
@@ -97,7 +104,10 @@ public class ProbaController {
 		for(String publication : results) {
 			System.out.println(publication);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		
+		List<Publication> publications = publicationService.getDocumentsByID(results);
+		List<PublicationDTO> publicationsDTO = DTOConverter.convertPublicationsToDTO(publications);
+		return new ResponseEntity<List<PublicationDTO>>(publicationsDTO,HttpStatus.OK);
 	}
 	
 	//@GetMapping(value="/extract")

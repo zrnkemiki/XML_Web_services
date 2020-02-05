@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewDTO } from '../model/reviewDTO';
 import { ReviewService } from '../services/review.service';
-
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -12,6 +11,8 @@ export class ReviewComponent implements OnInit {
 
   public review: ReviewDTO;
   private title: string;
+
+  private status: string;
 
   constructor(private router: Router, private route: ActivatedRoute, private reviewService: ReviewService)
   {
@@ -32,12 +33,14 @@ export class ReviewComponent implements OnInit {
 
 
   ngOnInit() {
+    this.status = "status="
     this.title = this.route.snapshot.paramMap.get('title');
   }
 
   saveReview(){
       this.review.title = this.title;
-      debugger;
       this.reviewService.saveReview(this.review);
     }
+
+  
 }
