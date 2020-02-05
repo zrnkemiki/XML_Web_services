@@ -32,5 +32,13 @@ export class DocumentSearchTextService {
       });
   }
 
+  searchByMetadata(searchWord) {
+    this.http.get<PublicationDTO[]>("http://localhost:9000/xscience/proba/advanced-search?" + searchWord)
+      .subscribe(documents => {
+        this.documents = documents;
+        this.documentsSource.next(this.documents);
+      });
+  }
+
 
 }

@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import ftn.xscience.dto.DTOConverter;
 import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.exception.DocumentNotFoundException;
 import ftn.xscience.exception.UnmarshallingException;
@@ -289,6 +290,23 @@ public class PublicationService {
 		}
 		
 		return forApproval;
+	}
+	
+	public List<Publication> getDocumentsByID(List<String> titles){
+		List<Publication> publications = new ArrayList<>();
+		for (String title : titles) {
+			try {
+				title = StringPathHandler.formatNameAddXMLInTheEnd(title);
+				Publication p = publicationRepository.getPublication(title);
+				publications.add(p);
+			} catch (XMLDBException e) {
+				// TODO Auto-generated catch block
+				throw new DocumentNotFoundException("[custom-err] Document [" + title + "] not found!\n[original] " + e.getMessage());
+			} catch (JAXBException e) {
+				throw new UnmarshallingException("[custom-err] Unmarshalling publication [" + title + "] failed!\n[original-err] " + e.getMessage());
+			}
+		}
+		return publications;
 	}
 	
 

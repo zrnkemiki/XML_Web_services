@@ -53,7 +53,7 @@ export class UploadComponent implements OnInit {
   onSubmitPublication() {
     const formData = new FormData();
     formData.append('file', this.filePublication);
-    this.http.post('http://localhost:9000/xscience/publication/rest/uploadPublication', formData)
+    this.http.post('http://localhost:9000/xscience/publication/uploadPublication', formData)
       .subscribe(res => {
         console.log(res);
         alert('successfully UPLOADED PUBLICATION !!');
@@ -63,7 +63,7 @@ export class UploadComponent implements OnInit {
   onSubmitCoverLetter() {
     const formData = new FormData();
     formData.append('file', this.fileCoverLetter);
-    this.http.post('http://localhost:9000/xscience/coverletter/rest/uploadCoverLetter', formData)
+    this.http.post('http://localhost:9000/xscience/coverletter/uploadCoverLetter', formData)
       .subscribe(res => {
         console.log(res);
         alert('successfully UPLOADED COVER LETTER !!');
