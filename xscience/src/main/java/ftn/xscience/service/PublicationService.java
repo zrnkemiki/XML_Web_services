@@ -198,6 +198,9 @@ public class PublicationService {
 		String xslPath = StringPathHandler.handlePathSeparator(xslPathPublication, contextPath);
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
 		
+		XSLTransformator transformator = new XSLTransformator();
+		
+		String destPath = path + "/" + publicationName; 
 		
 		publicationName = StringPathHandler.formatNameAddXMLInTheEnd(publicationName);
 		String xmlPublication = null;
@@ -211,7 +214,7 @@ public class PublicationService {
 			xmlPublication = publicationRepository.marshal(p);
 			document = domParser.buildDocument(xmlPublication, schemaPath);
 			//PDF + HTML SAVE IMPLEMENTATIOMN
-			//transformed = transformator.generateHTML(document, xslPath);
+			transformator.exportHTML_PDF(document, xslPath, destPath);
 		} catch (XMLDBException | JAXBException e) {
 			throw new RuntimeException("OOps, something went wrong while getting publication in getTransformedPublication");
 		} catch (SAXException | ParserConfigurationException | IOException e1) {

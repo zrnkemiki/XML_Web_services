@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xsl/grddl.xsl"?>
-<Publication about="https://www.xscience.com/data/publications/Conceptualizing_Location_-_One_Term_Many_Meanings" id="pub1" 
+<Publication about="https://www.xscience.com/data/publication/Conceptualizing_Location_-_One_Term_Many_Meanings" id="pub1" 
 language="en-US" version="1" 
 vocab="https://www.xscience.com/data/publication/predicate/"
 xmlns:pred="https://www.xscience.com/data/publication/predicate/" 

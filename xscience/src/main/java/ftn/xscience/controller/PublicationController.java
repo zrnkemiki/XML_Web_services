@@ -178,10 +178,10 @@ public class PublicationController {
 		
 		return new ResponseEntity<List<UserDTO>>(userFound, HttpStatus.OK);
 	}
-	@PostMapping(value = "/{id/export/{path}")
+	@PostMapping(value = "/{id}/export/{path}")
 	public ResponseEntity<?> exportPublication(@PathVariable("id") String documentId, @PathVariable("path") String path){
 		System.out.println("Document " + documentId + "will be exported to " + path );
-		
+		publicationService.exportPublication(documentId, path);
 		return null;
 	}
 	

@@ -31,13 +31,6 @@ private static DocumentBuilderFactory documentFactory;
 	
 	private static TransformerFactory transformerFactory;
 	
-	public static final String INPUT_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\valid-xml\\Conceptualizing_Location_-_One_Term_Many_Meanings.xml";
-	
-	public static final String XSL_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\xsl\\publication.xsl";
-	
-	public static final String HTML_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.html";
-			
-	public static final String OUTPUT_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.pdf";
 
 	static {
 
@@ -59,24 +52,6 @@ private static DocumentBuilderFactory documentFactory;
      * @throws IOException
      * @throws DocumentException
      */
-    public void generatePDF(String filePath) throws IOException, DocumentException {
-        
-    	// Step 1
-    	Document document = new Document();
-        
-    	// Step 2
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        
-        // Step 3
-        document.open();
-        
-        // Step 4
-        XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(HTML_FILE));
-        
-        // Step 5
-        document.close();
-        
-    }
 
     
     public String generateHTML(org.w3c.dom.Document document, String xslPath) throws FileNotFoundException {
@@ -108,6 +83,60 @@ private static DocumentBuilderFactory documentFactory;
 		}
     	return new String(out.toByteArray());
     
+    }
+    
+    public  void exportHTML_PDF(org.w3c.dom.Document document, String xslPath, String path) throws FileNotFoundException {
+    	
+    	try {
+
+			// Initialize Transformer instance
+			StreamSource transformSource = new StreamSource(new File(xslPath));
+			Transformer transformer = transformerFactory.newTransformer(transformSource);
+			transformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			String htmlPath = path + ".html";
+			String pdfPath = path + ".pdf";
+			
+			
+			// Generate XHTML
+			transformer.setOutputProperty(OutputKeys.METHOD, "xhtml");
+
+			// Transform DOM to HTML
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(new FileOutputStream(htmlPath));
+			transformer.transform(source, result);
+			
+			// Step 1
+	    	Document pdfDocument = new Document();
+	        
+	    	// Step 2
+	        PdfWriter writer = PdfWriter.getInstance(pdfDocument, new FileOutputStream(pdfPath));
+	        
+	        // Step 3
+	        pdfDocument.open();
+	        
+	        // Step 4
+	        XMLWorkerHelper.getInstance().parseXHtml(writer, pdfDocument, new FileInputStream(htmlPath));
+	        
+	        // Step 5
+	        pdfDocument.close();
+			
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    
+    	
     }
     
     }
