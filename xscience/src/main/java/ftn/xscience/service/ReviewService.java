@@ -22,6 +22,7 @@ import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.dto.UserDTO;
+import ftn.xscience.exception.DOMParsingFailedException;
 import ftn.xscience.model.publication.Publication;
 import ftn.xscience.model.review.Review;
 import ftn.xscience.model.user.TUser;
@@ -32,6 +33,7 @@ import ftn.xscience.security.JwtValidator;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.template.RDFManager;
+import ftn.xscience.utils.template.XSLTransformator;
 
 @Service
 public class ReviewService {
@@ -59,6 +61,7 @@ public class ReviewService {
 	
 	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/review.xsd";
+	private static String xslPathReview = "WEB-INF/classes/data/xsl/review.xsl";
 	
 	public void saveReviewFromObject(Review review) throws JAXBException, SAXException, ParserConfigurationException, IOException, XMLDBException {
 		
@@ -98,6 +101,33 @@ public class ReviewService {
 		rdfManager.addNewReviewMetaData(metadataMap);
 		
 		reviewRepository.save(reviewXml, reviewName);
+	}
+	
+	public String getTransformedReview(String reviewId) {
+		String contextPath = context.getRealPath("/");
+		String xslPath = StringPathHandler.handlePathSeparator(xslPathReview, contextPath);
+		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
+		
+		XSLTransformator transformator = new XSLTransformator();
+		
+		reviewId = StringPathHandler.formatNameAddXMLInTheEnd(reviewId);
+		String xmlReview = null;
+		Review r = null;
+		Document document = null;
+		String transformed = null;
+		
+		try {
+			r = reviewRepository.getReview(reviewId);
+			xmlReview = reviewRepository.marshal(r);
+			document = domParser.buildDocument(xmlReview, schemaPath);
+			transformed = transformator.generateHTML(document, xslPath);
+		} catch (XMLDBException | JAXBException e) {
+			throw new RuntimeException("Ooops, something went wrong while getting review in getTransformedReview");
+		} catch (SAXException | ParserConfigurationException | IOException e) {
+			throw new DOMParsingFailedException("Failed while parsing [" + reviewId + "] in getTransformedReview");
+		}
+		
+		return transformed;
 	}
 	
 	// TO-DO --> MERGE

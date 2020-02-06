@@ -2,6 +2,8 @@ package ftn.xscience.repository;
 
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
@@ -68,7 +70,19 @@ public class RepoProba {
 		
 		//-----------------------------------SPARQL PROBA----------------------------------------------
 		public TUser sparqlProba(String sparqlQuery) throws IOException {
-			rdfManager.changeMetaData(null, null);
+			Map<String,String> map1 = new HashMap<String,String>();
+			Map<String,String> map2 = new HashMap<String,String>();
+			map1.put("subject", "https://www.xscience.com/data/publications/Conceptualizing_Location_-_One_Term_Many_Meanings");
+			map1.put("object", "RESEARCH_PAPER");
+			map1.put("predicate", "paperType");
+			map1.put("type", "literal");
+			
+			map2.put("subject", "https://www.xscience.com/data/publications/Conceptualizing_Location_-_One_Term_Many_Meanings");
+			map2.put("object", "REJECTED");
+			map2.put("predicate", "paperType");
+			map2.put("type", "literal");
+			
+			rdfManager.changeMetaData(map2, map1);
 			return null;
 		}
 

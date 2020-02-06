@@ -1,5 +1,6 @@
 package ftn.xscience.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -148,7 +149,7 @@ public class PublicationController {
 	//@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/uploadPublication", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> uploadPublication(@RequestParam("file") MultipartFile publicationFile,
-											@RequestParam("revision") String revisionFlag) {
+											@RequestParam("revision") String revisionFlag) throws IOException, XMLDBException, JAXBException {
 
 		publicationService.savePublication(publicationFile, Boolean.valueOf(revisionFlag));
 		return new ResponseEntity<String>(HttpStatus.OK);
