@@ -29,13 +29,15 @@
             <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
               Documents by Metadata</button>
             <button type="button"
-              *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'"
+              *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
               (click)="myDocuments()" class="btn btn-success">My Documents</button>
-            <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="uploadPublication()"
-              class="btn btn-success">Upload Publication</button>
+            <button type="button"
+              *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
+              (click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
             <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
               class="btn btn-success">Documents for approval</button>
-            <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'"
+            <button type="button"
+              *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER' || currentUserRole === 'ROLE_AUTHOR'"
               (click)="myReviews()" class="btn btn-success">Documents for my review</button>
           </li>
         </ul>
@@ -59,8 +61,10 @@
         </div>
         <div class="form-group">
           <input type="checkbox" name="revisiom" [(ngModel)]="this.revisionCheckBox"> Revision<br>
-          <button class="btn btn-primary" *ngIf="this.revisionCheckBox" (click)="onSubmitPublication()">Submit Revision</button>
-          <button class="btn btn-primary" *ngIf="!this.revisionCheckBox" (click)="onSubmitPublication()">Submit Publication</button>
+          <button class="btn btn-primary" *ngIf="this.revisionCheckBox" (click)="onSubmitPublication()">Submit
+            Revision</button>
+          <button class="btn btn-primary" *ngIf="!this.revisionCheckBox" (click)="onSubmitPublication()">Submit
+            Publication</button>
           <button class="btn btn-primary" (click)="cancel()">Cancel</button>
         </div>
       </div>

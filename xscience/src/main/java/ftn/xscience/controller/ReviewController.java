@@ -50,6 +50,7 @@ public class ReviewController {
 		return null;
 	}
 	
+	//REVIEW UPLOAD
 	@PostMapping(value = "/review", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> uploadReview(@RequestParam("file") MultipartFile review) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
 		
@@ -59,7 +60,7 @@ public class ReviewController {
 		
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
-	
+	//REVIEW FILL FROM FORM
 	@PostMapping(value = "/saveReview", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveReview(@RequestHeader("Authorization") final String token, @RequestBody ReviewDTO reviewDTO) throws JAXBException, SAXException, ParserConfigurationException, IOException, XMLDBException {
 		TUser loggedUser = jwtValidator.validate(token.substring(7));

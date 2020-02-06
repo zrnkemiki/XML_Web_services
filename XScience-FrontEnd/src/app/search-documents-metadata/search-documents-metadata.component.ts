@@ -16,6 +16,7 @@ export class SearchDocumentsMetadataComponent implements OnInit {
 
   public documents: PublicationDTO[];
 
+  private myDocumentsCheckBox = "";
 
   private currentUserRole: string;
   private currentUserEmail: string;
@@ -23,7 +24,7 @@ export class SearchDocumentsMetadataComponent implements OnInit {
   private searchData = "";
 
   private titleTemp = "";
-  //private statusTemp = "";
+  private statusTemp = "";
   private fieldOfStudyTemp = "";
   private authorTemp = "";
   private dateFromTemp: Date;
@@ -32,7 +33,7 @@ export class SearchDocumentsMetadataComponent implements OnInit {
   private paperTypeTemp = "";
 
   private title = "title=";
-  //private status = "status=";
+  private status = "status=";
   private fieldOfStudy = "fieldOfStudy=";
   private author = "authoredBy=@";
   private dateRange = "recieved=$";
@@ -55,19 +56,38 @@ export class SearchDocumentsMetadataComponent implements OnInit {
   }
 
   search() {
-    //this.addStatus();
+    if (this.currentUserRole != "ROLE_EDITOR" && this.myDocumentsCheckBox == "") {
+      this.statusTemp = "ACCEPTED";
+    }
+    else if (this.myDocumentsCheckBox) {
+      this.authorTemp = this.currentUserEmail;
+    }
+    else if (this.currentUserRole == "ROLE_EDITOR" && this.myDocumentsCheckBox == "") {
+      this.statusTemp = "";
+    }
+
+    if (this.currentUserRole == undefined) {
+      this.statusTemp = "ACCEPTED"
+    }
+
+
+
+    this.addStatus();
     this.addTitle();
     this.addKeyword();
     this.addFieldOfStudy();
     this.addAuthor();
     this.addDate();
     this.addPaperType();
+
+
+
     if (this.title != "title=") {
       this.searchData += this.title + "&";
     }
-    //if (this.status != "status=") {
-    //  this.searchData += this.status + "&";
-    //}
+    if (this.status != "status=") {
+      this.searchData += this.status + "&";
+    }
     if (this.keyWord != "keyword=") {
       this.searchData += this.keyWord + "&";
     }
@@ -85,7 +105,7 @@ export class SearchDocumentsMetadataComponent implements OnInit {
 
     }
     this.title = "title=";
-    // this.status = "status=";
+    this.status = "status=";
     this.fieldOfStudy = "fieldOfStudy=";
     this.author = "authoredBy=@";
     this.dateRange = "recieved=$";
@@ -142,19 +162,19 @@ export class SearchDocumentsMetadataComponent implements OnInit {
     }
     this.paperTypeTemp = "";
   }
-  /*
-    addStatus() {
-      if (this.statusTemp != "") {
-        if (this.status === "status=") {
-          this.status = this.status + "\"" + this.statusTemp + "\"";
-        }
-        else {
-          this.status = this.status + ";" + "\"" + this.statusTemp + "\"";
-        }
+
+  addStatus() {
+    if (this.statusTemp != "") {
+      if (this.status === "status=") {
+        this.status = this.status + "\"" + this.statusTemp + "\"";
       }
-      this.statusTemp = "";
+      else {
+        this.status = this.status + ";" + "\"" + this.statusTemp + "\"";
+      }
     }
-  */
+    this.statusTemp = "";
+  }
+
   addFieldOfStudy() {
     if (this.fieldOfStudyTemp != "") {
       if (this.fieldOfStudy === "fieldOfStudy=") {

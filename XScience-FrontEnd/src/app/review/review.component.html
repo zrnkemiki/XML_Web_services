@@ -28,15 +28,16 @@
                         <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
                             Documents by Metadata</button>
                         <button type="button"
-                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
                             (click)="myDocuments()" class="btn btn-success">My Documents</button>
-                        <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="uploadPublication()"
-                            class="btn btn-success">Upload Publication</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
+                            (click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
                         <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
                             class="btn btn-success">Documents for approval</button>
                         <button type="button"
-                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'"
-                            (click)="myReviews()" class="btn btn-success">My Reviews</button>
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER' || currentUserRole === 'ROLE_AUTHOR'"
+                            (click)="myReviews()" class="btn btn-success">Documents for my review</button>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -80,7 +81,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label >Methodology</label>
+                    <label>Methodology</label>
                     <select name="dan" class="form-control" [(ngModel)]="this.review.methodology" required>
                         <option value="STRONGLY_AGREE" selected>STRONGLY AGREE</option>
                         <option value="AGREE">AGREE</option>
@@ -110,8 +111,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label >Recommendations_for_editor</label>
-                    <select name="dan" class="form-control" [(ngModel)]="this.review.recommendations_for_editor" required>
+                    <label>Recommendations_for_editor</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.review.recommendations_for_editor"
+                        required>
                         <option value="ACCEPT" selected>ACCEPT</option>
                         <option value="MINOR REVISION">MINOR REVISION</option>
                         <option value="MAJOR REVISION">MAJOR REVISION</option>
@@ -121,15 +123,17 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlTextarea3">Comment for editor</label>
-                    <textarea class="form-control" name="commentForEditor" rows="7" [(ngModel)]="this.review.comment_for_editor"></textarea>
+                    <textarea class="form-control" name="commentForEditor" rows="7"
+                        [(ngModel)]="this.review.comment_for_editor"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="exampleFormControlTextarea3">Comment for author</label>
-                    <textarea class="form-control" name="commentForAuthor" rows="7" [(ngModel)]="this.review.comment_for_author"></textarea>
+                    <textarea class="form-control" name="commentForAuthor" rows="7"
+                        [(ngModel)]="this.review.comment_for_author"></textarea>
                 </div>
 
-                <button type="button" (click)="saveReview()" class="btn btn-success">Save Review</button> 
+                <button type="button" (click)="saveReview()" class="btn btn-success">Save Review</button>
             </form>
         </div>
     </div>

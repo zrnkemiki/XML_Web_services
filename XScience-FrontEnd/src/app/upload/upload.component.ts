@@ -1,9 +1,7 @@
-import { Component, OnInit, VERSION } from '@angular/core';
-import { User } from '../model/user';
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { LoginService } from '../services/login.service';
-import { HttpEventType, HttpClient, HttpResponse } from '@angular/common/http';
-import { FileUploadServiceService } from '../services/file-upload-service.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload',
@@ -62,7 +60,7 @@ export class UploadComponent implements OnInit {
     this.http.post('http://localhost:9000/xscience/publication/uploadPublication', formData)
       .subscribe(res => {
         console.log(res);
-        alert('successfully UPLOADED PUBLICATION !!');
+        alert('UPLOADED SUCCESSFULLY!');
       })
   }
 
@@ -73,7 +71,7 @@ export class UploadComponent implements OnInit {
     this.http.post('http://localhost:9000/xscience/coverletter/uploadCoverLetter', formData)
       .subscribe(res => {
         console.log(res);
-        alert('successfully UPLOADED COVER LETTER !!');
+        alert('UPLOADED SUCCESSFULLY!');
       })
   }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CoverLetter id="idvalue0" submissionDate="2001-01-01" xmlns="https://www.xscience.com/data/coverLetter.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/coverLetter.xsd ../xsd/coverLetter.xsd ">
-  <PublicationTitle>PublicationTitle</PublicationTitle>
+  <PublicationTitle>Gene Models</PublicationTitle>
   <Editor>Editor Editic</Editor>
   <Journal>Biology Magazine</Journal>
   <Author>

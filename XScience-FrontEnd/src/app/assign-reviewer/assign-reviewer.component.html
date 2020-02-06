@@ -23,17 +23,27 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
-                    <button type="button" (click)="searchDocumentsText()" class="btn btn-success">Search documents</button>
-                    <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search Documents by Metadata</button>
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'" (click)="myDocuments()" class="btn btn-success">My Documents</button>
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'"(click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()" class="btn btn-success">Documents for approval</button>    
-                    <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER'" (click)="myReviews()" class="btn btn-success">Documents for my review</button> 
-                </li>
+                        <button type="button" (click)="searchDocumentsText()" class="btn btn-success">Search
+                            documents</button>
+                        <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
+                            Documents by Metadata</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
+                            (click)="myDocuments()" class="btn btn-success">My Documents</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
+                            (click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
+                        <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
+                            class="btn btn-success">Documents for approval</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER' || currentUserRole === 'ROLE_AUTHOR'"
+                            (click)="myReviews()" class="btn btn-success">Documents for my review</button> </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log in</button>
-                    <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log out</button>
+                    <button type="button" *ngIf="!currentUserEmail" (click)="login()" class="btn btn-primary">Log
+                        in</button>
+                    <button type="button" *ngIf="currentUserEmail" (click)="logout()" class="btn btn-primary">Log
+                        out</button>
                 </ul>
             </div>
         </div>
@@ -57,7 +67,7 @@
                         <th style="width: 15%">Action</th>
                     </tr>
                 </thead>
-                <tbody >
+                <tbody>
                     <tr *ngFor="let user of users; let i = index">
                         <td>
                             {{user.firstName}}
@@ -69,7 +79,8 @@
                             {{user.email}}
                         </td>
                         <td>
-                            <button (click)='assignReviewer(user.email)' type="button" class="btn btn-danger">Assign Reviewer</button>
+                            <button (click)='assignReviewer(user.email)' type="button" class="btn btn-danger">Assign
+                                Reviewer</button>
                         </td>
                     </tr>
                 </tbody>
