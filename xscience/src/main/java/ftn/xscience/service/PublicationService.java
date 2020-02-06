@@ -195,8 +195,8 @@ public class PublicationService {
 	public void rejectPublication(String documentId, TUser loggedUser) throws XMLDBException {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "REJECTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
-		
-		prepareAndSendEmailToAuthors(loggedUser, documentId, "REJECT", "Your publication [" + documentId + "] is reject!");
+		String noEndXml = documentId.substring(0, documentId.length() - 4);
+		prepareAndSendEmailToAuthors(loggedUser, documentId, "REJECT", "Your publication [ http://localhost:4200/document-view/" + documentId + " ] is rejected!");
 	}
 	
 	// prepare for review
@@ -233,7 +233,7 @@ public class PublicationService {
 		} 	
 		String noEndXml = publicationId.substring(0, publicationId.length()-1);
 		prepareAndSendEmailToReviewer(loggedUser, reviewer, publicationId, "IN_REVIEW", 
-				"You have been assigned for a review of publication [<a href=\"localhost:4200/document-view/" + noEndXml + "\"> " + publicationId + "]");
+				"You have been assigned for a review of publication [ http://localhost:4200/document-view/" + noEndXml + " ]");
 	}
 	
 	public List<Publication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
