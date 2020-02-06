@@ -200,7 +200,7 @@ public class PublicationController {
 	@PostMapping(value = "/{id}/reject")
 	public ResponseEntity<?> rejectPublication(@PathVariable("id") String documentId,
 												@RequestHeader("Authorization") final String token) throws XMLDBException {
-		
+		System.out.println("Usao sam u reject");
 		TUser u = jwtValidator.validate(token.substring(7));
 		TUser sender = userService.getUserByEmail(u.getUsername());
 		publicationService.rejectPublication(documentId, sender);
