@@ -37,6 +37,13 @@ export class DocumentService {
       });
   }
 
+  exportDocument(title, path){
+    this.http.post<any>(this.publicationUri + title + "/export/" + path, {}).subscribe((response: any) => response.json())
+    title = title.split('_').join(' ');
+    alert("Document with title: " + title + " has been exported!");
+    location.reload();
+  }
+
   getDocument(title){
     return this.http.get(this.publicationUri + title , {responseType: 'text'});
   }

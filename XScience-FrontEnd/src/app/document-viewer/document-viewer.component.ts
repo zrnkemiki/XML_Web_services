@@ -9,13 +9,21 @@ import { LoginService } from '../services/login.service';
   styleUrls: ['./document-viewer.component.css']
 })
 export class DocumentViewerComponent implements OnInit {
-
+  private path: "";
   public document: any;
   constructor(private router: Router, private route: ActivatedRoute, private documentService: DocumentService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.getDocument();
 
+  }
+
+  exportFile(){
+    const title = this.route.snapshot.paramMap.get('title');
+
+    if(this.path!=""){
+      this.documentService.exportDocument(title, this.path);
+    }
   }
 
   getDocument() {

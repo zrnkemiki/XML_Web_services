@@ -20,6 +20,8 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.exception.DOMParsingFailedException;
 import ftn.xscience.exception.DocumentNotFoundException;
@@ -176,6 +178,34 @@ public class PublicationService {
 		
 		
 		return transformed;
+	}
+	
+	public String exportPublication(String publicationName, String path) {
+		String contextPath = context.getRealPath("/");
+		String xslPath = StringPathHandler.handlePathSeparator(xslPathPublication, contextPath);
+		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
+		
+		
+		publicationName = StringPathHandler.formatNameAddXMLInTheEnd(publicationName);
+		String xmlPublication = null;
+		Publication p = null;
+		Document document = null;
+		String transformed = null;
+		
+		
+		try {
+			p = publicationRepository.getPublication(publicationName);
+			xmlPublication = publicationRepository.marshal(p);
+			document = domParser.buildDocument(xmlPublication, schemaPath);
+			//PDF + HTML SAVE IMPLEMENTATIOMN
+			//transformed = transformator.generateHTML(document, xslPath);
+		} catch (XMLDBException | JAXBException e) {
+			throw new RuntimeException("OOps, something went wrong while getting publication in getTransformedPublication");
+		} catch (SAXException | ParserConfigurationException | IOException e1) {
+			throw new DOMParsingFailedException("Failed while parsing [" + publicationName + "] in getTransformedPublication");
+		} 
+		return "Document exported!";
+		
 	}
 	
 	public void acceptPublication(String documentId, TUser loggedUser) throws XMLDBException {
