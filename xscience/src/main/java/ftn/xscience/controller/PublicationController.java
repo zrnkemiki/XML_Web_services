@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -178,11 +177,8 @@ public class PublicationController {
 	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")
 	public ResponseEntity<?> acceptPublication(@PathVariable("id") String documentId) throws XMLDBException {
-		System.out.println("Usao sam ovde!");
 		publicationService.acceptPublication(documentId);
-		
-		
-		
+
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
