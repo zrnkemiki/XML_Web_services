@@ -101,7 +101,6 @@ public class RDFManager {
 		model.write(out, SparqlUtil.NTRIPLES);		
 		
 		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI, new String(out.toByteArray()));
-		
 		// UpdateRequest represents a unit of execution
 		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
 
@@ -129,8 +128,9 @@ public class RDFManager {
 		}
 		
 		String deleteSparql = "DELETE DATA { GRAPH <" + conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI 
-				+ "> {" + PUB_PATH + params.get("subject") + ">" + PRED_PATH + params.get("predicate") + "> " + params.get("object") + type + "}}";
-				
+				+ "> {<" +  params.get("subject") + "> " + PRED_PATH + params.get("predicate") + "> " + '"' + params.get("object") + '"' + type + "}}";
+		
+		
 		UpdateRequest update = UpdateFactory.create(deleteSparql);
 		
 		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
