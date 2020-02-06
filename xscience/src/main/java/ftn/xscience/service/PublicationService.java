@@ -20,8 +20,8 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import ftn.xscience.dto.DTOConverter;
 import ftn.xscience.dto.PublicationDTO;
+import ftn.xscience.exception.DOMParsingFailedException;
 import ftn.xscience.exception.DocumentNotFoundException;
 import ftn.xscience.exception.UnmarshallingException;
 import ftn.xscience.model.publication.Publication;
@@ -54,26 +54,41 @@ public class PublicationService {
 	private static String rdfLocation = "WEB-INF/classes/data/gen/publication.rdf";
 	private static String grddlLocation = "WEB-INF/classes/data/xsl/grddl.xsl";
 	
-	public String savePublication(MultipartFile publicationFile) throws SAXException, ParserConfigurationException, IOException, XMLDBException, TransformerException {
+	public void savePublication(MultipartFile publicationFile, boolean revisionFlag) {
 		String contextPath = context.getRealPath("/");
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
 		String rdfFilePath = StringPathHandler.handlePathSeparator(rdfLocation, contextPath);
 		String grddlFilePath = StringPathHandler.handlePathSeparator(grddlLocation, contextPath);
-		
-		String publicationXml = new String(publicationFile.getBytes());
-		Document publication = domParser.buildDocument(publicationXml, schemaPath);
-		
+		String publicationXml = null;
+		Document publication = null;
+		try {
+			publicationXml = new String(publicationFile.getBytes());
+			publication = domParser.buildDocument(publicationXml, schemaPath);
+		} catch (IOException e) {
+			throw new RuntimeException("Error while making string from multipart file in savePublication");
+		} catch (SAXException | ParserConfigurationException e) {
+			throw new DOMParsingFailedException("[custom-err] Parsing document while savign failed!");
+		} 
+
 		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent() + ".xml";
 		
 		// ovde se radi update datuma
 		// odradi se unmarshal -> marshal kako bi se dobio nazad String celog dokumenta
 		// i on se onda prosledi u repository.save()
 		
-		publication.getElementsByTagName("Recieved").item(0).setTextContent(StringPathHandler.formatCurrentDateToString());
-		publication.getElementsByTagName("Revised").item(0).setTextContent(StringPathHandler.formatNullDateToString());
-		publication.getElementsByTagName("Accepted").item(0).setTextContent(StringPathHandler.formatNullDateToString());
-		publication.getElementsByTagName("Status").item(0).setTextContent("UPLOADED");
-		
+		// ako NIJE revizija
+		if (!revisionFlag) {
+			publication.getElementsByTagName("Recieved").item(0).setTextContent(StringPathHandler.formatCurrentDateToString());
+			publication.getElementsByTagName("Revised").item(0).setTextContent(StringPathHandler.formatNullDateToString());
+			publication.getElementsByTagName("Accepted").item(0).setTextContent(StringPathHandler.formatNullDateToString());
+			publication.getElementsByTagName("Status").item(0).setTextContent("UPLOADED");
+		} else {	
+			// ako JESTE revizija
+			Map<String, Object> revisedMap = handleRevision(publication, publicationName);
+			publication = (Document) revisedMap.get("publication");
+			publicationName = (String) revisedMap.get("publicationId");
+		}
+			
 		String publicationXmlDatesUpdated = null;
 		try {
 			publicationXmlDatesUpdated = publicationRepository.marshal(publicationRepository.unmarshalFromDocument(publication));
@@ -84,10 +99,46 @@ public class PublicationService {
 		
 		// extract metadata FIRST
 		System.out.println("RDF: " + rdfFilePath);
-		rdfManager.extractMetadata(publicationFile, rdfFilePath, grddlFilePath);
+		try {
+			rdfManager.extractMetadata(publicationFile, rdfFilePath, grddlFilePath);
+			publicationRepository.save(publicationXmlDatesUpdated, publicationName);
+		} catch (IOException | SAXException | TransformerException e) {
+			throw new DOMParsingFailedException("Error while extracting METADATA in savePublication");
+		} catch (XMLDBException e) {
+			throw new DOMParsingFailedException("Error while trying to save publication to exist-db");
+		} 
 		
-		publicationRepository.save(publicationXmlDatesUpdated, publicationName);
-		return "";
+	}
+	
+	public Map<String, Object> handleRevision(Document publication, String oldName) {
+		
+		publication.getElementsByTagName("Revised").item(0).setTextContent(StringPathHandler.formatCurrentDateToString());
+		publication.getElementsByTagName("Status").item(0).setTextContent("REVISED");
+		int oldVersion = Integer.parseInt(publication.getDocumentElement().getAttribute("version"));
+		int newVersion = oldVersion + 1;
+		publication.getDocumentElement().setAttribute("version", String.valueOf(newVersion));
+		System.out.println("Old version: " + oldVersion);
+		System.out.println("New version: " + newVersion);
+
+		String newVersionString = "-version" + String.valueOf(newVersion);
+		String newPublicationName = oldName.split(".xml")[0];
+		newPublicationName = newPublicationName + newVersionString + ".xml";
+		System.out.println("=====================================");
+		System.out.println("New version string: " + newVersionString);
+		System.out.println("New publication name" + newPublicationName);
+		// samo provera da li ce proci marshall/unmarshall
+		try {
+			String updatedPublicationXml = publicationRepository.marshal(publicationRepository.unmarshalFromDocument(publication));
+		} catch (JAXBException e) {
+			throw new UnmarshallingException("[custom-err] Unmarshalling document [" + newPublicationName + "] failed during handling revision");
+		} 
+		
+		Map<String, Object> returnValue = new HashMap<String, Object>();
+		returnValue.put("publicationId", newPublicationName);
+		returnValue.put("publication", publication);
+		
+		return returnValue;
+		
 	}
 	
 	public void acceptPublication(String documentId) throws XMLDBException {
