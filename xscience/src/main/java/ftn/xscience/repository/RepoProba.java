@@ -66,7 +66,7 @@ public class RepoProba {
 		
 		//-----------------------------------SPARQL PROBA----------------------------------------------
 		public TUser sparqlProba(String sparqlQuery) throws IOException {
-			rdfManager.runSPARQL(null);
+			rdfManager.changeMetaData(null);
 			return null;
 		}
 

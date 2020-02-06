@@ -64,6 +64,7 @@
                
                 <xsl:apply-templates select="/pbl:Publication/pbl:Abstract"></xsl:apply-templates>
                 <xsl:apply-templates select="/pbl:Publication/pbl:Content"></xsl:apply-templates>
+                <xsl:apply-templates select="/pbl:Publication/pbl:References"></xsl:apply-templates>
                
             </body>
         </html>
@@ -130,6 +131,7 @@
         <xsl:apply-templates select="self::node()/pbl:Figure"></xsl:apply-templates>
         <xsl:apply-templates select="self::node()/pbl:List"></xsl:apply-templates>
         <xsl:apply-templates select="self::node()/pbl:Table"></xsl:apply-templates>
+        <xsl:apply-templates select="self::node()/pbl:Hyperlink"></xsl:apply-templates>
     </xsl:template>
     
     <xsl:template match="/pbl:Publication/pbl:Content/pbl:Paragraph/pbl:ParagraphContent/pbl:Figure">
@@ -203,4 +205,44 @@
         </tr>
     </xsl:template>
     
+    <xsl:template match="//pbl:Hyperlink">
+        <xsl:variable name="href" select="self::node()/@href"/>
+        <a href="{$href}">
+            <xsl:value-of select="current()"/>
+        </a>  
+    </xsl:template>
+    
+    <xsl:template match="//pbl:References">
+        <b>References</b>
+        <br/>
+        <xsl:for-each select="self::node()/pbl:Reference">
+            <xsl:apply-templates select="self::node()"></xsl:apply-templates>
+        </xsl:for-each>
+    </xsl:template>
+    
+    <xsl:template match="//pbl:Reference">
+        <xsl:variable name="href" select="self::node()/@href"/>
+        <p>
+            <xsl:value-of select="self::node()/pbl:Author"/> 
+            (
+            <xsl:value-of select="self::node()/pbl:Year"/>
+            ).
+            <xsl:value-of select="self::node()/pbl:Title"/>
+            <a href = "{$href}">
+            <xsl:value-of select="self::node()/pbl:JournalName"/>
+            </a>,
+            <xsl:value-of select="self::node()/pbl:VolumeIssue"/>,
+            pp.
+            <xsl:value-of select="self::node()/pbl:Pages"/>
+        </p>
+    </xsl:template>
 </xsl:stylesheet>
+
+
+
+
+
+
+
+
+

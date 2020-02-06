@@ -18,9 +18,13 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
@@ -32,12 +36,11 @@ import ftn.xscience.utils.template.AuthenticationUtilities.ConnectionProperties;
 
 public class RDFManager {
 
-	
-	
 	public static final String PRED_PATH = "<https://www.xscience.com/data/publication/predicate/";
 	public static final String XML_LITERAL = "^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.";
 	public static final String XS_DATE = "^^xs:date";
 	public static final String USER_PATH = "<https://www.xscience.com/data/users/";
+	public static final String PUB_PATH = "<https://www.xscience.com/data/publications/";
 	public static final String PUBLICATION_NAMED_GRAPH_URI = "/publication/metadata";
 	
 
@@ -70,6 +73,69 @@ public class RDFManager {
 
 	}
 
+	public void addNewPubMetaData(Map<String, String> params) throws IOException {
+		
+		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
+		String pred = PRED_PATH.substring(1);
+		Model model = ModelFactory.createDefaultModel();
+		model.setNsPrefix("pred", pred);
+		
+		
+		Resource resource = model.createResource(params.get("subject"));
+		Property property = model.createProperty(pred, params.get("predicate"));
+		Literal literal;
+		if(params.get("type").equals("date")) {
+			literal = model.createTypedLiteral(params.get("object"), "http://www.w3.org/2001/XMLSchema#date");
+		}else {
+			literal = model.createLiteral(params.get("object"), true);
+		}
+
+		Statement statement = model.createStatement(resource, property, literal);
+		
+		model.add(statement);
+		
+		System.out.println("[INFO] Rendering the UPDATE model as RDF/XML...");
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		model.write(out, SparqlUtil.NTRIPLES);		
+		
+		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI, new String(out.toByteArray()));
+		
+		// UpdateRequest represents a unit of execution
+		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+
+		// UpdateProcessor sends update request to a remote SPARQL update service. 
+        UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
+		processor.execute();
+	}
+	
+	
+	public void changeMetaData(Map<String, String> params) throws IOException {	
+
+		deleteSPARQL(params);
+		this.addNewPubMetaData(params);
+	}
+	
+	
+	private static void deleteSPARQL(Map<String, String> params) throws IOException {
+
+		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
+		String type = "";
+		if(params.get("type").equals("date")) {
+			type = XS_DATE;
+		}else {
+			type = XML_LITERAL;
+		}
+		
+		String deleteSparql = "DELETE DATA { GRAPH <" + conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI 
+				+ "> {" + PUB_PATH + params.get("subject") + ">" + PRED_PATH + params.get("predicate") + "> " + params.get("object") + type + "}}";
+				
+		UpdateRequest update = UpdateFactory.create(deleteSparql);
+		
+		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
+		processor.execute();
+	}
+	
 	private static String makeORStatement(Map.Entry<String, String> entry) {
 
 		String[] values = entry.getValue().split(";");
