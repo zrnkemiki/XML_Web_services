@@ -30,13 +30,13 @@ private static DocumentBuilderFactory documentFactory;
 	
 	private static TransformerFactory transformerFactory;
 	
-	public static final String INPUT_FILE = "data/xslt/Conceptualizing_Location-One_Term_Many_Meanings.xml";
+	public static final String INPUT_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\valid-xml\\Conceptualizing_Location_-_One_Term_Many_Meanings.xml";
 	
-	public static final String XSL_FILE = "data/xslt/publication.xsl";
+	public static final String XSL_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\xsl\\publication.xsl";
 	
-	public static final String HTML_FILE = "gen/itext/publication.html";
+	public static final String HTML_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.html";
 			
-	public static final String OUTPUT_FILE = "gen/itext/publication.pdf";
+	public static final String OUTPUT_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.pdf";
 
 	static {
 
@@ -45,6 +45,7 @@ private static DocumentBuilderFactory documentFactory;
 		documentFactory.setNamespaceAware(true);
 		documentFactory.setIgnoringComments(true);
 		documentFactory.setIgnoringElementContentWhitespace(true);
+		
 		
 		/* Inicijalizacija Transformer fabrike */
 		transformerFactory = TransformerFactory.newInstance();
@@ -98,6 +99,8 @@ private static DocumentBuilderFactory documentFactory;
 	}
     
     public void generateHTML(String xmlPath, String xslPath) throws FileNotFoundException {
+    	xmlPath = INPUT_FILE;
+    	xslPath = XSL_FILE;
     	
 		try {
 
@@ -112,6 +115,7 @@ private static DocumentBuilderFactory documentFactory;
 
 			// Transform DOM to HTML
 			DOMSource source = new DOMSource(buildDocument(xmlPath));
+			new DOMSource();
 			StreamResult result = new StreamResult(new FileOutputStream(HTML_FILE));
 			transformer.transform(source, result);
 			
