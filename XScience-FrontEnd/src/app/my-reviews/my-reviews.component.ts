@@ -35,6 +35,7 @@ export class MyReviewsComponent implements OnInit {
   }
 
   declineReview(title: any){
+    title = title.split(' ').join('_');
     this.reviewService.declineReviewRequest(title);
     //REVEWER NE ZELI DA RADI REVIEW
   }
@@ -74,7 +75,7 @@ export class MyReviewsComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    location.reload()
+    this.router.navigate(["/homepage"]);
   }
   myReviews(){
     this.router.navigate(["my-reviews"]);

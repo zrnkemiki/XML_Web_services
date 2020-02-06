@@ -65,7 +65,7 @@ export class DocumentReviewsComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    location.reload()
+    this.router.navigate(["/homepage"]);
   }
   myReviews(){
     this.router.navigate(["my-reviews"]);

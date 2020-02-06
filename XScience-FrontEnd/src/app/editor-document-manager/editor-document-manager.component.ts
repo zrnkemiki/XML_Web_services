@@ -27,14 +27,14 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   ngOnInit() {
     this.getCurrentUser();
-    if(this,this.currentUserRole == "ROLE_EDITOR"){      
-    this.getDocuments();
+    if (this, this.currentUserRole == "ROLE_EDITOR") {
+      this.getDocuments();
     }
-    else{
+    else {
       this.router.navigate(["/homepage"]);
     }
   }
-  
+
 
   getCurrentUser() {
     if (localStorage.getItem('currentUser') != null) {
@@ -66,7 +66,7 @@ export class EditorDocumentManagerComponent implements OnInit {
     this.router.navigate(["/document-reviews/" + title]);
   }
 
-  viewCoverLetter(title){
+  viewCoverLetter(title) {
     title = title.split(' ').join('_');
     this.router.navigate(["/coverLetter-view/" + title]);
   }
@@ -79,18 +79,21 @@ export class EditorDocumentManagerComponent implements OnInit {
   acceptDocument(title) {
     title = title.split(' ').join('_');
     this.documentService.acceptPublication(title);
+    this.homepage();
   }
 
   minorRevision(title) {
     title = title.split(' ').join('_');
     this.documentService.minorRevision(title);
     alert("Minor revision document")
+    this.homepage();
   }
 
   majorRevision(title) {
     title = title.split(' ').join('_');
     this.documentService.majorRevision(title);
     alert("Major revision document")
+    this.homepage();
   }
   rejectDocument(title) {
     title = title.split(' ').join('_');
@@ -130,9 +133,9 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    location.reload()
+    this.router.navigate(["/homepage"]);
   }
-  myReviews(){
+  myReviews() {
     this.router.navigate(["my-reviews"]);
   }
 

@@ -57,7 +57,7 @@ export class DocumentViewerComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    location.reload()
+    this.router.navigate(["/homepage"]);
   }
 
 }

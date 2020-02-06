@@ -33,7 +33,7 @@
                         <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
                             class="btn btn-success">Documents for approval</button>
                         <button type="button"
-                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER' || currentUserRole === 'ROLE_AUTHOR'"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVIEWER' || currentUserRole === 'ROLE_AUTHOR'"
                             (click)="myReviews()" class="btn btn-success">Documents for my review</button>
                     </li>
                 </ul>

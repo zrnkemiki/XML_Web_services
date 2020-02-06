@@ -219,11 +219,14 @@ public class PublicationController {
 	}
 	
 	// dodeljivanje recenzenta publikaciji
-	@PreAuthorize("hasRole('EDITOR')")
+	//@PreAuthorize("hasRole('ROLE_EDITOR')")
 	@PostMapping(value = "/{id}/assign-reviewer/{reviewerId}")
 	public ResponseEntity<?> assignReviewer(@PathVariable("id") String publicationId, 
 											@PathVariable("reviewerId") String reviewerId,
 											@RequestHeader("Authorization") final String token) {
+		System.out.println("Usao sam u assing reviewer");
+		System.out.println(reviewerId);
+		reviewerId = reviewerId + ".com";
 		TUser u = jwtValidator.validate(token.substring(7));
 		TUser loggedUser = userService.getUserByEmail(u.getUsername());
 		try {

@@ -36,6 +36,7 @@ export class AssignReviewerComponent implements OnInit {
   }
 
   assignReviewer(email) {
+    alert("Ovo je mail: " + email);
     const title = this.route.snapshot.paramMap.get('title');
     this.documentService.assignReviewer(title, email);
   }
@@ -67,7 +68,7 @@ export class AssignReviewerComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    location.reload()
+    this.router.navigate(["/homepage"]);
   }
   myReviews(){
     this.router.navigate(["my-reviews"]);

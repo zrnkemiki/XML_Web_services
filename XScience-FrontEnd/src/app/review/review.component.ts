@@ -34,8 +34,10 @@ export class ReviewComponent implements OnInit {
   }
 
   saveReview() {
+    this.title = this.title.split(' ').join('_');
     this.review.title = this.title;
     this.reviewService.saveReview(this.review);
+    this.router.navigate(["homepage"]);
   }
 
 

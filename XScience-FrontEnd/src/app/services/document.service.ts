@@ -58,8 +58,9 @@ export class DocumentService {
   }
   //title = Publication title /// email- reviewerEMAIL
   assignReviewer(title: string, email: any) {
-    this.http.post(this.publicationUri + title + "/assign-reviewer/" + email, {})
-      .pipe(map((response: any) => response.json()));
+    this.http.post(this.publicationUri + title + "/assign-reviewer/" + email, {}).subscribe((response: any) => response.json())
+    alert("Document with title: " + title + " has been assigned to " + email);
+    location.reload();
   }
 
   rejectPublication(title: any) {

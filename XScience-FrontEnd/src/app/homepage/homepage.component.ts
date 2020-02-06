@@ -72,7 +72,7 @@ export class HomepageComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    location.reload()
+    location.reload();
   }
   
 

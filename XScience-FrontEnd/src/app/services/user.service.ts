@@ -19,7 +19,7 @@ export class UserService {
 
 
   getReviewerSugestion(title) {
-    this.http.get<User[]>("http://localhost:9000/xscience/publication/" + title + "/reviewer-suggestion")
+    this.http.get<User[]>("http://localhost:9000/xscience/publication/" + title + ".xml" + "/reviewer-suggestion")
       .subscribe(users => {
         this.users = users;
         this.usersSource.next(this.users);

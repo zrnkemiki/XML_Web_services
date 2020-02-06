@@ -34,7 +34,7 @@ public class EMailService {
 	
 	public void sendMail(String email, String subject, String text) throws MailException {
 		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(email);
+		mail.setTo(email.toLowerCase());
 		mail.setFrom("bgkgsiit@gmail.com");
 		mail.setSubject(subject);
 		mail.setText(text);
