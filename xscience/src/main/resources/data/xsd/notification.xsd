@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="https://www.xscience.com/data/notification"
+    xmlns="https://www.xscience.com/data/notification">
+
+    <xs:element name="Notification">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Sender">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Reciever">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="PublicationID" type="xs:string"/>
+                <xs:element name="Type">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="UPLOADED"/>
+                            <xs:enumeration value="ACCEPTED"/>
+                            <xs:enumeration value="REJECTED"/>
+                            <xs:enumeration value="IN_REVIEW"/>
+                            <xs:enumeration value="REVIEWED"/>
+                            <xs:enumeration value="REVISIED"/>
+                            <xs:enumeration value="WITHDRAWN"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Content" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

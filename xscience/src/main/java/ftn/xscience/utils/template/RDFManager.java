@@ -42,6 +42,7 @@ public class RDFManager {
 	public static final String USER_PATH = "<https://www.xscience.com/data/users/";
 	public static final String PUB_PATH = "<https://www.xscience.com/data/publications/";
 	public static final String PUBLICATION_NAMED_GRAPH_URI = "/publication/metadata";
+	public static final String REVIEW_NAMED_GRAPH_URI = "/review/metadata";
 	
 
 	public void extractMetadata(MultipartFile publicationFile, String rdfFilePath, String grddlFilePath) throws IOException, SAXException, TransformerException {
@@ -109,11 +110,11 @@ public class RDFManager {
 		processor.execute();
 	}
 	
-	
-	public void changeMetaData(Map<String, String> params) throws IOException {	
+		
+	public void changeMetaData(Map<String, String> newParams, Map<String, String> oldParams) throws IOException {	
 
-		deleteSPARQL(params);
-		this.addNewPubMetaData(params);
+		deleteSPARQL(oldParams);
+		this.addNewPubMetaData(newParams);
 	}
 	
 	
@@ -255,4 +256,35 @@ public class RDFManager {
 
 		return resultList;
 	}
+	
+	public void addNewReviewMetaData(Map<String, String> params) throws IOException {
+		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
+		String pred = PRED_PATH.substring(1);
+		Model model = ModelFactory.createDefaultModel();
+		model.setNsPrefix("pred", pred);
+		
+		
+		Resource resource = model.createResource(params.get("subject"));
+		Property property = model.createProperty(pred, params.get("predicate"));
+		Literal literal = model.createLiteral(params.get("object"));
+
+		Statement statement = model.createStatement(resource, property, literal);
+		
+		model.add(statement);
+		
+		System.out.println("[INFO] Rendering the UPDATE model as RDF/XML...");
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		model.write(out, SparqlUtil.NTRIPLES);		
+		
+		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + REVIEW_NAMED_GRAPH_URI, new String(out.toByteArray()));
+		
+		// UpdateRequest represents a unit of execution
+		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+
+		// UpdateProcessor sends update request to a remote SPARQL update service. 
+        UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
+		processor.execute();
+	}
+
 }
