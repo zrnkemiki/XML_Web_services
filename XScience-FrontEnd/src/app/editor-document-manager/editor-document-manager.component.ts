@@ -66,12 +66,16 @@ export class EditorDocumentManagerComponent implements OnInit {
     this.router.navigate(["/document-reviews/" + title]);
   }
 
+  viewCoverLetter(title){
+    title = title.split(' ').join('_');
+    this.router.navigate(["/coverLetter-view/" + title]);
+  }
+
   assignReviewer(title) {
     title = title.split(' ').join('_');
     this.router.navigate(["/assign-reviewer/" + title]);
   }
 
-  //TODO
   acceptDocument(title) {
     title = title.split(' ').join('_');
     this.documentService.acceptPublication(title);

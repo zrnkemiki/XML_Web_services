@@ -45,4 +45,13 @@ public class CoverLetterController {
 
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "{id}/export/{path}")
+	public ResponseEntity<?> exportCoverLetter(@PathVariable("id") String documentId, @PathVariable("path") String path){
+		System.out.println("Cover letter " + documentId + "will be exported to " + path );
+		//TO-DO
+	return null;
+	}
+
+	
 }

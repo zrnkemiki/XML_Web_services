@@ -22,6 +22,17 @@ export class ReviewService {
 
   }
 
+  exportDocument(title, path){
+    this.http.post<any>(this.reviewUri + title + "/export/" + path, {}).subscribe((response: any) => response.json())
+    title = title.split('_').join(' ');
+    alert("Review with title: " + title + " has been exported!");
+    location.reload();
+  }
+
+  getDocument(title){
+    return this.http.get(this.reviewUri + "review/" + title , {responseType: 'text'});
+  }
+
   //PROVERITI NA BEKENDU?
   findReviewsByDocument(documentTitle) {
     this.http.get<ReviewDTO[]>(this.reviewUri + documentTitle)

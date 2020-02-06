@@ -36,6 +36,11 @@ export class DocumentReviewsComponent implements OnInit {
     this.reviewService.findReviewsByDocument(documentTitle);
   }
 
+  openReview(title){
+    title = title.split(' ').join('_');
+    this.router.navigate(["/review-view/" + title]);
+  }
+
   searchDocumentsText() {
     this.router.navigate(["search-documents-text"]);
   }

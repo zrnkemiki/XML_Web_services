@@ -1,0 +1,3 @@
+<input type="dir" placeholder="Export Path etc: C://" [(ngModel)]="this.path">
+<button type="button"  (click)="exportFile()" class="btn btn-primary">EXPORT TO PDF&HTML</button>
+<div [innerHTML]="review| safeHtml"></div>

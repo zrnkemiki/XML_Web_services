@@ -12,6 +12,8 @@ import { DocumentReviewsComponent } from './document-reviews/document-reviews.co
 import { AssignReviewerComponent } from './assign-reviewer/assign-reviewer.component';
 import { MyReviewsComponent } from './my-reviews/my-reviews.component';
 import { ReviewComponent } from './review/review.component';
+import { ReviewViewerComponent } from './review-viewer/review-viewer.component';
+import { CoverLetterViewerComponent } from './cover-letter-viewer/cover-letter-viewer.component';
 
 
 
@@ -28,7 +30,9 @@ const routes: Routes = [
   { path: 'document-reviews/:title', component: DocumentReviewsComponent},
   { path: 'assign-reviewer/:title', component: AssignReviewerComponent},
   { path: 'my-reviews', component: MyReviewsComponent},
-  { path: 'review/:title', component: ReviewComponent}
+  { path: 'review/:title', component: ReviewComponent},
+  { path: 'review-view/:title', component: ReviewViewerComponent},
+  { path: 'coverLetter-view/:title', component: CoverLetterViewerComponent}
 ]
 
 @NgModule({
