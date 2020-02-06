@@ -52,7 +52,7 @@ public class ReviewController {
 	
 	//REVIEW UPLOAD
 	@PostMapping(value = "/review", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> uploadReview(@RequestParam("file") MultipartFile review) throws IOException, SAXException, ParserConfigurationException, XMLDBException {
+	public ResponseEntity<?> uploadReview(@RequestParam("file") MultipartFile review) throws IOException, SAXException, ParserConfigurationException, XMLDBException, JAXBException {
 		
 		String reviewStr = new String(review.getBytes());
 		System.out.println(reviewStr);

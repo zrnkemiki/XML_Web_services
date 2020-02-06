@@ -48,6 +48,12 @@ public class PublicationService {
 	@Autowired
 	DOMParser domParser;
 	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	EMailService emailService;
+	
 	private RDFManager rdfManager = new RDFManager();
 	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/publication.xsd";
@@ -88,7 +94,7 @@ public class PublicationService {
 			publication = (Document) revisedMap.get("publication");
 			publicationName = (String) revisedMap.get("publicationId");
 		}
-			
+					
 		String publicationXmlDatesUpdated = null;
 		try {
 			publicationXmlDatesUpdated = publicationRepository.marshal(publicationRepository.unmarshalFromDocument(publication));
@@ -141,19 +147,28 @@ public class PublicationService {
 		
 	}
 	
-	public void acceptPublication(String documentId) throws XMLDBException {
+	public String getTransformedPublication(String publicationName) {
+		return "";
+	}
+	
+	public void acceptPublication(String documentId, TUser loggedUser) throws XMLDBException {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "ACCEPTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
+		
+		prepareAndSendEmailToAuthors(loggedUser, documentId, "ACCEPT", "Your publication [" + documentId + "] is accepted!");
 	}
 	
 	public void withdrawPublication(String documentId) throws XMLDBException {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "WITHDRAWN");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
+		
 	}
 	
-	public void rejectPublication(String documentId) throws XMLDBException {
+	public void rejectPublication(String documentId, TUser loggedUser) throws XMLDBException {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "REJECTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
+		
+		prepareAndSendEmailToAuthors(loggedUser, documentId, "REJECT", "Your publication [" + documentId + "] is reject!");
 	}
 	
 	// prepare for review
@@ -172,7 +187,7 @@ public class PublicationService {
 		return dtos;
 	}
 	
-	public void assignReviewer(String publicationId, String reviewerId) throws JAXBException {
+	public void assignReviewer(String publicationId, String reviewerId, TUser loggedUser) throws JAXBException {
 		TUser reviewer = userRepository.getUserByEmail(reviewerId);
 		ObjectFactory fac = new ObjectFactory();
 		
@@ -188,6 +203,8 @@ public class PublicationService {
 		} catch (XMLDBException e) {
 			throw new DocumentNotFoundException("[custom-err] Document [" + publicationId + "] not found!");
 		} 	
+		
+		prepareAndSendEmailToReviewer(loggedUser, reviewer, publicationId, "IN_REVIEW", "You have been assigned for a review of publication [" + publicationId + "]");
 	}
 	
 	public List<Publication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
@@ -358,6 +375,39 @@ public class PublicationService {
 			}
 		}
 		return publications;
+	}
+	
+	public void prepareAndSendEmailToAuthors(TUser loggedUser, String documentId, String notificationType, String contentText) {
+		Map<String, String> receivers = emailService.getReceiversByPublicationId(documentId);
+		String sender = StringPathHandler.generateSenderRecieverForEmail(loggedUser.getPersonalInformation().getName().getFirstName(),
+																		loggedUser.getPersonalInformation().getName().getLastName(),
+																		loggedUser.getPersonalInformation().getEmail(),
+																		loggedUser.getPersonalInformation().getPhoneNumber());
+		String subject = "NOTIFICATION: " + notificationType;
+		for (String receiver : receivers.keySet()) {
+			String content = emailService.generateText(sender, receivers.get(receiver), documentId, notificationType, contentText);
+			emailService.sendMail(receiver, subject, content);
+		}
+	}
+	
+	public void prepareAndSendEmailToReviewer(TUser loggedUser, TUser reviewer, String documentId, String notificationType, String contentText) {
+		String sender = StringPathHandler.generateSenderRecieverForEmail(loggedUser.getPersonalInformation().getName().getFirstName(),
+																		loggedUser.getPersonalInformation().getName().getLastName(),
+																		loggedUser.getPersonalInformation().getEmail(),
+																		loggedUser.getPersonalInformation().getPhoneNumber());
+		
+		String receiver = StringPathHandler.generateSenderRecieverForEmail(reviewer.getPersonalInformation().getName().getFirstName(),
+																		reviewer.getPersonalInformation().getName().getLastName(),
+																		reviewer.getPersonalInformation().getEmail(),
+																		reviewer.getPersonalInformation().getPhoneNumber());
+		
+		
+		String subject = "NOTIFICATION: " + notificationType;
+		
+		String content = emailService.generateText(sender, receiver, documentId, notificationType, contentText);
+		
+		emailService.sendMail(receiver, subject, content);
+
 	}
 	
 

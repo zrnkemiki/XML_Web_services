@@ -1,5 +1,6 @@
 package ftn.xscience.utils.template;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,13 +31,13 @@ private static DocumentBuilderFactory documentFactory;
 	
 	private static TransformerFactory transformerFactory;
 	
-	public static final String INPUT_FILE = "data/xslt/Conceptualizing_Location-One_Term_Many_Meanings.xml";
+	public static final String INPUT_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\valid-xml\\Conceptualizing_Location_-_One_Term_Many_Meanings.xml";
 	
-	public static final String XSL_FILE = "data/xslt/publication.xsl";
+	public static final String XSL_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\xsl\\publication.xsl";
 	
-	public static final String HTML_FILE = "gen/itext/publication.html";
+	public static final String HTML_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.html";
 			
-	public static final String OUTPUT_FILE = "gen/itext/publication.pdf";
+	public static final String OUTPUT_FILE = "D:\\XML_Web_services\\xscience\\src\\main\\resources\\data\\gen\\publication.pdf";
 
 	static {
 
@@ -45,6 +46,7 @@ private static DocumentBuilderFactory documentFactory;
 		documentFactory.setNamespaceAware(true);
 		documentFactory.setIgnoringComments(true);
 		documentFactory.setIgnoringElementContentWhitespace(true);
+		
 		
 		/* Inicijalizacija Transformer fabrike */
 		transformerFactory = TransformerFactory.newInstance();
@@ -76,30 +78,11 @@ private static DocumentBuilderFactory documentFactory;
         
     }
 
-    public org.w3c.dom.Document buildDocument(String filePath) {
-
-    	org.w3c.dom.Document document = null;
-		try {
-			
-			DocumentBuilder builder = documentFactory.newDocumentBuilder();
-			document = builder.parse(new File(filePath)); 
-
-			if (document != null)
-				System.out.println("[INFO] File parsed with no errors.");
-			else
-				System.out.println("[WARN] Document is null.");
-
-		} catch (Exception e) {
-			return null;
-			
-		} 
-
-		return document;
-	}
     
-    public void generateHTML(String xmlPath, String xslPath) throws FileNotFoundException {
+    public String generateHTML(org.w3c.dom.Document document, String xslPath) throws FileNotFoundException {
     	
-		try {
+    	ByteArrayOutputStream out = new ByteArrayOutputStream();
+    	try {
 
 			// Initialize Transformer instance
 			StreamSource transformSource = new StreamSource(new File(xslPath));
@@ -110,9 +93,10 @@ private static DocumentBuilderFactory documentFactory;
 			// Generate XHTML
 			transformer.setOutputProperty(OutputKeys.METHOD, "xhtml");
 
+			
 			// Transform DOM to HTML
-			DOMSource source = new DOMSource(buildDocument(xmlPath));
-			StreamResult result = new StreamResult(new FileOutputStream(HTML_FILE));
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(out);
 			transformer.transform(source, result);
 			
 		} catch (TransformerConfigurationException e) {
@@ -122,6 +106,9 @@ private static DocumentBuilderFactory documentFactory;
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
+    	return new String(out.toByteArray());
     
     }
-}
+    
+    }
+

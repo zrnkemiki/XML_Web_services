@@ -1,8 +1,12 @@
 package ftn.xscience.service;
 
+import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_KEYWORDS;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBElement;
@@ -13,16 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 
-import static ftn.xscience.utils.template.XUpdateTemplate.XPATH_EXP_KEYWORDS;
-
-import ftn.xscience.dto.DTOConverter;
-import ftn.xscience.dto.ReviewDTO;
 import ftn.xscience.dto.UserDTO;
+import ftn.xscience.model.publication.Publication;
 import ftn.xscience.model.review.Review;
 import ftn.xscience.model.user.TUser;
 import ftn.xscience.repository.PublicationRepository;
@@ -31,6 +31,7 @@ import ftn.xscience.repository.UserRepository;
 import ftn.xscience.security.JwtValidator;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
+import ftn.xscience.utils.template.RDFManager;
 
 @Service
 public class ReviewService {
@@ -47,41 +48,64 @@ public class ReviewService {
 	@Autowired
 	PublicationRepository publicationRepository;
 	
+	@Autowired
+	PublicationService publicationService;
+	
 	@Autowired 
 	JwtValidator validator;
 	
 	@Autowired
 	DOMParser domParser;
 	
+	
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/review.xsd";
 	
-	public String saveReviewFromObject(Review review) throws JAXBException, SAXException, ParserConfigurationException, IOException, XMLDBException {
+	public void saveReviewFromObject(Review review) throws JAXBException, SAXException, ParserConfigurationException, IOException, XMLDBException {
 		
 		String reviewXml = reviewRepository.marshal(review);
 		System.out.println("==================");
 		System.out.println(reviewXml);
 		
-		String status = saveReview(reviewXml);
-		
-		
-		return status;
+		saveReview(reviewXml);
+				
 	}
 	
-	public String saveReview(String reviewXml) throws SAXException, ParserConfigurationException, IOException, XMLDBException {
+	public void saveReview(String reviewXml) throws SAXException, ParserConfigurationException, IOException, XMLDBException, JAXBException {
 		String contextPath = context.getRealPath("/");
 		
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
 		
 		Document review = domParser.buildDocument(reviewXml, schemaPath);
 		
-		String reviewName = "Review_" + review.getElementsByTagName("PublicationTitle").item(0).getTextContent() + ".xml";
-		//TO_DO Proveriti da li postoji review za taj title, i ako ima getovati ime i staviti +1
+		String reviewName = "review-" + review.getElementsByTagName("PublicationTitle").item(0).getTextContent() + ".xml";
 		
-		// extract metadata FIRST
+		reviewName = StringPathHandler.formatPublicationNameForDatabase(reviewName);
+		boolean exists = reviewRepository.checkExistance(reviewName);
+		if (exists) {
+			reviewName.replace("review-", "review-2-");
+		}
 		
+		// extract metadata FIRST		
+		String documentId = review.getElementsByTagName("PublicationTitle").item(0).getTextContent();
+		documentId = StringPathHandler.formatNameAddXMLInTheEnd(documentId);
+		Publication p = publicationRepository.getPublication(documentId);
+		String about = p.getAbout();
+		RDFManager rdfManager = new RDFManager();
+		Map<String, String> metadataMap = new HashMap<String, String>();
+		metadataMap.put("subject", reviewName);
+		metadataMap.put("predicate", "publicationTitle");
+		metadataMap.put("object", about);
+		rdfManager.addNewReviewMetaData(metadataMap);
 		
 		reviewRepository.save(reviewXml, reviewName);
-		return "";
+	}
+	
+	// TO-DO --> MERGE
+	public void mergeReviews(String publicationId) throws XMLDBException {
+		// merge & change status of publication to REVIEWED
+		
+		long mods = publicationRepository.updatePublicationStatus(publicationId, "REVIEWED");
+		System.out.println("[INFO] " + mods + " made on document [" + publicationId + "]");
 	}
 	
 	// autor dobija nazad review bez navodjenja osobe koja je recenzirala
