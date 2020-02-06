@@ -14,7 +14,7 @@ export class UploadComponent implements OnInit {
   ngOnInit(): void {
     this.getCurrentUser();
   }
-
+  private revisionCheckBox = false;
 
   private currentUserRole: string;
   private currentUserEmail: string;
@@ -53,12 +53,19 @@ export class UploadComponent implements OnInit {
   onSubmitPublication() {
     const formData = new FormData();
     formData.append('file', this.filePublication);
+    if (this.revisionCheckBox) {
+      formData.append('revision', "true");
+    }
+    else {
+      formData.append('revision', "false")
+    }
     this.http.post('http://localhost:9000/xscience/publication/uploadPublication', formData)
       .subscribe(res => {
         console.log(res);
         alert('successfully UPLOADED PUBLICATION !!');
       })
   }
+
 
   onSubmitCoverLetter() {
     const formData = new FormData();
@@ -108,7 +115,7 @@ export class UploadComponent implements OnInit {
     this.loginService.logout();
     location.reload()
   }
-  myReviews(){
+  myReviews() {
     this.router.navigate(["my-reviews"]);
   }
 
