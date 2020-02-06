@@ -22,7 +22,7 @@ export class ReviewService {
 
   }
 
-
+  //PROVERITI NA BEKENDU?
   findReviewsByDocument(documentTitle) {
     this.http.get<ReviewDTO[]>(this.reviewUri + documentTitle)
       .subscribe(reviews => {
@@ -33,7 +33,7 @@ export class ReviewService {
 
 
   declineReviewRequest(title: any) {
-    this.http.post<any>(this.reviewUri + "/publication/" + title + "/decline-review", {}).subscribe((response: any) => response.json())
+    this.http.post<any>(this.reviewUri + "publication/" + title + "/decline-review", {}).subscribe((response: any) => response.json())
     title = title.split('_').join(' ');
     alert("Reviewing for document with title: " + title + " has been declined!");
     location.reload();

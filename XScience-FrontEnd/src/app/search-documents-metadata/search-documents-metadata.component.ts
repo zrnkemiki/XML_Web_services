@@ -56,7 +56,6 @@ export class SearchDocumentsMetadataComponent implements OnInit {
   }
 
   search() {
-    debugger;
     if (this.currentUserRole != "ROLE_EDITOR" && this.myDocumentsCheckBox == "") {
       this.statusTemp = "ACCEPTED";
     }

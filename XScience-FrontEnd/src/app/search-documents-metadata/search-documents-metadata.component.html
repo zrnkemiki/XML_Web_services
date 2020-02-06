@@ -140,6 +140,7 @@
                     <tr>
                         <th style="width: 40%"><b>Document title</b></th>
                         <th><b>Document author</b></th>
+                        <th>Status</th>
                         <th style="width: 15%">Action</th>
                     </tr>
                 </thead>
@@ -150,6 +151,9 @@
                         </td>
                         <td>
                             {{document.author}}
+                        </td>
+                        <td>
+                            {{document.status}}
                         </td>
                         <td>
                             <button (click)='openDocument(document.title)' type="button"

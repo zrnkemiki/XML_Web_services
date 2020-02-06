@@ -18,15 +18,16 @@ export class DocumentService {
   private documentForView: string;
   constructor(private http: HttpClient) { }
 
+  //GET ALL DOCUMENTS FOR APPROVAL ---- EDITOR!
   findAllByStatus(status) {
-    this.http.get<PublicationDTO[]>(this.publicationUri + "getAll/" + status)
+    this.http.get<PublicationDTO[]>(this.publicationUri + "documents-for-approval")
       .subscribe(documents => {
         this.documents = documents;
         this.documentsSource.next(this.documents);
       });
   }
   //GET MY DOCUMENTS author-editor-reviewer
-  getMyDocuments(){
+  getMyDocuments() {
     this.http.get<PublicationDTO[]>(this.publicationUri + "my-documents")
       .subscribe(documents => {
         this.documents = documents;
@@ -46,10 +47,14 @@ export class DocumentService {
   }
 
   //GET DOCUMENTS IN WHICH I AM ASSIGNED AS REVIEWER
-  getDocumentsForMyReview(){
-    //TO-DO
+  getDocumentsForMyReview() {
+    this.http.get<PublicationDTO[]>(this.publicationUri + "documents-for-review")
+      .subscribe(documents => {
+        this.documents = documents;
+        this.documentsSource.next(this.documents);
+      });
   }
-  
+  //title = Publication title /// email- reviewerEMAIL
   assignReviewer(title: string, email: any) {
     this.http.post(this.publicationUri + title + "/assign-reviewer/" + email, {})
       .pipe(map((response: any) => response.json()));
@@ -67,7 +72,7 @@ export class DocumentService {
     location.reload();
 
   }
-  
+
 
   //<----------------------------------------------------------------------------------------------EDITOR authority
 

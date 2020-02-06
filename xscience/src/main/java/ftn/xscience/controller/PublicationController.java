@@ -103,7 +103,6 @@ public class PublicationController {
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
 	public ResponseEntity<?> getPublicationById(@PathVariable("id") String id) {
-		System.out.println("HEHEHE");
 		return null;
 	}
 	
