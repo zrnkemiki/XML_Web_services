@@ -230,8 +230,9 @@ public class PublicationService {
 		} catch (XMLDBException e) {
 			throw new DocumentNotFoundException("[custom-err] Document [" + publicationId + "] not found!");
 		} 	
-		
-		prepareAndSendEmailToReviewer(loggedUser, reviewer, publicationId, "IN_REVIEW", "You have been assigned for a review of publication [" + publicationId + "]");
+		String noEndXml = publicationId.substring(0, publicationId.length()-1);
+		prepareAndSendEmailToReviewer(loggedUser, reviewer, publicationId, "IN_REVIEW", 
+				"You have been assigned for a review of publication [<a href=\"localhost:4200/document-view/" + noEndXml + "\"> " + publicationId + "]");
 	}
 	
 	public List<Publication> searchPublications(Map<String, String> searchParams, String status) throws JAXBException, XMLDBException {
