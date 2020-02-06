@@ -1,13 +1,10 @@
 package ftn.xscience.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.dto.DTOConverter;
@@ -32,6 +28,7 @@ import ftn.xscience.dto.UserDTO;
 import ftn.xscience.model.publication.Publication;
 import ftn.xscience.model.user.TUser;
 import ftn.xscience.security.JwtValidator;
+import ftn.xscience.service.EMailService;
 import ftn.xscience.service.PublicationService;
 import ftn.xscience.service.ReviewService;
 import ftn.xscience.service.UserService;
@@ -55,6 +52,9 @@ public class PublicationController {
 	
 	@Autowired
 	JwtValidator jwtValidator;
+	
+	@Autowired
+	EMailService emailService;
 	
 	
 	@GetMapping()
@@ -175,8 +175,11 @@ public class PublicationController {
 	
 	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")
-	public ResponseEntity<?> acceptPublication(@PathVariable("id") String documentId) throws XMLDBException {
-		publicationService.acceptPublication(documentId);
+	public ResponseEntity<?> acceptPublication(@PathVariable("id") String documentId, 
+												@RequestHeader("Authorization") final String token) throws XMLDBException {
+		TUser u = jwtValidator.validate(token.substring(7));
+		TUser sender = userService.getUserByEmail(u.getUsername());
+		publicationService.acceptPublication(documentId, sender);
 
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
@@ -191,17 +194,26 @@ public class PublicationController {
 	
 	// post ?
 	@PostMapping(value = "/{id}/reject")
-	public ResponseEntity<?> rejectPublication(@PathVariable("id") String documentId) throws XMLDBException {
-		publicationService.rejectPublication(documentId);
-		return null;
+	public ResponseEntity<?> rejectPublication(@PathVariable("id") String documentId,
+												@RequestHeader("Authorization") final String token) throws XMLDBException {
+		
+		TUser u = jwtValidator.validate(token.substring(7));
+		TUser sender = userService.getUserByEmail(u.getUsername());
+		publicationService.rejectPublication(documentId, sender);
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	// dodeljivanje recenzenta publikaciji
 	@PreAuthorize("hasRole('EDITOR')")
 	@PostMapping(value = "/{id}/assign-reviewer/{reviewerId}")
-	public ResponseEntity<?> assignReviewer(@PathVariable("id") String publicationId, @PathVariable("reviewerId") String reviewerId) {
+	public ResponseEntity<?> assignReviewer(@PathVariable("id") String publicationId, 
+											@PathVariable("reviewerId") String reviewerId,
+											@RequestHeader("Authorization") final String token) {
+		TUser u = jwtValidator.validate(token.substring(7));
+		TUser loggedUser = userService.getUserByEmail(u.getUsername());
 		try {
-			publicationService.assignReviewer(publicationId, reviewerId);
+			publicationService.assignReviewer(publicationId, reviewerId, loggedUser);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

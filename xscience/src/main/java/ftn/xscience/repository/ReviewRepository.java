@@ -30,7 +30,7 @@ public class ReviewRepository {
 	@Autowired
 	BasicXMLConnectionPool connectionPool;
 
-	public String save(String documentXml, String documentId) throws XMLDBException {
+	public void save(String documentXml, String documentId) throws XMLDBException {
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		documentId = StringPathHandler.formatPublicationNameForDatabase(documentId);
 		try {
@@ -44,7 +44,18 @@ public class ReviewRepository {
 			connectionPool.releaseConnection(conn);
 		}
 
-		return "";
+	}
+	
+	public boolean checkExistance(String documentId) throws XMLDBException {
+		XMLConnectionProperties conn = connectionPool.getConnection();
+		boolean flag = false;
+		try {
+			flag = DBHandler.documentExists(collectionId, documentId, conn);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		
+		return flag;
 	}
 	
 	public String marshal(Review review) throws JAXBException {

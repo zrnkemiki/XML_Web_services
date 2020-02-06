@@ -3,9 +3,20 @@ package ftn.xscience.utils.dom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import ftn.xscience.model.user.TUser;
+
 public class StringPathHandler {
 	
 	private static String fileSeparator = System.getProperty("file.separator");
+	
+	/* @params:
+	 * 1 - sender
+	 * 2 - receiver
+	 * 3 - publication ID
+	 * 4 - type of notification
+	 * 5 - notification content
+	 */
+	public static final String EMAIL_TEMPLATE = "FROM: %1$s\nTO: %2$s\n\nAbout: %3$s\n\nType: %4$s\n\n\n%5$s";
 	
 	public static String handlePathSeparator(String schemaLocation, String contextPath) {
 		
@@ -61,4 +72,14 @@ public class StringPathHandler {
 	public static String formatNullDateToString() {
 		return "1000-01-01";
 	}
+	
+	public static String generateSenderRecieverForEmail(String firstName, String lastName, String email, String phone) {
+		String ret = "";
+		ret = lastName + ", " +
+				firstName +
+				"\n (" + email + ")\n" +
+				phone;
+		return ret;
+	}
+	
 }
