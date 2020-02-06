@@ -20,10 +20,10 @@ export class DocumentViewerComponent implements OnInit {
 
   getDocument() {
     const title = this.route.snapshot.paramMap.get('title');
-    alert("GET DOCUMENT:  " + title);
     this.documentService.getDocument(title).subscribe(data => this.document = data,
       error => console.log(error)
     );
+    debugger;
   }
 
   searchDocumentsText() {

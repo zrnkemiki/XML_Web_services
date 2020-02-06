@@ -18,6 +18,8 @@ export class DocumentService {
   private documentForView: string;
   constructor(private http: HttpClient) { }
 
+
+
   //GET ALL DOCUMENTS FOR APPROVAL ---- EDITOR!
   findAllByStatus(status) {
     this.http.get<PublicationDTO[]>(this.publicationUri + "documents-for-approval")
@@ -36,14 +38,9 @@ export class DocumentService {
   }
 
   getDocument(title){
-    return this.http.get(this.publicationUri + title + "/view", {responseType: 'text'});
+    return this.http.get(this.publicationUri + title , {responseType: 'text'});
   }
-/*
-  //GET DOCUMUMENT FOR SHOWING IN BROWSER
-  getDocument(title) : Observable<any> {
-      return this.http.get(this.publicationUri + title + "/view",{ responseType: 'text' });    
-    }
-*/
+
   //GET DOCUMENTS IN WHICH I AM ASSIGNED AS REVIEWER
   getDocumentsForMyReview() {
     this.http.get<PublicationDTO[]>(this.publicationUri + "documents-for-review")
@@ -59,8 +56,10 @@ export class DocumentService {
   }
 
   rejectPublication(title: any) {
-    this.http.post(this.publicationUri + title + "/reject", {})
-      .pipe(map((response: any) => response.json()));
+    this.http.post<any>(this.publicationUri + title + ".xml/reject", {}).subscribe((response: any) => response.json())
+    title = title.split('_').join(' ');
+    alert("Document with title: " + title + " has been rejected!");
+    location.reload();
   }
 
   acceptPublication(title: any) {
@@ -69,6 +68,19 @@ export class DocumentService {
     alert("Document with title: " + title + " has been accepted!");
     location.reload();
 
+  }
+  minorRevision(title){
+    this.http.post<any>(this.publicationUri + title + ".xml/minor-revision", {}).subscribe((response: any) => response.json())
+    title = title.split('_').join(' ');
+    alert("Document with title: " + title + " - has been set for minor revision");
+    location.reload();
+  }
+
+  majorRevision(title){
+    this.http.post<any>(this.publicationUri + title + ".xml/major-revision", {}).subscribe((response: any) => response.json())
+    title = title.split('_').join(' ');
+    alert("Document with title: " + title + " - has been set for major revision!");
+    location.reload();
   }
 
 

@@ -8,6 +8,7 @@ import { stringify } from 'querystring';
 import { User } from '../model/user';
 import { UserService } from '../services/user.service';
 import { LoginService } from '../services/login.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-editor-document-manager',
@@ -78,11 +79,13 @@ export class EditorDocumentManagerComponent implements OnInit {
 
   minorRevision(title) {
     title = title.split(' ').join('_');
+    this.documentService.minorRevision(title);
     alert("Minor revision document")
   }
 
   majorRevision(title) {
     title = title.split(' ').join('_');
+    this.documentService.majorRevision(title);
     alert("Major revision document")
   }
   rejectDocument(title) {

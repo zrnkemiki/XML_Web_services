@@ -33,6 +33,13 @@ export class MyDocumentsComponent implements OnInit {
       this.currentUserEmail = currentUser.email;
     }
   }
+
+  openDocument(title) {
+    title = title.split(' ').join('_');
+    this.router.navigate(["/document-view/" + title]);
+    //Redirektuj na stranicu za prikaz dokumenta... path/documentTitle
+  }
+
   searchDocumentsText() {
     this.router.navigate(["search-documents-text"]);
   }
