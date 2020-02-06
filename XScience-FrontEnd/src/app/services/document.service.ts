@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { tap, map } from 'rxjs/operators';
@@ -35,17 +35,15 @@ export class DocumentService {
       });
   }
 
-  //GET DOCUMUMENT FOR SHOWING IN BROWSER
-  getDocument(title) {
-    return this.http.get<string>(this.publicationUri + "getPublication/" + title)
-      .pipe(tap(
-        document => {
-          this.documentForView = document;//DA LI UOPSTE TREBA ILI SAMO return document
-          return this.documentForView;
-        })
-      )
+  getDocument(title){
+    return this.http.get(this.publicationUri + title + "/view", {responseType: 'text'});
   }
-
+/*
+  //GET DOCUMUMENT FOR SHOWING IN BROWSER
+  getDocument(title) : Observable<any> {
+      return this.http.get(this.publicationUri + title + "/view",{ responseType: 'text' });    
+    }
+*/
   //GET DOCUMENTS IN WHICH I AM ASSIGNED AS REVIEWER
   getDocumentsForMyReview() {
     this.http.get<PublicationDTO[]>(this.publicationUri + "documents-for-review")

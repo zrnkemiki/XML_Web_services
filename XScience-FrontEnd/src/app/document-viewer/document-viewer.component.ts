@@ -10,19 +10,20 @@ import { LoginService } from '../services/login.service';
 })
 export class DocumentViewerComponent implements OnInit {
 
-  public document: string;
+  public document: any;
   constructor(private router: Router, private route: ActivatedRoute, private documentService: DocumentService, private loginService: LoginService) { }
 
   ngOnInit() {
-    if (this.router.url != "/document-viewer") {
-      this.getDocument();
-    }
+    this.getDocument();
+
   }
 
   getDocument() {
     const title = this.route.snapshot.paramMap.get('title');
     alert("GET DOCUMENT:  " + title);
-    this.documentService.getDocument(title).subscribe(document => this.document = document);
+    this.documentService.getDocument(title).subscribe(data => this.document = data,
+      error => console.log(error)
+    );
   }
 
   searchDocumentsText() {
