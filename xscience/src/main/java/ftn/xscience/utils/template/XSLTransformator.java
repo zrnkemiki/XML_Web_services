@@ -1,5 +1,6 @@
 package ftn.xscience.utils.template;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -77,32 +78,11 @@ private static DocumentBuilderFactory documentFactory;
         
     }
 
-    public org.w3c.dom.Document buildDocument(String filePath) {
-
-    	org.w3c.dom.Document document = null;
-		try {
-			
-			DocumentBuilder builder = documentFactory.newDocumentBuilder();
-			document = builder.parse(new File(filePath)); 
-
-			if (document != null)
-				System.out.println("[INFO] File parsed with no errors.");
-			else
-				System.out.println("[WARN] Document is null.");
-
-		} catch (Exception e) {
-			return null;
-			
-		} 
-
-		return document;
-	}
     
-    public void generateHTML(String xmlPath, String xslPath) throws FileNotFoundException {
-    	xmlPath = INPUT_FILE;
-    	xslPath = XSL_FILE;
+    public String generateHTML(org.w3c.dom.Document document, String xslPath) throws FileNotFoundException {
     	
-		try {
+    	ByteArrayOutputStream out = new ByteArrayOutputStream();
+    	try {
 
 			// Initialize Transformer instance
 			StreamSource transformSource = new StreamSource(new File(xslPath));
@@ -113,10 +93,10 @@ private static DocumentBuilderFactory documentFactory;
 			// Generate XHTML
 			transformer.setOutputProperty(OutputKeys.METHOD, "xhtml");
 
+			
 			// Transform DOM to HTML
-			DOMSource source = new DOMSource(buildDocument(xmlPath));
-			new DOMSource();
-			StreamResult result = new StreamResult(new FileOutputStream(HTML_FILE));
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(out);
 			transformer.transform(source, result);
 			
 		} catch (TransformerConfigurationException e) {
@@ -126,6 +106,9 @@ private static DocumentBuilderFactory documentFactory;
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
+    	return new String(out.toByteArray());
     
     }
-}
+    
+    }
+
