@@ -182,7 +182,7 @@ public class PublicationService {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "ACCEPTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
 		String noEndXml = documentId.substring(0, documentId.length()-4);
-		String content = "Your publication [<a href=\"localhost:4200/document-view/" + noEndXml + "\">" + documentId + "] is accepted!";
+		String content = "Your publication" + " http://localhost:4200/document-view/" + noEndXml + "\"	" + documentId + " is accepted!";
 		prepareAndSendEmailToAuthors(loggedUser, documentId, "ACCEPT", content);
 	}
 	
