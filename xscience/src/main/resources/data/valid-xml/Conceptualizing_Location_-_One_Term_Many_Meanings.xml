@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xsl/grddl.xsl"?>
-<Publication about="https://www.xscience.com/data/publications/Conceptualizing_Location_-_One_Term_Many_Meanings" id="pub1" 
+<Publication about="https://www.xscience.com/data/publication/Conceptualizing_Location_-_One_Term_Many_Meanings" id="pub1" 
 language="en-US" version="1" 
 vocab="https://www.xscience.com/data/publication/predicate/"
 xmlns:pred="https://www.xscience.com/data/publication/predicate/" 
@@ -11,10 +11,10 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
   <MetaData>
     <FieldOfStudy property="pred:fieldOfStudy">Geopolitics</FieldOfStudy>
     <PaperType property="pred:paperType">RESEARCH_PAPER</PaperType>
-    <Recieved property="pred:recieved" datatype="xs:date">2018-01-01</Recieved>
-    <Revised property="pred:revised" datatype="xs:date">2018-01-10</Revised>
-    <Accepted property="pred:accepted" datatype="xs:date">2018-01-11</Accepted>
-    <Status property="pred:status">ACCEPTED</Status>
+    <Recieved property="pred:recieved" datatype="xs:date">1000-01-01</Recieved>
+    <Revised property="pred:revised" datatype="xs:date">1000-01-01</Revised>
+    <Accepted property="pred:accepted" datatype="xs:date">1000-01-01</Accepted>
+    <Status property="pred:status">UPLOADED</Status>
     <Keywords>
       <Keyword property="pred:keyword">Geopolitics</Keyword>
       <Keyword property="pred:keyword">Location</Keyword>
@@ -35,7 +35,7 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
       <Country>Czech Republic</Country>
     </Affiliation>
     <AcademicDegree>MsC</AcademicDegree>
-    <Email>MKOPANJA023@GMAIL.COM</Email>
+    <Email>KOPANJA023@GMAIL.COM</Email>
     <PhoneNumber>+12312312312312312312</PhoneNumber>
     <Signature>MA==</Signature>
   </Author>

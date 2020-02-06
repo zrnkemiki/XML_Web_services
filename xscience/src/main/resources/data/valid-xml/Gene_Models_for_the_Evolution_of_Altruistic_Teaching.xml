@@ -11,9 +11,9 @@ xsi:schemaLocation="https://www.xscience.com/data/publication.xsd ../xsd/publica
   <MetaData>
     <FieldOfStudy property="pred:fieldOfStudy">Biology</FieldOfStudy>
     <PaperType property="pred:paperType">RESEARCH_PAPER</PaperType>
-    <Recieved property="pred:recieved" datatype="xs:date">2019-01-01</Recieved>
-    <Revised property="pred:revised" datatype="xs:date">2017-01-01</Revised>
-    <Accepted property="pred:accepted" datatype="xs:date">2018-01-11</Accepted>
+    <Recieved property="pred:recieved" datatype="xs:date">1000-01-01</Recieved>
+    <Revised property="pred:revised" datatype="xs:date">1000-01-01</Revised>
+    <Accepted property="pred:accepted" datatype="xs:date">1000-01-01</Accepted>
     <Status property="pred:status">UPLOADED</Status>
     <Keywords>
       <Keyword property="pred:keyword">Genes</Keyword>
