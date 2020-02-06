@@ -122,7 +122,7 @@ public class RDFManager {
 		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
 		String type = "";
 		if(params.get("type").equals("date")) {
-			type = XS_DATE;
+			type = "^^<http://www.w3.org/2001/XMLSchema#date>";
 		}else {
 			type = XML_LITERAL;
 		}
@@ -130,7 +130,7 @@ public class RDFManager {
 		String deleteSparql = "DELETE DATA { GRAPH <" + conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI 
 				+ "> {<" +  params.get("subject") + "> " + PRED_PATH + params.get("predicate") + "> " + '"' + params.get("object") + '"' + type + "}}";
 		
-		
+		System.out.println(deleteSparql);
 		UpdateRequest update = UpdateFactory.create(deleteSparql);
 		
 		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);

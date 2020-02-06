@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
 import ftn.xscience.dto.DTOConverter;
@@ -181,7 +183,7 @@ public class PublicationController {
 	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")
 	public ResponseEntity<?> acceptPublication(@PathVariable("id") String documentId, 
-												@RequestHeader("Authorization") final String token) throws XMLDBException {
+												@RequestHeader("Authorization") final String token) throws XMLDBException, IOException, JAXBException, SAXException, ParserConfigurationException {
 		TUser u = jwtValidator.validate(token.substring(7));
 		TUser sender = userService.getUserByEmail(u.getUsername());
 		publicationService.acceptPublication(documentId, sender);
@@ -200,7 +202,7 @@ public class PublicationController {
 	// post ?
 	@PostMapping(value = "/{id}/reject")
 	public ResponseEntity<?> rejectPublication(@PathVariable("id") String documentId,
-												@RequestHeader("Authorization") final String token) throws XMLDBException {
+												@RequestHeader("Authorization") final String token) throws XMLDBException, JAXBException, SAXException, ParserConfigurationException, IOException {
 		System.out.println("Usao sam u reject");
 		TUser u = jwtValidator.validate(token.substring(7));
 		TUser sender = userService.getUserByEmail(u.getUsername());
