@@ -62,7 +62,7 @@ export class UploadComponent implements OnInit {
     this.http.post('http://localhost:9000/xscience/publication/uploadPublication', formData)
       .subscribe(res => {
         console.log(res);
-        alert('successfully UPLOADED PUBLICATION !!');
+        alert('UPLOADED SUCCESSFULLY!');
       })
   }
 
@@ -73,7 +73,7 @@ export class UploadComponent implements OnInit {
     this.http.post('http://localhost:9000/xscience/coverletter/uploadCoverLetter', formData)
       .subscribe(res => {
         console.log(res);
-        alert('successfully UPLOADED COVER LETTER !!');
+        alert('UPLOADED SUCCESSFULLY!');
       })
   }
 

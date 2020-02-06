@@ -25,14 +25,15 @@
                         <button type="button" (click)="searchDocumentsMetadata()" class="btn btn-success">Search
                             Documents by Metadata</button>
                         <button type="button"
-                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_'"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
                             (click)="myDocuments()" class="btn btn-success">My Documents</button>
-                        <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="uploadPublication()"
-                            class="btn btn-success">Upload Publication</button>
+                        <button type="button"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
+                            (click)="uploadPublication()" class="btn btn-success">Upload Publication</button>
                         <button type="button" *ngIf="currentUserRole === 'ROLE_EDITOR'" (click)="documentsForApproval()"
                             class="btn btn-success">Documents for approval</button>
                         <button type="button"
-                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVIEWER'"
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_REVEWER' || currentUserRole === 'ROLE_AUTHOR'"
                             (click)="myReviews()" class="btn btn-success">Documents for my review</button>
                     </li>
                 </ul>
@@ -53,11 +54,17 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Search <b>Publication Metadata</b></h2>
-                       
+                        <h2>Search <b>Publication Metadata</b> <i>_case sensitive</i></h2>
+                        <input
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'"
+                            type="checkbox" name="myDocuments" [(ngModel)]="this.myDocumentsCheckBox">
+                        <label
+                            *ngIf="currentUserRole === 'ROLE_EDITOR' || currentUserRole === 'ROLE_AUTHOR' || currentUserRole === 'ROLE_REVIEWER'">
+                            <i>My Publications Only</i></label>
+
                     </div>
-                    <button *ngIf="isShow" type="button"(click)="searchAgain()"
-                    class="btn btn-primary">Reset search</button>
+                    <button *ngIf="isShow" type="button" (click)="searchAgain()" class="btn btn-primary">Reset
+                        search</button>
                     <div class="search-box">
                         <form class="form-inline md-form mr-auto mb-4">
 
@@ -67,61 +74,65 @@
                 </div>
             </div>
             <div *ngIf="!isShow">
-            <div class="form-group">
-                <label>Papertype</label>
-                <select name="dan" class="form-control" [(ngModel)]="this.paperTypeTemp" required>
-                    <option value="RESEARCH_PAPER" selected>RESEARCH PAPER</option>
-                    <option value="VIEWPOINT">VIEWPOINT</option>
-                    <option value="TECHNICAL_PAPER">TECHNICAL PAPER</option>
-                    <option value="CONCEPTUAL_PAPER">CONCEPTUAL PAPER</option>
-                    <option value="CASE_STUDY">CASE STUDY</option>
-                    <option value="LITERATURE_REVIEW">LITERATURE REVIEW</option>
-                    <option value="GENERAL_REVIEW">GENERAL REVIEW</option>
-                </select>
-                <button type="button" (click)="addPaperType()" class="btn btn-primary">Add paper type</button>
+                <div class="form-group">
+                    <label>Papertype</label>
+                    <select name="dan" class="form-control" [(ngModel)]="this.paperTypeTemp" required>
+                        <option value="RESEARCH_PAPER" selected>RESEARCH PAPER</option>
+                        <option value="VIEWPOINT">VIEWPOINT</option>
+                        <option value="TECHNICAL_PAPER">TECHNICAL PAPER</option>
+                        <option value="CONCEPTUAL_PAPER">CONCEPTUAL PAPER</option>
+                        <option value="CASE_STUDY">CASE STUDY</option>
+                        <option value="LITERATURE_REVIEW">LITERATURE REVIEW</option>
+                        <option value="GENERAL_REVIEW">GENERAL REVIEW</option>
+                    </select>
+                    <button type="button" (click)="addPaperType()" class="btn btn-primary">Add paper type</button>
+                </div>
+
+                <div class="form-group">
+                    <label *ngIf="a != 0">Field of study</label>
+                    <input type="text" class="form-control" [(ngModel)]="this.fieldOfStudyTemp" placeholder="Search"
+                        aria-label="Search">
+                    <button type="button" (click)="addFieldOfStudy()" class="btn btn-primary">Add field of
+                        study</button>
+                </div>
+                <div class="form-group">
+                    <label *ngIf="this.myDocumentsCheckBox == ''">Author email</label>
+                    <input *ngIf="this.myDocumentsCheckBox == ''" type="text" name="search_box" class="form-control"
+                        [(ngModel)]="this.authorTemp" placeholder="Search" aria-label="Search">
+                    <button *ngIf="this.myDocumentsCheckBox == ''" type="button" (click)="addAuthor()"
+                        class="btn btn-primary">Add email</button>
+                </div>
+                <div class="form-group">
+                    <label>Keyword</label>
+                    <input type="text" name="search_box" class="form-control" [(ngModel)]="this.keyWordTemp"
+                        placeholder="Search" aria-label="Search">
+                    <button type="button" (click)="addKeyword()" class="btn btn-primary">Add keyword</button>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="search_box" class="form-control" [(ngModel)]="this.titleTemp"
+                        placeholder="Search" aria-label="Search">
+                    <button type="button" (click)="addTitle()" class="btn btn-primary">Add title</button>
+                </div>
+                <div class="form-group row">
+                    <label for="example-date-input" class="col-2 col-form-label">Date from</label>
+                    <div class="col-10">
+                        <input placeholder="YYYY-MM-DD" class="form-control" type="date" [(ngModel)]="this.dateFromTemp"
+                            id="example-date-input">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-date-input" class="col-2 col-form-label">Date until</label>
+                    <div class="col-10">
+                        <input placeholder="YYYY-MM-DD" class="form-control" type="date"
+                            [(ngModel)]="this.dateUntilTemp" id="example-date-input">
+                    </div>
+                </div>
+                <button type="button" (click)="addDate()" class="btn btn-primary">Add date</button>
+                <button type="button" (click)="search()" class="btn btn-primary">Search</button>
             </div>
 
-            <div class="form-group">
-                <label *ngIf="a != 0">Field of study</label>
-                <input type="text" class="form-control" [(ngModel)]="this.fieldOfStudyTemp" placeholder="Search"
-                    aria-label="Search">
-                <button type="button" (click)="addFieldOfStudy()" class="btn btn-primary">Add field of study</button>
-            </div>
-            <div class="form-group">
-                <label>Author email</label>
-                <input type="text" name="search_box" class="form-control" [(ngModel)]="this.authorTemp"
-                    placeholder="Search" aria-label="Search">
-                <button type="button" (click)="addAuthor()" class="btn btn-primary">Add email</button>
-            </div>
-            <div class="form-group">
-                <label>Keyword</label>
-                <input type="text" name="search_box" class="form-control" [(ngModel)]="this.keyWordTemp"
-                    placeholder="Search" aria-label="Search">
-                <button type="button" (click)="addKeyword()" class="btn btn-primary">Add keyword</button>
-            </div>
-            <div class="form-group">
-                <label>Title</label>
-                <input type="text" name="search_box" class="form-control" [(ngModel)]="this.titleTemp"
-                    placeholder="Search" aria-label="Search">
-                <button type="button" (click)="addTitle()" class="btn btn-primary">Add title</button>
-            </div>
-            <div class="form-group row">
-                <label for="example-date-input" class="col-2 col-form-label">Date from</label>
-                <div class="col-10">
-                    <input placeholder="YYYY-MM-DD" class="form-control" type="date" [(ngModel)]="this.dateFromTemp" id="example-date-input">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="example-date-input" class="col-2 col-form-label">Date until</label>
-                <div class="col-10">
-                    <input placeholder="YYYY-MM-DD" class="form-control" type="date" [(ngModel)]="this.dateUntilTemp" id="example-date-input">
-                </div>
-            </div>
-            <button type="button" (click)="addDate()" class="btn btn-primary">Add date</button>
-            <button type="button" (click)="search()" class="btn btn-primary">Search</button>
-            </div>
 
-            
             <p>Current search : {{this.searchData}}</p>
 
             <table class="table table-striped table-hover">
