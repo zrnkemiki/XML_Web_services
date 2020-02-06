@@ -23,7 +23,6 @@ export class DocumentViewerComponent implements OnInit {
     this.documentService.getDocument(title).subscribe(data => this.document = data,
       error => console.log(error)
     );
-    debugger;
   }
 
   searchDocumentsText() {

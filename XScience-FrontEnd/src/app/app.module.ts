@@ -20,6 +20,7 @@ import { AssignReviewerComponent } from './assign-reviewer/assign-reviewer.compo
 import {bootstrap}  from "bootstrap";
 import { MyReviewsComponent } from './my-reviews/my-reviews.component';
 import { ReviewComponent } from './review/review.component';
+import { Safe } from './document-viewer/Safe';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ReviewComponent } from './review/review.component';
     DocumentReviewsComponent,
     AssignReviewerComponent,
     MyReviewsComponent,
-    ReviewComponent
+    ReviewComponent,
+    Safe
   ],
   imports: [
     BrowserModule,
