@@ -47,6 +47,22 @@ public class CoverLetterRepository {
 		return "";
 	}
 	
+	public CoverLetter getCoverLetter(String clName) throws XMLDBException, JAXBException {
+		XMLConnectionProperties conn = connectionPool.getConnection();
+		clName = StringPathHandler.formatPublicationNameForDatabase(clName);
+		XMLResource res = null;
+		CoverLetter cl = null;
+		
+		try {
+			res = DBHandler.getDocument(collectionId, clName, conn);
+			cl = unmarshal(res);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		
+		return cl;
+	}
+	
 	public String marshal(CoverLetter coverLetter) throws JAXBException {
 		OutputStream os = new ByteArrayOutputStream();
 		JAXBContext context = JAXBContext.newInstance("ftn.xscience.model.coverletter");

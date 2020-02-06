@@ -62,7 +62,7 @@ public class PublicationService {
 	private static String grddlLocation = "WEB-INF/classes/data/xsl/grddl.xsl";
 	private static String xslPathPublication = "WEB-INF/classes/data/xsl/publication.xsl";
 	
-	public void savePublication(MultipartFile publicationFile, boolean revisionFlag) {
+	public void savePublication(MultipartFile publicationFile, boolean revisionFlag) throws IOException, XMLDBException, JAXBException {
 		String contextPath = context.getRealPath("/");
 		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
 		String rdfFilePath = StringPathHandler.handlePathSeparator(rdfLocation, contextPath);
@@ -83,18 +83,32 @@ public class PublicationService {
 		// ovde se radi update datuma
 		// odradi se unmarshal -> marshal kako bi se dobio nazad String celog dokumenta
 		// i on se onda prosledi u repository.save()
-		
+		Map<String, String> oldDate = null;
+		Map<String, String> newDate = null;
 		// ako NIJE revizija
 		if (!revisionFlag) {
+			oldDate = getOneParamMap(publication);
 			publication.getElementsByTagName("Recieved").item(0).setTextContent(StringPathHandler.formatCurrentDateToString());
 			publication.getElementsByTagName("Revised").item(0).setTextContent(StringPathHandler.formatNullDateToString());
 			publication.getElementsByTagName("Accepted").item(0).setTextContent(StringPathHandler.formatNullDateToString());
 			publication.getElementsByTagName("Status").item(0).setTextContent("UPLOADED");
+			newDate = getOneParamMap(publication);
 		} else {	
 			// ako JESTE revizija
+			// -------------------
+			// sacuvaj old params (date i status) zbog update-a u rdf bazi
+			Map<String, Map<String, String>> oldParams = getParamsMap(publication);
+			
+			// handle revision --> menjanje podataka
 			Map<String, Object> revisedMap = handleRevision(publication, publicationName);
 			publication = (Document) revisedMap.get("publication");
 			publicationName = (String) revisedMap.get("publicationId");
+			
+			// sacuvaj new params (date i status)
+			Map<String, Map<String, String>> newParams = getParamsMap(publication);
+			
+			rdfManager.changeMetaData(newParams.get("date"), oldParams.get("date"));
+			rdfManager.changeMetaData(newParams.get("status"), oldParams.get("status"));
 		}
 					
 		String publicationXmlDatesUpdated = null;
@@ -109,6 +123,9 @@ public class PublicationService {
 		System.out.println("RDF: " + rdfFilePath);
 		try {
 			rdfManager.extractMetadata(publicationFile, rdfFilePath, grddlFilePath);
+			if (!revisionFlag) {
+				rdfManager.changeMetaData(newDate, oldDate);
+			}
 			publicationRepository.save(publicationXmlDatesUpdated, publicationName);
 		} catch (IOException | SAXException | TransformerException e) {
 			throw new DOMParsingFailedException("Error while extracting METADATA in savePublication");
@@ -125,15 +142,11 @@ public class PublicationService {
 		int oldVersion = Integer.parseInt(publication.getDocumentElement().getAttribute("version"));
 		int newVersion = oldVersion + 1;
 		publication.getDocumentElement().setAttribute("version", String.valueOf(newVersion));
-		System.out.println("Old version: " + oldVersion);
-		System.out.println("New version: " + newVersion);
 
 		String newVersionString = "-version" + String.valueOf(newVersion);
 		String newPublicationName = oldName.split(".xml")[0];
 		newPublicationName = newPublicationName + newVersionString + ".xml";
-		System.out.println("=====================================");
-		System.out.println("New version string: " + newVersionString);
-		System.out.println("New publication name" + newPublicationName);
+
 		// samo provera da li ce proci marshall/unmarshall
 		try {
 			String updatedPublicationXml = publicationRepository.marshal(publicationRepository.unmarshalFromDocument(publication));
@@ -182,7 +195,7 @@ public class PublicationService {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "ACCEPTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
 		String noEndXml = documentId.substring(0, documentId.length()-4);
-		String content = "Your publication" + " http://localhost:4200/document-view/" + noEndXml + "\"	" + documentId + " is accepted!";
+		String content = "Your publication" + "[ http://localhost:4200/document-view/" + noEndXml + " ] is accepted!";
 		prepareAndSendEmailToAuthors(loggedUser, documentId, "ACCEPT", content);
 	}
 	
@@ -196,7 +209,7 @@ public class PublicationService {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "REJECTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
 		String noEndXml = documentId.substring(0, documentId.length() - 4);
-		prepareAndSendEmailToAuthors(loggedUser, documentId, "REJECT", "Your publication [ http://localhost:4200/document-view/" + documentId + " ] is rejected!");
+		prepareAndSendEmailToAuthors(loggedUser, documentId, "REJECT", "Your publication [ http://localhost:4200/document-view/" + noEndXml + " ] is rejected!");
 	}
 	
 	// prepare for review
@@ -349,6 +362,53 @@ public class PublicationService {
 		return documentsForReview;
 		
 	}
+	
+	public Map<String, Map<String, String>> getParamsMap(Document publication) throws XMLDBException, JAXBException {
+		Map<String, String> oldDate = new HashMap<String, String>();
+		Map<String, String> oldStatus = new HashMap<String, String>();
+		
+		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent();
+		publicationName = StringPathHandler.formatNameAddXMLInTheEnd(publicationName);
+		Publication p = publicationRepository.getPublication(publicationName);
+		
+		String subject = p.getAbout();
+		String object = publication.getElementsByTagName("Revised").item(0).getTextContent();
+		
+		oldDate.put("subject", subject);
+		oldDate.put("predicate", "revised");
+		oldDate.put("object", object);
+		oldDate.put("type", "date");
+		
+		object = publication.getElementsByTagName("Status").item(0).getTextContent();
+		oldStatus.put("subject", subject);
+		oldStatus.put("predicate", "status");
+		oldStatus.put("object", object);
+		oldStatus.put("type", "literal");
+		
+		Map<String, Map<String, String>> params = new HashMap<String, Map<String, String>>();
+		params.put("date", oldDate);
+		params.put("status", oldStatus);
+		
+		return params;
+	}
+	
+	public Map<String, String> getOneParamMap(Document publication) throws XMLDBException, JAXBException {
+		Map<String, String> param = new HashMap<String, String>();
+		String publicationName = publication.getElementsByTagName("Title").item(0).getTextContent();
+		publicationName = StringPathHandler.formatNameAddXMLInTheEnd(publicationName);
+		Publication p = publicationRepository.getPublication(publicationName);
+		
+		String subject = p.getAbout();
+		String object = publication.getElementsByTagName("Recieved").item(0).getTextContent();
+		
+		param.put("subject", subject);
+		param.put("predicate", "recieved");
+		param.put("object", object);
+		param.put("type", "date");
+		
+		return param;
+	}
+	
 	
 	// TO-DO
 	public List<Publication> getDocumentsForApproval() {

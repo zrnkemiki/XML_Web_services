@@ -46,6 +46,20 @@ public class ReviewRepository {
 
 	}
 	
+	public Review getReview(String reviewId) throws XMLDBException, JAXBException {
+		XMLConnectionProperties conn = connectionPool.getConnection();
+		reviewId = StringPathHandler.formatPublicationNameForDatabase(reviewId);
+		XMLResource res = null;
+		Review review = null;
+		try {
+			res = DBHandler.getDocument(collectionId, reviewId, conn);
+			review = unmarshal(res);
+		} finally {
+			connectionPool.releaseConnection(conn);
+		}
+		return review;
+	}
+	
 	public boolean checkExistance(String documentId) throws XMLDBException {
 		XMLConnectionProperties conn = connectionPool.getConnection();
 		boolean flag = false;
