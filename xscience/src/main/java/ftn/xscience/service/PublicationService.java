@@ -147,6 +147,10 @@ public class PublicationService {
 		
 	}
 	
+	public String getTransformedPublication(String publicationName) {
+		return "";
+	}
+	
 	public void acceptPublication(String documentId, TUser loggedUser) throws XMLDBException {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "ACCEPTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");

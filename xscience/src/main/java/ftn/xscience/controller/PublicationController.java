@@ -103,6 +103,9 @@ public class PublicationController {
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
 	public ResponseEntity<?> getPublicationById(@PathVariable("id") String id) {
+		
+		
+		
 		return null;
 	}
 	
@@ -117,6 +120,7 @@ public class PublicationController {
 		
 		return new ResponseEntity<ArrayList<PublicationDTO>>(publicationsDTO, HttpStatus.OK);
 	}
+	
 	
 	
 	
@@ -218,7 +222,7 @@ public class PublicationController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	
 	
