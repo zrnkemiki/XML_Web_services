@@ -32,8 +32,9 @@ public class CoverLetterController {
 	DOMParser domParser;
 
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
-	public ResponseEntity<?> getCoverLetterById(@PathVariable("id") String id) {
-		return null;
+	public ResponseEntity<?> getCoverLetterById(@PathVariable("id") String coverletterId) {
+		String transformedCL = coverLetterService.getTransformedCL(coverletterId);
+		return new ResponseEntity<String>(transformedCL, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/uploadCoverLetter", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
