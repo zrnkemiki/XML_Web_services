@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Review xmlns="https://www.xscience.com/data/review.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/review.xsd ../xsd/review.xsd ">
+  <PublicationTitle property="pred:publicationTitle">PublicationTitle</PublicationTitle>
+  <Content>
+    <Reviewer>
+      <pbl:Name>
+        <pbl:FirstName>pbl:FirstName</pbl:FirstName>
+        <pbl:LastName>pbl:LastName</pbl:LastName>
+      </pbl:Name>
+      <pbl:Affiliation>
+        <pbl:Organization>pbl:Organization</pbl:Organization>
+        <pbl:City>pbl:City</pbl:City>
+        <pbl:Country>pbl:Country</pbl:Country>
+      </pbl:Affiliation>
+      <pbl:AcademicDegree>pbl:AcademicDegree</pbl:AcademicDegree>
+      <pbl:Email>EMAIL@GMAIL.COM</pbl:Email>
+      <pbl:PhoneNumber>+11111111111111111111</pbl:PhoneNumber>
+      <pbl:Signature>MA==</pbl:Signature>
+    </Reviewer>
+    <Evaluation>
+      <Originality>STRONGLY_AGREE</Originality>
+      <AdequateLiterature>STRONGLY_AGREE</AdequateLiterature>
+      <Methodology>STRONGLY_AGREE</Methodology>
+      <Inference>STRONGLY_AGREE</Inference>
+      <Readability>STRONGLY_AGREE</Readability>
+    </Evaluation>
+    <RecommendationForEditor>ACCEPT</RecommendationForEditor>
+    <CommentForEditor>ASDASLKDJASLDKASLDJSKSALK<List ordered="true" ordered_style="1">
+			<pbl:ListItem>prvi item<pbl:Bold>boldovanu u prvom itemu</pbl:Bold></pbl:ListItem>
+			<pbl:ListItem>drugi item<pbl:Underline>underlajnovano u drugom itemu</pbl:Underline></pbl:ListItem>
+			<pbl:ListItem>treci item<pbl:Italic>italikovano u trecem itemu</pbl:Italic></pbl:ListItem>
+		</List></CommentForEditor>
+    <CommentForAuthor>
+    <EditSuggestion>LAKSDJKLASDJKLASJDKLASJDKLASJDKLASD</EditSuggestion>
+    <EditSuggestion><List ordered="true" ordered_style="1">
+			<pbl:ListItem>prvi item<pbl:Bold>boldovanu u prvom itemu</pbl:Bold></pbl:ListItem>
+			<pbl:ListItem>drugi item<pbl:Underline>underlajnovano u drugom itemu</pbl:Underline></pbl:ListItem>
+			<pbl:ListItem>treci item<pbl:Italic>italikovano u trecem itemu</pbl:Italic></pbl:ListItem>
+		</List></EditSuggestion>
+    
+    </CommentForAuthor>
+  </Content>
+</Review>

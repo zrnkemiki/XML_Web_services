@@ -14,6 +14,7 @@ import org.xmldb.api.modules.XMLResource;
 
 import ftn.xscience.model.user.TUser;
 import ftn.xscience.utils.template.RDFManager;
+import ftn.xscience.utils.template.XSLTransformator;
 import ftn.xscience.utils.xmldb.BasicXMLConnectionPool;
 import ftn.xscience.utils.xmldb.DBHandler;
 import ftn.xscience.utils.xmldb.XMLConnectionProperties;
@@ -25,6 +26,7 @@ public class RepoProba {
 	BasicXMLConnectionPool connectionPool;
 	
 	RDFManager rdfManager = new RDFManager();
+	XSLTransformator xslTransform = new XSLTransformator();
 	
 	public void retrieveDocument() throws XMLDBException {
 		
