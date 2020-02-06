@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import ftn.xscience.dto.DTOConverter;
 import ftn.xscience.dto.PublicationDTO;
 import ftn.xscience.dto.UserDTO;
@@ -178,7 +180,12 @@ public class PublicationController {
 		
 		return new ResponseEntity<List<UserDTO>>(userFound, HttpStatus.OK);
 	}
-	
+	@PostMapping(value = "/{id/export/{path}")
+	public ResponseEntity<?> exportPublication(@PathVariable("id") String documentId, @PathVariable("path") String path){
+		System.out.println("Document " + documentId + "will be exported to " + path );
+		
+		return null;
+	}
 	
 	// id = naziv u bazi
 	@PostMapping(value = "/{id}/accept")
