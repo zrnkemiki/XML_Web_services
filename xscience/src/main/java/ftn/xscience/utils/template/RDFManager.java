@@ -101,7 +101,6 @@ public class RDFManager {
 		model.write(out, SparqlUtil.NTRIPLES);		
 		
 		String sparqlUpdate = SparqlUtil.insertData(conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI, new String(out.toByteArray()));
-		
 		// UpdateRequest represents a unit of execution
 		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
 
@@ -129,8 +128,9 @@ public class RDFManager {
 		}
 		
 		String deleteSparql = "DELETE DATA { GRAPH <" + conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI 
-				+ "> {" + PUB_PATH + params.get("subject") + ">" + PRED_PATH + params.get("predicate") + "> " + params.get("object") + type + "}}";
-				
+				+ "> {<" +  params.get("subject") + "> " + PRED_PATH + params.get("predicate") + "> " + '"' + params.get("object") + '"' + type + "}}";
+		
+		
 		UpdateRequest update = UpdateFactory.create(deleteSparql);
 		
 		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
@@ -285,6 +285,42 @@ public class RDFManager {
 		// UpdateProcessor sends update request to a remote SPARQL update service. 
         UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);
 		processor.execute();
+	}
+	
+	public List<String> reviewSPARQL(String publication) throws IOException{
+		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
+		
+		List<String> resultList = new ArrayList<String>();
+		String sparqlQuery = "SELECT ?review FROM <%s> WHERE {?review " + PRED_PATH + "publicationTitle> " + publication + "}";
+		
+		sparqlQuery = String.format(sparqlQuery, conn.dataEndpoint + REVIEW_NAMED_GRAPH_URI);
+		System.out.println(sparqlQuery);
+		QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
+
+		ResultSet results = query.execSelect();
+
+		String varName;
+		RDFNode varValue;
+		String[] strValue;
+
+		while (results.hasNext()) {
+
+			// A single answer from a SELECT query
+			QuerySolution querySolution = results.next();
+			Iterator<String> variableBindings = querySolution.varNames();
+
+			// Retrieve variable bindings
+			while (variableBindings.hasNext()) {
+				
+				varName = variableBindings.next();
+				varValue = querySolution.get(varName);
+				
+				strValue = varValue.toString().split("/");
+				resultList.add(strValue[strValue.length-1]);
+			}
+		}
+		
+		return resultList;
 	}
 
 }
