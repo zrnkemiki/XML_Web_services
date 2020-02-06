@@ -181,8 +181,9 @@ public class PublicationService {
 	public void acceptPublication(String documentId, TUser loggedUser) throws XMLDBException {
 		long mods = publicationRepository.updatePublicationStatus(documentId, "ACCEPTED");
 		System.out.println("[INFO] " + mods + " made on document [" + documentId + "]");
-		
-		prepareAndSendEmailToAuthors(loggedUser, documentId, "ACCEPT", "Your publication [" + documentId + "] is accepted!");
+		String noEndXml = documentId.substring(0, documentId.length()-4);
+		String content = "Your publication [<a href=\"localhost:4200/document-view/" + noEndXml + "\">" + documentId + "] is accepted!";
+		prepareAndSendEmailToAuthors(loggedUser, documentId, "ACCEPT", content);
 	}
 	
 	public void withdrawPublication(String documentId) throws XMLDBException {
