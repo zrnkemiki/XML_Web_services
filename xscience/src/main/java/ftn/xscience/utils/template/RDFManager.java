@@ -40,7 +40,7 @@ public class RDFManager {
 	public static final String XML_LITERAL = "^^<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>.";
 	public static final String XS_DATE = "^^xs:date";
 	public static final String USER_PATH = "<https://www.xscience.com/data/users/";
-	public static final String PUB_PATH = "<https://www.xscience.com/data/publications/";
+	public static final String PUB_PATH = "<https://www.xscience.com/data/publication/";
 	public static final String PUBLICATION_NAMED_GRAPH_URI = "/publication/metadata";
 	public static final String REVIEW_NAMED_GRAPH_URI = "/review/metadata";
 	
@@ -122,7 +122,7 @@ public class RDFManager {
 		ConnectionProperties conn = AuthenticationUtilities.loadProperties();
 		String type = "";
 		if(params.get("type").equals("date")) {
-			type = XS_DATE;
+			type = "^^<http://www.w3.org/2001/XMLSchema#date>";
 		}else {
 			type = XML_LITERAL;
 		}
@@ -130,7 +130,7 @@ public class RDFManager {
 		String deleteSparql = "DELETE DATA { GRAPH <" + conn.dataEndpoint + PUBLICATION_NAMED_GRAPH_URI 
 				+ "> {<" +  params.get("subject") + "> " + PRED_PATH + params.get("predicate") + "> " + '"' + params.get("object") + '"' + type + "}}";
 		
-		
+		System.out.println(deleteSparql);
 		UpdateRequest update = UpdateFactory.create(deleteSparql);
 		
 		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, conn.updateEndpoint);

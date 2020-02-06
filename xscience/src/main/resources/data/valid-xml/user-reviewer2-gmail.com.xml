@@ -20,11 +20,12 @@
   </PersonalInformation>
   <Expertises>
     <Expertise>Design patterns</Expertise>
+    <Expertise>Geopolitics</Expertise>
   </Expertises>
   <Publications>
-    <PublicationID>rad_drugog_revjuera</PublicationID>
+    
   </Publications>
   <PublicationsForReview>
-  	<ForReviewID>rad_drugog_za_revju</ForReviewID>
+  	
   </PublicationsForReview>
 </User>

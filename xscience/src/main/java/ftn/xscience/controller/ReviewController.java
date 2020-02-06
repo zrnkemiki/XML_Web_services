@@ -46,8 +46,9 @@ public class ReviewController {
 
 	
 	@GetMapping(value = "/review/{id}", produces = MediaType.TEXT_HTML_VALUE)
-	public ResponseEntity<?> getReviewById(@PathVariable("id") String id) {
-		return null;
+	public ResponseEntity<?> getReviewById(@PathVariable("id") String reviewId) {
+		String transformedXslt = reviewService.getTransformedReview(reviewId);
+		return new ResponseEntity<String>(transformedXslt, HttpStatus.OK);
 	}
 	
 	//REVIEW UPLOAD
