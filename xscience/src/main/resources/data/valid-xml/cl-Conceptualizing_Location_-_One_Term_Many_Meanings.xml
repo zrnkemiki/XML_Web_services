@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CoverLetter id="idvalue0" submissionDate="2001-01-01" xmlns="https://www.xscience.com/data/coverLetter.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/coverLetter.xsd ../xsd/coverLetter.xsd ">
-  <PublicationTitle>Conceptualizing</PublicationTitle>
+<CoverLetter id="idvalue0" submissionDate="1000-01-01" xmlns="https://www.xscience.com/data/coverLetter.xsd" xmlns:pbl="https://www.xscience.com/data/publication.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.xscience.com/data/coverLetter.xsd ../xsd/coverLetter.xsd ">
+  <PublicationTitle>Conceptualizing Location - One Term Many Meanings</PublicationTitle>
   <Editor>Editor Editic</Editor>
   <Journal>Sociology Magazine</Journal>
   <Author>
@@ -14,7 +14,7 @@
       <pbl:Country>Serbia</pbl:Country>
     </pbl:Affiliation>
     <pbl:AcademicDegree>MsC</pbl:AcademicDegree>
-    <pbl:Email>MKOPANJA023@GMAIL.COM</pbl:Email>
+    <pbl:Email>KOPANJA023@GMAIL.COM</pbl:Email>
     <pbl:PhoneNumber>+12312312312312312312</pbl:PhoneNumber>
     <pbl:Signature>MA==</pbl:Signature>
   </Author>
