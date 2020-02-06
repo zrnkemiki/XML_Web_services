@@ -54,7 +54,10 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h2>Search <b>Publication Metadata</b></h2>
+                       
                     </div>
+                    <button *ngIf="isShow" type="button"(click)="searchAgain()"
+                    class="btn btn-primary">Reset search</button>
                     <div class="search-box">
                         <form class="form-inline md-form mr-auto mb-4">
 
@@ -63,6 +66,7 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="!isShow">
             <div class="form-group">
                 <label>Papertype</label>
                 <select name="dan" class="form-control" [(ngModel)]="this.paperTypeTemp" required>
@@ -76,9 +80,9 @@
                 </select>
                 <button type="button" (click)="addPaperType()" class="btn btn-primary">Add paper type</button>
             </div>
-            
+
             <div class="form-group">
-                <label>Field of study</label>
+                <label *ngIf="a != 0">Field of study</label>
                 <input type="text" class="form-control" [(ngModel)]="this.fieldOfStudyTemp" placeholder="Search"
                     aria-label="Search">
                 <button type="button" (click)="addFieldOfStudy()" class="btn btn-primary">Add field of study</button>
@@ -104,17 +108,20 @@
             <div class="form-group row">
                 <label for="example-date-input" class="col-2 col-form-label">Date from</label>
                 <div class="col-10">
-                    <input class="form-control" type="date" [(ngModel)]="this.dateFromTemp" id="example-date-input">
+                    <input placeholder="YYYY-MM-DD" class="form-control" type="date" [(ngModel)]="this.dateFromTemp" id="example-date-input">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="example-date-input" class="col-2 col-form-label">Date until</label>
                 <div class="col-10">
-                    <input class="form-control" type="date" [(ngModel)]="this.dateUntilTemp" id="example-date-input">
+                    <input placeholder="YYYY-MM-DD" class="form-control" type="date" [(ngModel)]="this.dateUntilTemp" id="example-date-input">
                 </div>
             </div>
             <button type="button" (click)="addDate()" class="btn btn-primary">Add date</button>
             <button type="button" (click)="search()" class="btn btn-primary">Search</button>
+            </div>
+
+            
             <p>Current search : {{this.searchData}}</p>
 
             <table class="table table-striped table-hover">

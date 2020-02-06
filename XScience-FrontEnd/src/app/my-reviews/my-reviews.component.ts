@@ -44,6 +44,7 @@ export class MyReviewsComponent implements OnInit {
   }
 
   writeReview(title:any){
+    this.router.navigate(["review/" + title]);
     //write review for TITLE document
   }
 
