@@ -32,6 +32,7 @@ import ftn.xscience.repository.UserRepository;
 import ftn.xscience.utils.dom.DOMParser;
 import ftn.xscience.utils.dom.StringPathHandler;
 import ftn.xscience.utils.template.RDFManager;
+import ftn.xscience.utils.template.XSLTransformator;
 
 @Service
 public class PublicationService {
@@ -59,6 +60,7 @@ public class PublicationService {
 	private static String schemaLocation = "WEB-INF/classes/data/xsd/publication.xsd";
 	private static String rdfLocation = "WEB-INF/classes/data/gen/publication.rdf";
 	private static String grddlLocation = "WEB-INF/classes/data/xsl/grddl.xsl";
+	private static String xslPathPublication = "WEB-INF/classes/data/xsl/publication.xsl";
 	
 	public void savePublication(MultipartFile publicationFile, boolean revisionFlag) {
 		String contextPath = context.getRealPath("/");
@@ -148,7 +150,32 @@ public class PublicationService {
 	}
 	
 	public String getTransformedPublication(String publicationName) {
-		return "";
+		String contextPath = context.getRealPath("/");
+		String xslPath = StringPathHandler.handlePathSeparator(xslPathPublication, contextPath);
+		String schemaPath = StringPathHandler.handlePathSeparator(schemaLocation, contextPath);
+		
+		XSLTransformator transformator = new XSLTransformator();
+		
+		publicationName = StringPathHandler.formatNameAddXMLInTheEnd(publicationName);
+		String xmlPublication = null;
+		Publication p = null;
+		Document document = null;
+		String transformed = null;
+		
+		
+		try {
+			p = publicationRepository.getPublication(publicationName);
+			xmlPublication = publicationRepository.marshal(p);
+			document = domParser.buildDocument(xmlPublication, schemaPath);
+			transformed = transformator.generateHTML(document, xslPath);
+		} catch (XMLDBException | JAXBException e) {
+			throw new RuntimeException("OOps, something went wrong while getting publication in getTransformedPublication");
+		} catch (SAXException | ParserConfigurationException | IOException e1) {
+			throw new DOMParsingFailedException("Failed while parsing [" + publicationName + "] in getTransformedPublication");
+		} 
+		
+		
+		return transformed;
 	}
 	
 	public void acceptPublication(String documentId, TUser loggedUser) throws XMLDBException {

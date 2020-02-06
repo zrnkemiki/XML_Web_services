@@ -102,11 +102,11 @@ public class PublicationController {
 	}
 	
 	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
-	public ResponseEntity<?> getPublicationById(@PathVariable("id") String id) {
+	public ResponseEntity<?> getPublicationById(@PathVariable("id") String publicationName) {
 		
+		String xsltString = publicationService.getTransformedPublication(publicationName);
 		
-		
-		return null;
+		return new ResponseEntity<String>(xsltString, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/getAll/{status}")
